@@ -16,11 +16,24 @@ import { MonoText } from '../components/StyledText';
 const questions = {
   1: {
     text: "What is the thing?",
-    answers: {
-      1: "A",
-      2: "B",
-      3: "C",
-    }
+    answers: [
+      { text: "dog", goto: "2" },
+      { text: "cat", goto: "3" },
+      { text: "mouse", goto: "1" },
+    ]
+  },
+  2: {
+    text: "Start again?",
+    answers: [
+      { text: "yes", goto: "1" },
+      { text: "go to end", goto: "3" },
+    ]
+  },
+  3: {
+    text: "Last question...",
+    answers: [
+      { text: "start again?", goto: "1" },
+    ]
   }
 }
 
@@ -33,18 +46,29 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentQuestion: questions["1"]
+      currentQuestionId: "1"
     }
   }
 
-  render() {
-    const answerButtons = Object.values(this.state.currentQuestion.answers).map(a => <Button
-      // onPress={() => this.answerQuestion(a.id)}
-      title={a}
-      color="#841584"
-      accessibilityLabel={a.text}
-    />)
+  moveToQuestion = (id) => {
+    console.log(id)
+    this.setState({ currentQuestionId: id })
+  }
 
+  currentQuestion = () => questions[this.state.currentQuestionId]
+
+  render() {
+    console.log(this.currentQuestion())
+    let question = this.currentQuestion()
+
+    const answerButtons = Object.values(question.answers).map((answer, index) => <Button
+      // onPress={() => this.answerQuestion(a.id)}
+      title={answer.text}
+      color="#841584"
+      accessibilityLabel={answer.text}
+      onPress={() => this.moveToQuestion(answer.goto)}
+      key={index}
+    />)
 
     return (
       <View style={styles.container}>
@@ -60,25 +84,16 @@ export default class HomeScreen extends React.Component {
             />
           </View>
 
+
+
+          <Text style={styles.getStartedContainer}>
+            {question.text}
+          </Text>
+
           <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload1.
-            </Text>
+            {answerButtons}
           </View>
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
