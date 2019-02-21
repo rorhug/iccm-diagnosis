@@ -3,25 +3,82 @@ import { Section } from '../Section';
 
 const questions = {
   1: {
-    text: "Diarrhoea?",
+    text: "Child > 2 months and < 5 years with diarrhea (>= loose stools/24h) <= 3 weeks without blood or rice water aspect.",
     answers: [
-      { text: "yes", goto: "2" },
-      { text: "no", goto: "3" },
+      { text: "yes", goto: "10" },
+      { text: "no", goto: "2" },
     ]
   },
   2: {
-    text: "ORS?",
+    text: "Less than loose stools/24h?",
     answers: [
-      { text: "yes", goto: "1" },
-      { text: "no", goto: "3" },
+      { text: "yes", goto: "3" },
+      { text: "no", goto: "4" },
     ]
   },
   3: {
-    text: "Refer",
+    text: "No need for treatment. Continue normal feeding according to age.",
     answers: [
-      { text: "End", goto: "1" },
+      { text: "Start again?", goto: "1" },
     ]
-  }
+  },
+  4: { // Wrong age?
+    text: "Child < 2 months or > 5 years?",
+    answers: [
+      { text: "yes", goto: "5" },
+      { text: "no", goto: "6" },
+    ]
+  },
+  5: {
+    text: "Refer to Health Centre.",
+    answers: [
+      { text: "Start again?", goto: "1" },
+    ]
+  },
+  6: {
+    text: "Longer than 3 week history?",
+    answers: [
+      { text: "yes", goto: "5" },
+      { text: "no", goto: "7" },
+    ]
+  },
+  7: {
+    text: "Bloody diarrhea or rice water stools?",
+    answers: [
+      { text: "yes", goto: "5" },
+      { text: "no", goto: "8" },
+    ]
+  },
+  8: {
+    text: "Signs of severe dehydration?",
+    answers: [
+      { text: "yes", goto: "5" },
+      { text: "no", goto: "9" },
+    ]
+  },
+  9: {
+    text: "Next section?",
+    answers: [
+      { text: "Start again?", goto: "1" },
+    ]
+  },
+  10: {
+    text: "Signs of severe dehydration?\n\
+    - Sunken eyes\n\
+    - Skin pinch > 3 seconds\n\
+    - Other danger signs",
+    answers: [
+      { text: "yes", goto: "4" },
+      { text: "no", goto: "11" },
+    ]
+  },
+  11: {
+    text: "Uncomplicated diarrhoea: give ORS and Zinc sulfate according to age, \n\
+plus Albendazole (if not received within last 6 months).",
+    answers: [
+      { text: "Start again?", goto: "1" },
+    ]
+  },
 }
 
 // <Section questions={questions} />
