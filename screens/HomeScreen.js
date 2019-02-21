@@ -13,6 +13,8 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 import { Fever } from '../components/Sections/Fever';
+import { Cough } from '../components/Sections/Cough';
+
 
 import styled, { css } from '@emotion/native'
 
@@ -34,7 +36,7 @@ export default class HomeScreen extends React.Component {
 
     return (
       <Container>
-        <Fever />
+        <Cough />
       </Container>
     );
   }
