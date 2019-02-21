@@ -11,29 +11,86 @@ import {
   Button,
 } from 'react-native';
 
-
+// TO-DO: Get age earlier, auto-answer age-related questions?
 const questions = {
-  1: {
-    text: "What is the thing?",
+  1: { // First question
+    text: "Child with fever of history of fever in past 48 hours?",
     answers: [
-      { text: "dog", goto: "2" },
-      { text: "cat", goto: "3" },
-      { text: "mouse", goto: "1" },
+      { text: "Yes", goto: "3" },
+      { text: "No", goto: "2" },
     ]
   },
-  2: {
-    text: "Start again?",
+  2: { // NO fever or history of fever
+    text: "Go to the next section (not supported :))",
     answers: [
-      { text: "yes", goto: "1" },
-      { text: "go to end", goto: "3" },
+      { text: "Start again?", goto: "1" },
     ]
   },
-  3: {
-    text: "Last question...",
+  3: { // YES fever or history of fever
+    text: "Child between 2 months and 5 years old?",
     answers: [
-      { text: "start again?", goto: "1" },
+      { text: "Yes", goto: "5" },
+      { text: "No", goto: "4" },
     ]
-  }
+  },
+  4: {
+    text: "Refer to Health Centre.",
+    answers: [
+      { text: "Start again?", goto: "1" },
+    ]
+  },
+  5: { // Correct age + fever. RDT
+    text: "Perform malaria pan PLDH RDT.\n(Wait screen.)",
+    answers: [
+      { text: "Positive", goto: "6" },
+      { text: "Negative", goto: "4" }, // Refer
+    ]
+  },
+  6: { // Has malaria.
+    text:
+    "Signs of severe malaria?\n \
+    - Unconscious / prostrate\n \
+    - Convulsions\n \
+    - Lethargy\n \
+    - Severe pallor\n \
+    - Unable to drink / vomiting\n \
+    - Respiratory distress\n \
+    - Cyanosis",
+    answers: [
+      { text: "Yes", goto: "7" }, // Refer urgently
+      { text: "No", goto: "8" }, 
+    ]
+  },
+  7: { // Give pre-referral artesunate and refer to Hospital/HC urgently.
+    text: "Severe malaria.\n\
+Give pre-referral artesunate and refer to Hospital/HC URGENTLY.",
+    answers: [
+      { text: "Start again?", goto: "1" },
+    ]
+  },
+  8: {
+    text: "Diagnosed and fully treated for malaria in last 28 days?\n\
+Did the child take all doses of ACT for 3 days without vomiting?",
+    answers: [
+      { text: "Yes", goto: "10" },
+      { text: "No", goto: "9" }, 
+    ]
+  },
+  9: { // Simple malaria treatment.
+    text: "Simple malaria.\n\
+Treat with oral ACT as per protocol (directly observe 1st dose) plus one dose paracetamol.",
+    answers: [
+      { text: "Start again?", goto: "1" }, 
+    ]
+  },
+  10: {
+    text: "Option 1. Refer to HC for slide/review: risk of treatment failure especially if soon after first treatment.\n\n\
+Option 2. If CHW has access to 2nd line treatment consider 2nd line ACTs (careful documentation).\n\n\
+Option 3. If no access to blood film or 2nd line treatment: retreat with 1st line ACTs with warning to return of worsen.",
+    answers: [
+      { text: "Start again?", goto: "1" }, 
+    ]
+  },
 }
 
 // <Section questions={questions} />
