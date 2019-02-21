@@ -14,6 +14,8 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { Fever } from '../components/Sections/Fever';
 import { Cough } from '../components/Sections/Cough';
+import { Diarrhoea } from '../components/Sections/Diarrhoea';
+
 
 
 import styled, { css } from '@emotion/native'
@@ -26,6 +28,30 @@ const Container = styled.View`
 `
 
 export default class HomeScreen extends React.Component {
+  
+  constructor(props){
+    super(props)
+    this.state = {
+      sections: [
+        {
+          status: 'current',
+          name: <Fever/>,
+        },
+        {
+          status: 'todo',
+          name: <Cough/>,
+        },
+        {
+          status: 'todo',
+          name: <Diarrhoea/>,
+        },
+      ]
+    };
+  }
+
+  currentSection = () => this.state.sections.find(e => e.status === 'current').name;
+
+
   static navigationOptions = {
     header: null,
   };
@@ -33,10 +59,9 @@ export default class HomeScreen extends React.Component {
 
   render() {
 
-
     return (
       <Container>
-        <Cough />
+       { this.currentSection() }
       </Container>
     );
   }
