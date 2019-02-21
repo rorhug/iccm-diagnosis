@@ -23,8 +23,7 @@ const Header = styled.Text`
 
 const ButtonsBox = styled.View`
   display: flex;
-  align-items: 'center';
-  display: block;
+  align-items: center;
   margin: 20px 0 0 0;
   background-color: #eeeeee;
   padding-bottom: 10px;
