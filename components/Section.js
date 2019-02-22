@@ -53,6 +53,7 @@ export class Section extends React.Component {
   }
 
   moveToQuestion = (id) => {
+    if (id === 'Next') this.props.onCompletion()
     this.setState({ currentQuestionId: id })
   }
 
@@ -61,10 +62,8 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
-    console.log(question)
-
-
-    const answerButtons = question.answers.map((answer, index) => <AnswerButton
+    const answerButtons = question.answers.map((answer, index) => 
+    <AnswerButton
       accessibilityLabel={answer.text}
       onPress={() => this.moveToQuestion(answer.goto)}
       key={index}
@@ -81,7 +80,6 @@ export class Section extends React.Component {
       <ButtonsBox>
         {answerButtons}
       </ButtonsBox>
-
     </ScrollView>
   }
 

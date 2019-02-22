@@ -17,13 +17,7 @@ const questions = {
     text: "Child with fever of history of fever in past 48 hours?",
     answers: [
       { text: "Yes", goto: "3" },
-      { text: "No", goto: "2" },
-    ]
-  },
-  2: { // NO fever or history of fever
-    text: "Go to the next section (not supported :))",
-    answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "No", goto: "next" },
     ]
   },
   3: { // YES fever or history of fever
@@ -36,7 +30,7 @@ const questions = {
   4: {
     text: "Refer to Health Centre.",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "next" },
     ]
   },
   5: { // Correct age + fever. RDT
@@ -65,7 +59,7 @@ const questions = {
     text: "Severe malaria.\n\
 Give pre-referral artesunate and refer to Hospital/HC URGENTLY.",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
   8: {
@@ -80,7 +74,7 @@ Did the child take all doses of ACT for 3 days without vomiting?",
     text: "Simple malaria.\n\
 Treat with oral ACT as per protocol (directly observe 1st dose) plus one dose paracetamol.",
     answers: [
-      { text: "Start again?", goto: "1" }, 
+      { text: "Next Section", goto: "Next" },
     ]
   },
   10: {
@@ -88,15 +82,16 @@ Treat with oral ACT as per protocol (directly observe 1st dose) plus one dose pa
 Option 2. If CHW has access to 2nd line treatment consider 2nd line ACTs (careful documentation).\n\n\
 Option 3. If no access to blood film or 2nd line treatment: retreat with 1st line ACTs with warning to return of worsen.",
     answers: [
-      { text: "Start again?", goto: "1" }, 
+      { text: "Next Section", goto: "Next" },
     ]
   },
 }
 
 // <Section questions={questions} />
 export class Fever extends React.Component {
-
   render() {
-    return <Section title="Fever" questions={questions} />
+    console.log(this.props);
+
+    return <Section title="Fever" questions={questions} onCompletion={this.props.onCompletion}/>
   }
 }

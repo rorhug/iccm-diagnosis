@@ -19,7 +19,7 @@ const questions = {
   3: { // Wrong are group / cough too long
     text: "Refer to Health Centre.",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
   4: { // Cough too long?
@@ -32,7 +32,7 @@ const questions = {
   5: { 
     text: "Go to next section. (Now probably supported.)",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
   6: { 
@@ -54,7 +54,7 @@ const questions = {
     text: "No danger signs:\n\
 Rhinitis, common cold.",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
   9: {
@@ -80,14 +80,14 @@ Signs of severe pneumonia?\n\
     text: "Severe pneumonia.\n\
 Give first dose of amoxicillin and refer to Health Centre.",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
   12: {
     text: "Pneumonia.\n\
 Treat with amoxicillin.",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
 }
@@ -98,6 +98,6 @@ Treat with amoxicillin.",
 export class Cough extends React.Component {
 
   render() {
-    return <Section title="Cough" questions={questions} />
+    return <Section title="Cough" questions={questions} onCompletion={this.props.onCompletion}/>
   }
 }

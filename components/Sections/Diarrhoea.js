@@ -19,7 +19,7 @@ const questions = {
   3: {
     text: "No need for treatment. Continue normal feeding according to age.",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
   4: { // Wrong age?
@@ -32,7 +32,7 @@ const questions = {
   5: {
     text: "Refer to Health Centre.",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
   6: {
@@ -59,7 +59,7 @@ const questions = {
   9: {
     text: "Next section?",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
   10: {
@@ -76,7 +76,7 @@ const questions = {
     text: "Uncomplicated diarrhoea: give ORS and Zinc sulfate according to age, \n\
 plus Albendazole (if not received within last 6 months).",
     answers: [
-      { text: "Start again?", goto: "1" },
+      { text: "Next Section", goto: "Next" },
     ]
   },
 }
@@ -85,6 +85,6 @@ plus Albendazole (if not received within last 6 months).",
 export class Diarrhoea extends React.Component {
 
   render() {
-    return <Section title="Diarrhoea" questions={questions} />
+    return <Section title="Diarrhoea" questions={questions} onCompletion={this.props.onCompletion}/>
   }
 }
