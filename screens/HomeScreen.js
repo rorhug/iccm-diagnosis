@@ -36,8 +36,8 @@ export default class HomeScreen extends React.Component {
       sections: {
         current: <Fever onCompletion={this.moveToNextSection.bind(this)}/>,
         next: [
-          <Cough sections={this.props.sections}/>,
-          <Diarrhoea sections={this.props.sections}/>
+          <Cough onCompletion={this.moveToNextSection.bind(this)}/>,
+          <Diarrhoea onCompletion={this.moveToNextSection.bind(this)}/>
         ],
         waiting: [],
         completed: []
@@ -51,6 +51,7 @@ export default class HomeScreen extends React.Component {
     var sections = this.state.sections;
     sections.completed.push(sections.current);
     sections.current = sections.next.shift();
+    console.log(sections);
 
     this.setState(
       sections

@@ -1,15 +1,6 @@
 import React from 'react';
 import { Section } from '../Section';
-
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-} from 'react-native';
+import Questions from '../../utils/constants';
 
 // TO-DO: Get age earlier, auto-answer age-related questions?
 const questions = {
@@ -17,7 +8,7 @@ const questions = {
     text: "Child with fever of history of fever in past 48 hours?",
     answers: [
       { text: "Yes", goto: "3" },
-      { text: "No", goto: "next" },
+      { text: "No", goto: Questions.nextSection },
     ]
   },
   3: { // YES fever or history of fever
@@ -30,7 +21,7 @@ const questions = {
   4: {
     text: "Refer to Health Centre.",
     answers: [
-      { text: "Next Section", goto: "next" },
+      { text: "Next Section", goto: Questions.nextSection },
     ]
   },
   5: { // Correct age + fever. RDT
@@ -59,7 +50,7 @@ const questions = {
     text: "Severe malaria.\n\
 Give pre-referral artesunate and refer to Hospital/HC URGENTLY.",
     answers: [
-      { text: "Next Section", goto: "Next" },
+      { text: "Next Section", goto: Questions.nextSection },
     ]
   },
   8: {
@@ -74,7 +65,7 @@ Did the child take all doses of ACT for 3 days without vomiting?",
     text: "Simple malaria.\n\
 Treat with oral ACT as per protocol (directly observe 1st dose) plus one dose paracetamol.",
     answers: [
-      { text: "Next Section", goto: "Next" },
+      { text: "Next Section", goto: Questions.nextSection },
     ]
   },
   10: {
@@ -82,7 +73,7 @@ Treat with oral ACT as per protocol (directly observe 1st dose) plus one dose pa
 Option 2. If CHW has access to 2nd line treatment consider 2nd line ACTs (careful documentation).\n\n\
 Option 3. If no access to blood film or 2nd line treatment: retreat with 1st line ACTs with warning to return of worsen.",
     answers: [
-      { text: "Next Section", goto: "Next" },
+      { text: "Next Section", goto: Questions.nextSection },
     ]
   },
 }
