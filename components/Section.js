@@ -1,17 +1,8 @@
 import React from 'react';
 import { Icon } from 'expo';
+import { ScrollView } from 'react-native';
 
-import Colors from '../constants/Colors';
-
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-} from 'react-native';
+import { Sections } from '../utils/constants';
 
 import styled, { css } from '@emotion/native'
 
@@ -53,6 +44,7 @@ export class Section extends React.Component {
   }
 
   moveToQuestion = (id) => {
+    if (id === Sections.next) this.props.onCompletion()
     this.setState({ currentQuestionId: id })
   }
 
@@ -61,10 +53,8 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
-    console.log(question)
-
-
-    const answerButtons = question.answers.map((answer, index) => <AnswerButton
+    const answerButtons = question.answers.map((answer, index) => 
+    <AnswerButton
       accessibilityLabel={answer.text}
       onPress={() => this.moveToQuestion(answer.goto)}
       key={index}
@@ -81,7 +71,6 @@ export class Section extends React.Component {
       <ButtonsBox>
         {answerButtons}
       </ButtonsBox>
-
     </ScrollView>
   }
 
