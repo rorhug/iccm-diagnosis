@@ -15,8 +15,7 @@ import { MonoText } from '../components/StyledText';
 import { Fever } from '../components/Sections/Fever';
 import { Cough } from '../components/Sections/Cough';
 import { Diarrhoea } from '../components/Sections/Diarrhoea';
-
-
+import { Sections } from '../utils/constants';
 
 import styled, { css } from '@emotion/native'
 import { Section } from '../components/Section';
@@ -27,18 +26,22 @@ const Container = styled.View`
   padding: 20px;
   margin-top: 40px;
 `
+const End = <View>End of Survey</View>
+
+const sections = {
+  [Sections.fever]: Fever,
+  [Sections.cough]: Cough,
+  [Sections.diarrhoea]: Diarrhoea,
+}
 
 export default class HomeScreen extends React.Component {
-  
-  constructor(props){
+
+  constructor(props) {
     super(props)
     this.state = {
       sections: {
-        current: <Fever onCompletion={this.moveToNextSection.bind(this)}/>,
-        next: [
-          <Cough onCompletion={this.moveToNextSection.bind(this)}/>,
-          <Diarrhoea onCompletion={this.moveToNextSection.bind(this)}/>
-        ],
+        current: Sections.fever,
+        next: [Sections.cough, Sections.diarrhoea],
         waiting: [],
         completed: []
       }
@@ -51,7 +54,6 @@ export default class HomeScreen extends React.Component {
     var sections = this.state.sections;
     sections.completed.push(sections.current);
     sections.current = sections.next.shift();
-    console.log(sections);
 
     this.setState(
       sections
@@ -63,10 +65,17 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
+    // current default content
+    let content = <Text>You have completed all Sections.</Text>
+
+    let CurrentSection = sections[this.state.sections.current];
+    if (CurrentSection) { 
+      content = (<CurrentSection onCompletion={this.moveToNextSection} />)
+    }
 
     return (
       <Container>
-       { this.currentSection() }
+        {content}
       </Container>
     );
   }

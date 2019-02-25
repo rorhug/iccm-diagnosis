@@ -25,8 +25,11 @@ const Layout = {
   isSmallDevice: width < 375,
 };
 
-const Questions = {
-    nextSection: 'nextSection'
+const Sections = {
+    next: 'nextSection',
+    fever: 'fever',
+    cough: 'cough',
+    diarrhoea: 'diarrhoea',
 }
 
-export default { Colors, Layout, Questions };
+export { Colors, Layout, Sections };

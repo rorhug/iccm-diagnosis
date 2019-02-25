@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from 'expo';
 import { ScrollView } from 'react-native';
 
-import Questions from '../utils/constants';
+import { Sections } from '../utils/constants';
 
 import styled, { css } from '@emotion/native'
 
@@ -44,7 +44,7 @@ export class Section extends React.Component {
   }
 
   moveToQuestion = (id) => {
-    if (id === Questions.nextSection) this.props.onCompletion()
+    if (id === Sections.next) this.props.onCompletion()
     this.setState({ currentQuestionId: id })
   }
 

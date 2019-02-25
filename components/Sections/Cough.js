@@ -1,6 +1,6 @@
 import React from 'react';
 import { Section } from '../Section';
-import Questions from '../../utils/constants';
+import { Sections } from '../../utils/constants';
 
 const questions = {
   1: {
@@ -20,7 +20,7 @@ const questions = {
   3: { // Wrong are group / cough too long
     text: "Refer to Health Centre.",
     answers: [
-      { text: "Next Section", goto: Questions.nextSection },
+      { text: "Next Section", goto: Sections.next },
     ]
   },
   4: { // Cough too long?
@@ -33,7 +33,7 @@ const questions = {
   5: { 
     text: "Go to next section. (Now probably supported.)",
     answers: [
-      { text: "Next Section", goto: Questions.nextSection },
+      { text: "Next Section", goto: Sections.next },
     ]
   },
   6: { 
@@ -55,7 +55,7 @@ const questions = {
     text: "No danger signs:\n\
 Rhinitis, common cold.",
     answers: [
-      { text: "Next Section", goto: Questions.nextSection },
+      { text: "Next Section", goto: Sections.next },
     ]
   },
   9: {
@@ -81,14 +81,14 @@ Signs of severe pneumonia?\n\
     text: "Severe pneumonia.\n\
 Give first dose of amoxicillin and refer to Health Centre.",
     answers: [
-      { text: "Next Section", goto: Questions.nextSection },
+      { text: "Next Section", goto: Sections.next },
     ]
   },
   12: {
     text: "Pneumonia.\n\
 Treat with amoxicillin.",
     answers: [
-      { text: "Next Section", goto: Questions.nextSection },
+      { text: "Next Section", goto: Sections.next },
     ]
   },
 }

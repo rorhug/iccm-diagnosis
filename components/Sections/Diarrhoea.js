@@ -1,6 +1,6 @@
 import React from 'react';
 import { Section } from '../Section';
-import Questions from '../../utils/constants';
+import { Sections } from '../../utils/constants';
 
 const questions = {
   1: {
@@ -20,7 +20,7 @@ const questions = {
   3: {
     text: "No need for treatment. Continue normal feeding according to age.",
     answers: [
-      { text: "Next Section", goto: Questions.nextSection },
+      { text: "Next Section", goto: Sections.next },
     ]
   },
   4: { // Wrong age?
@@ -33,7 +33,7 @@ const questions = {
   5: {
     text: "Refer to Health Centre.",
     answers: [
-      { text: "Next Section", goto: Questions.nextSection },
+      { text: "Next Section", goto: Sections.next },
     ]
   },
   6: {
@@ -60,7 +60,7 @@ const questions = {
   9: {
     text: "Next section?",
     answers: [
-      { text: "Next Section", goto: Questions.nextSection },
+      { text: "Next Section", goto: Sections.next },
     ]
   },
   10: {
@@ -77,7 +77,7 @@ const questions = {
     text: "Uncomplicated diarrhoea: give ORS and Zinc sulfate according to age, \n\
 plus Albendazole (if not received within last 6 months).",
     answers: [
-      { text: "Next Section", goto: Questions.nextSection },
+      { text: "Next Section", goto: Sections.next },
     ]
   },
 }
@@ -86,9 +86,6 @@ plus Albendazole (if not received within last 6 months).",
 export class Diarrhoea extends React.Component {
 
   render() {
-    console.log('Dia');
-    console.log(this.props);
-
     return <Section title="Diarrhoea" questions={questions} onCompletion={this.props.onCompletion}/>
   }
 }
