@@ -19,9 +19,7 @@ const questions = {
   },
   3: { // Wrong are group / cough too long
     text: "Refer to Health Centre.",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    sectionEnd: true
   },
   4: { // Cough too long?
     text: "Cough lasting longer than 3 weeks?",
@@ -32,9 +30,7 @@ const questions = {
   },
   5: { 
     text: "Go to next section. (Now probably supported.)",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    sectionEnd: true
   },
   6: { 
     text: "Count respiratory rate (RR) during 1 minute.\n\
@@ -54,9 +50,7 @@ const questions = {
   8: { // No danger
     text: "No danger signs:\n\
 Rhinitis, common cold.",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    sectionEnd: true
   },
   9: {
     text: "Pneumonia.\n\
@@ -80,16 +74,12 @@ Signs of severe pneumonia?\n\
   11: { // Severe pneumonia
     text: "Severe pneumonia.\n\
 Give first dose of amoxicillin and refer to Health Centre.",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    sectionEnd: true
   },
   12: {
     text: "Pneumonia.\n\
 Treat with amoxicillin.",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    sectionEnd: true
   },
 }
 
