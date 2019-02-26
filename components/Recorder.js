@@ -1,7 +1,3 @@
-/**
- * @flow
- */
-
 import React from 'react';
 import {
   Dimensions,
@@ -23,19 +19,19 @@ class Icon {
   }
 }
 
-const ICON_RECORD_BUTTON = new Icon(require('./assets/images/record_button.png'), 70, 119);
-const ICON_RECORDING = new Icon(require('./assets/images/record_icon.png'), 20, 14);
+const ICON_RECORD_BUTTON = new Icon(require('../assets/images/record_button.png'), 70, 119);
+const ICON_RECORDING = new Icon(require('../assets/images/record_icon.png'), 20, 14);
 
-const ICON_PLAY_BUTTON = new Icon(require('./assets/images/play_button.png'), 34, 51);
-const ICON_PAUSE_BUTTON = new Icon(require('./assets/images/pause_button.png'), 34, 51);
-const ICON_STOP_BUTTON = new Icon(require('./assets/images/stop_button.png'), 22, 22);
+const ICON_PLAY_BUTTON = new Icon(require('../assets/images/play_button.png'), 34, 51);
+const ICON_PAUSE_BUTTON = new Icon(require('../assets/images/pause_button.png'), 34, 51);
+const ICON_STOP_BUTTON = new Icon(require('../assets/images/stop_button.png'), 22, 22);
 
-const ICON_MUTED_BUTTON = new Icon(require('./assets/images/muted_button.png'), 56, 64);
-const ICON_UNMUTED_BUTTON = new Icon(require('./assets/images/unmuted_button.png'),64,64);
+const ICON_MUTED_BUTTON = new Icon(require('../assets/images/muted_button.png'), 56, 64);
+const ICON_UNMUTED_BUTTON = new Icon(require('../assets/images/unmuted_button.png'),64,64);
 
-const ICON_TRACK_1 = new Icon(require('./assets/images/track_1.png'), 166, 5);
-const ICON_THUMB_1 = new Icon(require('./assets/images/thumb_1.png'), 18, 19);
-const ICON_THUMB_2 = new Icon(require('./assets/images/thumb_2.png'), 15, 19);
+const ICON_TRACK_1 = new Icon(require('../assets/images/track_1.png'), 166, 5);
+const ICON_THUMB_1 = new Icon(require('../assets/images/thumb_1.png'), 18, 19);
+const ICON_THUMB_2 = new Icon(require('../assets/images/thumb_2.png'), 15, 19);
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
 const BACKGROUND_COLOR = '#FFF8ED';
@@ -43,7 +39,7 @@ const LIVE_COLOR = '#FF0000';
 const DISABLED_OPACITY = 0.5;
 
 
-export default class App extends React.Component {
+export class Recorder extends React.Component {
   constructor(props) {
     super(props);
     this.recording = null;
@@ -61,23 +57,29 @@ export default class App extends React.Component {
       shouldPlay: false,
       isPlaying: false,
       isRecording: false,
-      fontLoaded: false,
+      fontLoaded: true,
       shouldCorrectPitch: true,
       volume: 1.0,
       rate: 1.0,
     };
-    this.recordingSettings = JSON.parse(JSON.stringify(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY));
+
+    let recordingOptions = Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY
+    recordingOptions.ios.outputFormat = Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_LINEARPCM
+    recordingOptions.ios.extension = ".wav"
+    console.log(JSON.stringify(recordingOptions.ios))
+
+    this.recordingSettings = recordingOptions
     // // UNCOMMENT THIS TO TEST maxFileSize:
     // this.recordingSettings.android['maxFileSize'] = 12000;
   }
 
   componentDidMount() {
-    (async () => {
-      await Font.loadAsync({
-        'SpaceMono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-      });
-      this.setState({ fontLoaded: true });
-    })();
+    // (async () => {
+    //   await Font.loadAsync({
+    //     'SpaceMono': require('../assets/fonts/SpaceMono-Regular.ttf'),
+    //   });  
+    //   this.setState({ fontLoaded: true });
+    // })();
     this._askForPermissions();
   }
 
@@ -307,7 +309,7 @@ export default class App extends React.Component {
     ) : !this.state.haveRecordingPermissions ? (
       <View style={styles.container}>
         <View />
-        <Text style={[styles.noPermissionsText, { fontFamily: 'SpaceMono' }]}>
+        <Text style={[styles.noPermissionsText]}>
           You must enable audio recording permissions in order to use this app.
         </Text>
         <View />
@@ -333,7 +335,7 @@ export default class App extends React.Component {
             </TouchableHighlight>
             <View style={styles.recordingDataContainer}>
               <View />
-              <Text style={[styles.liveText, { fontFamily: 'SpaceMono' }]}>
+              <Text style={[styles.liveText]}>
                 {this.state.isRecording ? 'Recording' : ''}
               </Text>
               <View style={styles.recordingDataRowContainer}>
@@ -341,7 +343,7 @@ export default class App extends React.Component {
                   style={[styles.image, { opacity: this.state.isRecording ? 1.0 : 0.0 }]}
                   source={ICON_RECORDING.module}
                 />
-                <Text style={[styles.recordingTimestamp, { fontFamily: 'SpaceMono' }]}>
+                <Text style={[styles.recordingTimestamp]}>
                   {this._getRecordingTimestamp()}
                 </Text>
               </View>
@@ -370,7 +372,7 @@ export default class App extends React.Component {
               onSlidingComplete={this._onSeekSliderSlidingComplete}
               disabled={!this.state.isPlaybackAllowed || this.state.isLoading}
             />
-            <Text style={[styles.playbackTimestamp, { fontFamily: 'SpaceMono' }]}>
+            <Text style={[styles.playbackTimestamp]}>
               {this._getPlaybackTimestamp()}
             </Text>
           </View>
@@ -435,8 +437,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     backgroundColor: BACKGROUND_COLOR,
-    minHeight: DEVICE_HEIGHT,
-    maxHeight: DEVICE_HEIGHT,
+    height: "100%"
   },
   noPermissionsText: {
     textAlign: 'center',
@@ -448,8 +449,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf: 'stretch',
-    minHeight: DEVICE_HEIGHT / 2.0,
-    maxHeight: DEVICE_HEIGHT / 2.0,
+    height: "40%"
   },
   recordingContainer: {
     flex: 1,
