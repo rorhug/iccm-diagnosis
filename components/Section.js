@@ -54,7 +54,9 @@ export class Section extends React.Component {
 
   answerButtons = (question) => {
     if (question.sectionEnd) {
-      return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>Next Section</AnswerButton>
+      return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
+        <AnswerText>Next Section</AnswerText>
+      </AnswerButton>
     } else if (question.answers.length > 0) {
       return question.answers.map((answer, index) => 
         <AnswerButton
@@ -78,7 +80,7 @@ export class Section extends React.Component {
       <Question>{question.text}</Question>
 
       <ButtonsBox>
-        {answerButtons(question)}
+        {this.answerButtons(question)}
       </ButtonsBox>
     </ScrollView>
   }

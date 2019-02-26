@@ -51,8 +51,8 @@ export default class HomeScreen extends React.Component {
   currentSection = () => this.state.sections.current;
 
   moveToNextSection = (endingQuestionId) => {
-    console.log(`Ending question Id ${endingQuestionId}`)
     var sections = this.state.sections;
+    console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
     sections.completed.push(sections.current);
     sections.current = sections.next.shift();
 

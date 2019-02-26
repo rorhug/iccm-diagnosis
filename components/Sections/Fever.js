@@ -19,7 +19,6 @@ const questions = {
     ]
   },
   4: {
-    
     text: "Refer to Health Centre.",
     sectionEnd: true
   },
