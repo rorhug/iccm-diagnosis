@@ -8,7 +8,7 @@ const questions = {
     text: "Child with fever of history of fever in past 48 hours?",
     answers: [
       { text: "Yes", goto: "3" },
-      { text: "No", goto: Sections.next },
+      { text: "No", goto: "11" },
     ]
   },
   3: { // YES fever or history of fever
@@ -68,6 +68,10 @@ Option 2. If CHW has access to 2nd line treatment consider 2nd line ACTs (carefu
 Option 3. If no access to blood film or 2nd line treatment: retreat with 1st line ACTs with warning to return of worsen.",
     sectionEnd: true
   },
+  11: {
+    text: "Needs human diagnosis.",
+    sectionEnd: true
+  }
 }
 
 // <Section questions={questions} />

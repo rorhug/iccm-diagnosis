@@ -19,9 +19,7 @@ const questions = {
   },
   3: {
     text: "No need for treatment. Continue normal feeding according to age.",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    sectionEnd: true
   },
   4: { // Wrong age?
     text: "Child < 2 months or > 5 years?",
@@ -32,9 +30,7 @@ const questions = {
   },
   5: {
     text: "Refer to Health Centre.",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    sectionEnd: true
   },
   6: {
     text: "Longer than 3 week history?",
@@ -58,10 +54,8 @@ const questions = {
     ]
   },
   9: {
-    text: "Next section?",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    text: "Needs human diagnosis.",
+    sectionEnd: true
   },
   10: {
     text: "Signs of severe dehydration?\n\
@@ -76,9 +70,7 @@ const questions = {
   11: {
     text: "Uncomplicated diarrhoea: give ORS and Zinc sulfate according to age, \n\
 plus Albendazole (if not received within last 6 months).",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    sectionEnd: true
   },
 }
 

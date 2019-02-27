@@ -54,7 +54,7 @@ export class Section extends React.Component {
 
   answerButtons = (question) => {
     if (question.sectionEnd) {
-      return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
+      return <AnswerButton onPress={() => this.props.onCompletion(this.props.questions, this.state.currentQuestionId)}>
         <AnswerText>Next Section</AnswerText>
       </AnswerButton>
     } else if (question.answers.length > 0) {

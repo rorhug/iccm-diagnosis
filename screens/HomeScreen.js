@@ -20,6 +20,8 @@ import { Sections } from '../utils/constants';
 import styled, { css } from '@emotion/native'
 import { Section } from '../components/Section';
 
+import { ResultsScreen } from './ResultsScreen';
+
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
@@ -34,25 +36,32 @@ const sections = {
   [Sections.diarrhoea]: Diarrhoea,
 }
 
+// TO-DO: Is there a better way of doing this?
+const initialState = {
+  sections: {
+    current: Sections.fever,
+    next: [Sections.cough, Sections.diarrhoea],
+    waiting: [],
+    completed: []
+  },
+  sectionResults: {}
+};
+
 export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      sections: {
-        current: Sections.fever,
-        next: [Sections.cough, Sections.diarrhoea],
-        waiting: [],
-        completed: []
-      }
-    };
+    this.state = initialState
   }
 
   currentSection = () => this.state.sections.current;
 
-  moveToNextSection = (endingQuestionId) => {
+  moveToNextSection = (questions, endingQuestionId) => {
     var sections = this.state.sections;
     console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
+
+    this.saveResult(questions, endingQuestionId)
+
     sections.completed.push(sections.current);
     sections.current = sections.next.shift();
 
@@ -61,13 +70,24 @@ export default class HomeScreen extends React.Component {
     );
   };
 
+  saveResult = (questions, id) => {
+    let newResults = this.state.sectionResults
+    newResults[this.state.sections.current] = questions[id].text
+
+    this.setState({sectionResults: newResults})
+  }
+
+  backToStart = () => {
+    this.setState(initialState)
+  }
+
   static navigationOptions = {
     header: null,
   };
 
   render() {
     // current default content
-    let content = <Text>You have completed all Sections.</Text>
+    let content = <ResultsScreen reset={this.backToStart} sectionResults={this.state.sectionResults}/>
 
     let CurrentSection = sections[this.state.sections.current];
     if (CurrentSection) { 

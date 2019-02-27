@@ -29,7 +29,7 @@ const questions = {
     ]
   },
   5: { 
-    text: "Go to next section. (Now probably supported.)",
+    text: "Needs human diagnosis.", // TO-DO: What's a better message for this?
     sectionEnd: true
   },
   6: { 
