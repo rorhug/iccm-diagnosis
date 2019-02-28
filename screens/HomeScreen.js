@@ -36,31 +36,33 @@ const sections = {
   [Sections.diarrhoea]: Diarrhoea,
 }
 
-// TO-DO: Is there a better way of doing this?
-const initialState = {
-  sections: {
-    current: Sections.fever,
-    next: [Sections.cough, Sections.diarrhoea],
-    waiting: [],
-    completed: []
-  },
-  sectionResults: {}
-};
+const initialState = () => {
+  return {
+    sections: {
+      current: Sections.fever,
+      next: [Sections.cough, Sections.diarrhoea],
+      waiting: [],
+      completed: []
+    },
+    sectionResults: {}
+  }
+}
+
 
 export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = initialState
+    this.state = initialState()
   }
 
   currentSection = () => this.state.sections.current;
 
-  moveToNextSection = (questions, endingQuestionId) => {
+  moveToNextSection = (endingQuestionId) => {
     var sections = this.state.sections;
     console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
 
-    this.saveResult(questions, endingQuestionId)
+    this.saveResult(endingQuestionId)
 
     sections.completed.push(sections.current);
     sections.current = sections.next.shift();
@@ -70,15 +72,17 @@ export default class HomeScreen extends React.Component {
     );
   };
 
-  saveResult = (questions, id) => {
-    let newResults = this.state.sectionResults
-    newResults[this.state.sections.current] = questions[id].text
+  saveResult = (id) => {
+    // let newResults = this.state.sectionResults
+    // newResults[this.state.sections.current] = questions[id].text
 
-    this.setState({sectionResults: newResults})
+    this.setState({
+      sectionResults: { ...this.state.sectionResults, [this.state.sections.current]: id }
+    })
   }
 
-  backToStart = () => {
-    this.setState(initialState)
+  resetState = () => {
+    this.setState(initialState())
   }
 
   static navigationOptions = {
@@ -86,19 +90,18 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
-    // current default content
-    let content = <ResultsScreen reset={this.backToStart} sectionResults={this.state.sectionResults}/>
+    let currentSection = this.state.sections.current;
 
-    let CurrentSection = sections[this.state.sections.current];
-    if (CurrentSection) { 
-      content = (<CurrentSection onCompletion={this.moveToNextSection} />)
+    if (currentSection) {
+      let CurrentSectionComponent = sections[this.state.sections.current]
+      return (
+        <Container><CurrentSectionComponent onCompletion={this.moveToNextSection} /></Container>
+      );
+    } else {
+      return (
+        <Container><ResultsScreen reset={this.resetState} sectionResults={this.state.sectionResults} sectionComponents={sections} /></Container>
+      );
     }
-
-    return (
-      <Container>
-        {content}
-      </Container>
-    );
   }
 
 }

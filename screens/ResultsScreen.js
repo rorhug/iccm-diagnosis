@@ -44,6 +44,8 @@ export class ResultsScreen extends React.Component {
 
   render() {
     let results = this.props.sectionResults;
+    let components = this.props.sectionComponents
+    console.log(results)
 
     return (
         <ScrollView>
@@ -51,10 +53,11 @@ export class ResultsScreen extends React.Component {
             <Header>Results</Header>
             <View>
                 {Object.keys(results).map(function(key) {
-                    return <View key={key}>
-                        <SubHeading>Section: {key}</SubHeading>
-                        <AnswerText>Answer: {results[key]}</AnswerText>
-                    </View>
+                  let endingId = results[key]
+                  return <View key={key}>
+                      <SubHeading>Section: {key}</SubHeading>
+                      <AnswerText>Answer: {components[key].questions[endingId].text}</AnswerText>
+                  </View>
                 })}
             </View>
             <ButtonsBox>
