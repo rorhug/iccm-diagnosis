@@ -12,6 +12,7 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import { DangerSigns } from '../components/Sections/DangerSigns';
 import { Fever } from '../components/Sections/Fever';
 import { Cough } from '../components/Sections/Cough';
 import { Diarrhoea } from '../components/Sections/Diarrhoea';
@@ -31,6 +32,7 @@ const Container = styled.View`
 const End = <View>End of Survey</View>
 
 const sections = {
+  [Sections.dangersigns]: DangerSigns,
   [Sections.fever]: Fever,
   [Sections.cough]: Cough,
   [Sections.diarrhoea]: Diarrhoea,
@@ -39,8 +41,8 @@ const sections = {
 const initialState = () => {
   return {
     sections: {
-      current: Sections.fever,
-      next: [Sections.cough, Sections.diarrhoea],
+      current: Sections.dangersigns,
+      next: [Sections.fever, Sections.cough, Sections.diarrhoea],
       waiting: [],
       completed: []
     },
@@ -107,4 +109,3 @@ export default class HomeScreen extends React.Component {
   }
 
 }
-

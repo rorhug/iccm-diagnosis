@@ -662,6 +662,13 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.7.1.tgz#9833722341379fb7d67f06a4b00ab3c37913da53"
   integrity sha512-OYpa/Sg+2GDX+jibUfpZVn1YqSVRpYmTLF2eyAfrFTIJSbwyIrc+YscayoykvaOME/wV4BV0Sa0yqdMrgse6mA==
 
+"@emotion/is-prop-valid@0.7.3":
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.7.3.tgz#a6bf4fa5387cbba59d44e698a4680f481a8da6cc"
+  integrity sha512-uxJqm/sqwXw3YPA5GXX365OBcJGFtxUVkB6WyezqFHlNe9jqUWH5ur2O2M8dGBz61kn1g3ZBlzUunFQXQIClhA==
+  dependencies:
+    "@emotion/memoize" "0.7.1"
+
 "@emotion/memoize@0.7.1":
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.1.tgz#e93c13942592cf5ef01aa8297444dc192beee52f"
@@ -680,6 +687,15 @@
   integrity sha512-q1499Ng3zSsGBoiyrmBo4BvcmXxJEVfdMpVoFPnDitzkmAl59XrNL8z2t5pfkjV5Usdb+akJR5YrEA0IgUJeCA==
   dependencies:
     css-to-react-native "^2.2.1"
+
+"@emotion/primitives@^10.0.7":
+  version "10.0.7"
+  resolved "https://registry.yarnpkg.com/@emotion/primitives/-/primitives-10.0.7.tgz#84502453d687c4419d248821799226a1eda0e526"
+  integrity sha512-2DXwCsbaGr0UQMDhVA4KWTnKkCnM9zz1swik5U1dEE/iV/ApkDx+IKT77soDAXf1AoAXBrF9joTF88dumWd9IQ==
+  dependencies:
+    "@emotion/is-prop-valid" "0.7.3"
+    "@emotion/primitives-core" "10.0.1"
+    babel-plugin-emotion "^10.0.7"
 
 "@emotion/serialize@^0.11.4":
   version "0.11.4"
