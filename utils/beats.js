@@ -9,7 +9,7 @@ var pcmdata = [] ;
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
 //
-var soundfile = "sounds/sample3.mp3"
+var soundfile = "sounds/Piece8.mp3"
 decodeSoundFile(soundfile);
 
 /**
@@ -32,6 +32,7 @@ function decodeSoundFile(soundfile){
 }
 
 
+
 /**
  * [findPeaks Naive algo to identify peaks in the audio data, and wave]
  * @param  {[type]} pcmdata    [description]
@@ -43,14 +44,14 @@ function findPeaks(pcmdata, samplerate){
   var step = Math.round( samplerate * (interval/1000) );
   var max = 0 ;
   var prevmax = 0 ;
-  var prevdiffthreshold = 0.3;
+  var prevdiffthreshold = 0.2;
   var count = 0;
 
   //loop through song in time with sample rate
   var samplesound = setInterval(function() {
     if (index >= pcmdata.length) {
       clearInterval(samplesound);
-      count = count/2;
+      //count = count/2;
       console.log("finished sampling sound - total peaks: " + count);
       console.log("Using https://github.com/victordibia/beats for soundwave analysis")
       return;
@@ -62,7 +63,7 @@ function findPeaks(pcmdata, samplerate){
 
     // Spot a significant increase? Potential peak
     bars = getbars(max) ;
-    if((max-prevmax >= prevdiffthreshold) && max >= 0.6){
+    if(max-prevmax >= prevdiffthreshold){
     //if((max-prevmax >= 0.1) && (max >= 0.5)){
       bars = bars + " == peak == ";
       count = count + 1
@@ -112,3 +113,7 @@ function playsound(soundfile){
     }
   });
 }
+
+/*function findMax(pcmdata){
+
+}*/
