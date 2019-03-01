@@ -41,8 +41,8 @@ const sections = {
 const initialState = () => {
   return {
     sections: {
-      current: Sections.dangersigns,
-      next: [Sections.fever, Sections.cough, Sections.diarrhoea],
+      current: Sections.fever,
+      next: [Sections.dangersigns, Sections.cough, Sections.diarrhoea],
       waiting: [],
       completed: []
     },

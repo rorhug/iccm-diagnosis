@@ -1,8 +1,8 @@
 import React from 'react';
 import { Section } from '../Section';
-import { Sections } from '../../utils/constants';
 
-const questions = {
+export class DangerSigns extends React.Component {
+  static questions = {
   1: {
     text: "Does the child have any of the following danger signs?\n\
     - Convulsions\n\
@@ -11,23 +11,22 @@ const questions = {
     - Unable to breastfeed/drink",
     answers: [
       { text: "Yes", goto: "2" },
-      { text: "No", goto: Sections.next },
+      { text: "No", goto: "3"},
     ]
   },
   2: {
     text: "Refer to Health Centre.",
-    answers: [
-      { text: "Next Section", goto: Sections.next },
-    ]
+    sectionEnd: true
+  },
+  3: {
+    text: "No danger signs reported.",
+    sectionEnd: true
   },
 }
 
-// TODO respitory rate reader
-
-// <Section questions={questions} />
-export class DangerSigns extends React.Component {
 
   render() {
-    return <Section title="DangerSigns" questions={questions} onCompletion={this.props.onCompletion}/>
+    return <Section title="DangerSigns" questions={DangerSigns.questions} onCompletion={this.props.onCompletion}/>
   }
+
 }
