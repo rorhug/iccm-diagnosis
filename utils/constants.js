@@ -26,7 +26,6 @@ const Layout = {
 };
 
 const Sections = {
-    next: 'nextSection',
     fever: 'fever',
     cough: 'cough',
     diarrhoea: 'diarrhoea',

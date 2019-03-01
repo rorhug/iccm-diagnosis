@@ -44,24 +44,35 @@ export class Section extends React.Component {
   }
 
   moveToQuestion = (id) => {
-    if (id === Sections.next) this.props.onCompletion()
+    //let currentQuestion = this.currentQuestion()
+    
+    //if (id === Sections.next) this.props.onCompletion()
     this.setState({ currentQuestionId: id })
   }
 
   currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
+  answerButtons = (question) => {
+    if (question.sectionEnd) {
+      return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
+        <AnswerText>Next Section</AnswerText>
+      </AnswerButton>
+    } else if (question.answers.length > 0) {
+      return question.answers.map((answer, index) => 
+        <AnswerButton
+          accessibilityLabel={answer.text}
+          onPress={() => this.moveToQuestion(answer.goto)}
+          key={index}
+        >
+          <AnswerText>{answer.text}</AnswerText>
+        </AnswerButton>)
+    } else {
+      return <Text>Invalid Question (no answers or sectionEnd)</Text>
+    }
+  }
 
   render() {
     let question = this.currentQuestion()
-    const answerButtons = question.answers.map((answer, index) => 
-    <AnswerButton
-      accessibilityLabel={answer.text}
-      onPress={() => this.moveToQuestion(answer.goto)}
-      key={index}
-    >
-      <AnswerText>{answer.text}</AnswerText>
-    </AnswerButton>)
-
 
     return <ScrollView>
       <Header>{this.props.title}</Header>
@@ -69,7 +80,7 @@ export class Section extends React.Component {
       <Question>{question.text}</Question>
 
       <ButtonsBox>
-        {answerButtons}
+        {this.answerButtons(question)}
       </ButtonsBox>
     </ScrollView>
   }

@@ -20,6 +20,8 @@ import { Sections } from '../utils/constants';
 import styled, { css } from '@emotion/native'
 import { Section } from '../components/Section';
 
+import { ResultsScreen } from './ResultsScreen';
+
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
@@ -34,24 +36,34 @@ const sections = {
   [Sections.diarrhoea]: Diarrhoea,
 }
 
+const initialState = () => {
+  return {
+    sections: {
+      current: Sections.fever,
+      next: [Sections.cough, Sections.diarrhoea],
+      waiting: [],
+      completed: []
+    },
+    sectionResults: {}
+  }
+}
+
+
 export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      sections: {
-        current: Sections.fever,
-        next: [Sections.cough, Sections.diarrhoea],
-        waiting: [],
-        completed: []
-      }
-    };
+    this.state = initialState()
   }
 
   currentSection = () => this.state.sections.current;
 
-  moveToNextSection = () => {
+  moveToNextSection = (endingQuestionId) => {
     var sections = this.state.sections;
+    console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
+
+    this.saveResult(endingQuestionId)
+
     sections.completed.push(sections.current);
     sections.current = sections.next.shift();
 
@@ -60,24 +72,38 @@ export default class HomeScreen extends React.Component {
     );
   };
 
+  saveResult = (id) => {
+    // let newResults = this.state.sectionResults
+    // newResults[this.state.sections.current] = questions[id].text
+
+    this.setState({
+      sectionResults: { ...this.state.sectionResults, [this.state.sections.current]: id }
+    })
+  }
+
+  resetState = () => {
+    this.setState(initialState())
+  }
+
   static navigationOptions = {
     header: null,
   };
 
   render() {
-    // current default content
-    let content = <Text>You have completed all Sections.</Text>
+    let currentSection = this.state.sections.current;
 
-    let CurrentSection = sections[this.state.sections.current];
-    if (CurrentSection) { 
-      content = (<CurrentSection onCompletion={this.moveToNextSection} />)
+    if (currentSection) {
+      let CurrentSectionComponent = sections[this.state.sections.current]
+      return (
+        <Container><CurrentSectionComponent onCompletion={this.moveToNextSection} /></Container>
+      );
+    } else {
+      return (
+        <ScrollView>
+          <Container><ResultsScreen reset={this.resetState} sectionResults={this.state.sectionResults} sectionComponents={sections} /></Container>
+        </ScrollView>
+      );
     }
-
-    return (
-      <Container>
-        {content}
-      </Container>
-    );
   }
 
 }
