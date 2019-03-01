@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-  Text,
-  View,
-  ScrollView
+  View
 } from 'react-native';
 
 import styled, { css } from '@emotion/native'
@@ -48,7 +46,7 @@ export class ResultsScreen extends React.Component {
     console.log(results)
 
     return (
-        <ScrollView>
+        <View>
             
             <Header>Results</Header>
             <View>
@@ -66,7 +64,7 @@ export class ResultsScreen extends React.Component {
                 </AnswerButton>
             </ButtonsBox>
 
-        </ScrollView>
+        </View>
     );
   }
 

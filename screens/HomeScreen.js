@@ -99,7 +99,9 @@ export default class HomeScreen extends React.Component {
       );
     } else {
       return (
-        <Container><ResultsScreen reset={this.resetState} sectionResults={this.state.sectionResults} sectionComponents={sections} /></Container>
+        <ScrollView>
+          <Container><ResultsScreen reset={this.resetState} sectionResults={this.state.sectionResults} sectionComponents={sections} /></Container>
+        </ScrollView>
       );
     }
   }
