@@ -11,6 +11,13 @@ const Header = styled.Text`
   padding-bottom: 10px;
 `
 
+const Container = styled.View`
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 40px;
+`
+
 const ButtonsBox = styled.View`
   display: flex;
   align-items: center;
@@ -40,10 +47,10 @@ export default class TutorialScreen extends React.Component {
   }
 
   render() {
-    return <View>
+    return <Container>
         <Header>Tutorial Screen.</Header>
         <AnswerText>This screen will have a gif and 2 buttons.</AnswerText>
-    </View>
+    </Container>
   }
 
 }

@@ -43,16 +43,11 @@ export default class CounterChoiceScreen extends React.Component {
     super(props)
   }
 
-  navigateTo = (screenName)=> {
-      this.props.navigation.navigate(screenName)
-  }
-
   render() {
     return <Container>
         <SubHeading>How would you like to count Respiratory Rate?</SubHeading>
 
-        {/* When clicked navigate to appropriate screen. Record -> TutorialScreen, Tap -> TapCounterScreen */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Tutorial')}>
             <ImageButtonBox>
                 <Image
                 source={require('../assets/images/breathing-thing.jpg')}
@@ -62,9 +57,7 @@ export default class CounterChoiceScreen extends React.Component {
             </ImageButtonBox>
         </TouchableOpacity>
 
-
-
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('TapCounter')}>
             <ImageButtonBox>
                 <Image
                 source={require('../assets/images/tap.jpg')}

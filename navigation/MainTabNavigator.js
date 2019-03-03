@@ -42,8 +42,7 @@ CounterStack.navigationOptions = {
         focused={focused}
         name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
       />
-    ),
-    header: null
+    )
 };
 // Temporary Stack
 
