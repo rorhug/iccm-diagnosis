@@ -1,39 +1,41 @@
 import React from 'react';
 import { 
     View,
-    ScrollView 
+    ScrollView,
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import styled, { css } from '@emotion/native'
 
 // Create Buttons with Images for this screen.
-
-const Header = styled.Text`
-  font-weight: bold;
-  font-size: 40px;
-  padding-bottom: 10px;
-`
-
-const ButtonsBox = styled.View`
-  display: flex;
+const Container = styled.View`
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 20px;
   align-items: center;
-  margin: 20px 0 0 0;
+  justify-content: space-around;
+`
+
+const SubHeading = styled.Text`
+    font-weight: bold;
+    font-size: 24px;
+    padding-bottom: 10px;
+`
+
+const ImageButtonBox = styled.View`
+  align-self: baseline;
   background-color: #eeeeee;
-  padding-bottom: 10px;
-`
-
-const Question = styled.Text`
-  font-size: 20px;
-`
-
-const AnswerButton = styled.TouchableOpacity`
-  width: 100%;
+  padding: 10px;
 `
 
 const AnswerText = styled.Text`
-  font-size: 18px;
-  background-color: #ffffff;
-  padding: 10px;
-  margin: 10px 10px 0 10px;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #ffffff;
+    padding: 10px;
+    margin-top: 10px;
 `
 
 export default class CounterChoiceScreen extends React.Component {
@@ -46,18 +48,32 @@ export default class CounterChoiceScreen extends React.Component {
   }
 
   render() {
-    return <View>
-        <Header>Counter Choice.</Header>
-        <AnswerText>This screen will have buttons with images.</AnswerText>
-        <ButtonsBox>
-            <AnswerButton onPress={() => this.navigateTo('Tutorial')}>
+    return <Container>
+        <SubHeading>How would you like to count Respiratory Rate?</SubHeading>
+
+        {/* When clicked navigate to appropriate screen. Record -> TutorialScreen, Tap -> TapCounterScreen */}
+        <TouchableOpacity>
+            <ImageButtonBox>
+                <Image
+                source={require('../assets/images/breathing-thing.jpg')}
+                style={{width: 150, height: 150}}
+                />
                 <AnswerText>RECORD</AnswerText>
-            </AnswerButton>
-            <AnswerButton onPress={() => this.navigateTo('TapCounter')}>
+            </ImageButtonBox>
+        </TouchableOpacity>
+
+
+
+        <TouchableOpacity>
+            <ImageButtonBox>
+                <Image
+                source={require('../assets/images/tap.jpg')}
+                style={{width: 150, height: 150}}
+                />
                 <AnswerText>TAP</AnswerText>
-            </AnswerButton>
-        </ButtonsBox>
-    </View>
+            </ImageButtonBox>
+        </TouchableOpacity>
+    </Container>
   }
 
 }
