@@ -17,11 +17,9 @@ const AnswerText = styled.Text`
   margin: 10px 10px 0 10px;
 `
 const SubHeading = styled.Text`
-  font-weight: bold;
-  font-size: 24px;
-  background-color: #ffffff;
-  padding: 10px;
-  margin: 10px 0 0 10px;
+    font-weight: bold;
+    font-size: 24px;
+    padding-bottom: 10px;
 `
 const AnswerButton = styled.TouchableOpacity`
   width: 100%;
