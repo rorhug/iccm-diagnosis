@@ -106,7 +106,6 @@ export class PatientDetails extends React.Component {
     )
   };
 
-  // render title of expandible - just return padding
   _renderSectionTitle = section => {
     return (
       <Title>

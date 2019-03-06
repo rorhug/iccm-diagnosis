@@ -44,7 +44,7 @@ const initialState = () => {
   return {
     sections: {
       current: Sections.patient_details,
-      next: [Sections.dangersigns], //Sections.fever, Sections.cough, Sections.diarrhoea
+      next: [Sections.dangersigns, Sections.fever, Sections.cough, Sections.diarrhoea],
       waiting: [],
       completed: []
     },
@@ -77,9 +77,6 @@ export default class HomeScreen extends React.Component {
   };
 
   saveResult = (id) => {
-    // let newResults = this.state.sectionResults
-    // newResults[this.state.sections.current] = questions[id].text
-
     this.setState({
       sectionResults: { ...this.state.sectionResults, [this.state.sections.current]: id }
     })
