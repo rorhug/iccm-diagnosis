@@ -7,15 +7,8 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import RecordScreen from '../screens/RecordScreen';
 
-import CounterChoiceScreen from '../screens/CounterChoiceScreen';
-import TapCounterScreen from '../screens/TapCounterScreen';
-import TutorialScreen from '../screens/TutorialScreen';
-
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-  CounterChoice: { screen: CounterChoiceScreen, navigationOptions: { header: null } },
-  Tutorial: { screen: TutorialScreen, navigationOptions: { header: null } },
-  TapCounter: { screen: TapCounterScreen, navigationOptions: { header: null } },
+  Home: HomeScreen
 });
 
 HomeStack.navigationOptions = {
@@ -31,25 +24,6 @@ HomeStack.navigationOptions = {
     />
   ),
 };
-
-/*
-// Temporary Stack
-const CounterStack = createStackNavigator({
-CounterChoice: { screen: CounterChoiceScreen, navigationOptions: { header: null } },
-  Tutorial: { screen: TutorialScreen, navigationOptions: { header: null } },
-  TapCounter: { screen: TapCounterScreen, navigationOptions: { header: null } }
-});
-CounterStack.navigationOptions = {
-    tabBarLabel: 'CounterChoice',
-    tabBarIcon: ({ focused }) => (
-      <TabBarIcon
-        focused={focused}
-        name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-      />
-    )
-};
-// Temporary Stack
-*/
 
 const LinksStack = createStackNavigator({
   Links: LinksScreen,
@@ -82,6 +56,5 @@ RecordStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   // LinksStack,
-  RecordStack,
-  // CounterStack
+  RecordStack
 });

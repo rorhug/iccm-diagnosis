@@ -41,15 +41,15 @@ const AnswerText = styled.Text`
   margin: 10px 10px 0 10px;
 `
 
-export default class TapCounterScreen extends React.Component {
+export class Tutorial extends React.Component {
   constructor(props) {
     super(props)
   }
 
   render() {
     return <Container>
-        <Header>Tap Counter Screen.</Header>
-        <AnswerText>This screen will have a Tap Counter.</AnswerText>
+        <Header>Tutorial Screen.</Header>
+        <AnswerText>This screen will have a gif and 2 buttons.</AnswerText>
     </Container>
   }
 

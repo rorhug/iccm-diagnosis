@@ -7,6 +7,8 @@ import {
 } from 'react-native';
 import styled, { css } from '@emotion/native'
 
+import { RrComponents } from '../../utils/constants';
+
 // Create Buttons with Images for this screen.
 const Container = styled.View`
   flex: 1;
@@ -38,7 +40,7 @@ const AnswerText = styled.Text`
     margin-top: 10px;
 `
 
-export default class CounterChoiceScreen extends React.Component {
+export class CounterChoice extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -47,20 +49,20 @@ export default class CounterChoiceScreen extends React.Component {
     return <Container>
         <SubHeading>How would you like to count Respiratory Rate?</SubHeading>
 
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Tutorial')}>
+        <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tutorial)}>
             <ImageButtonBox>
                 <Image
-                source={require('../assets/images/breathing-thing.jpg')}
+                source={require('../../assets/images/breathing-thing.jpg')}
                 style={{width: 150, height: 150}}
                 />
                 <AnswerText>RECORD</AnswerText>
             </ImageButtonBox>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('TapCounter')}>
+        <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tapcounter)}>
             <ImageButtonBox>
                 <Image
-                source={require('../assets/images/tap.jpg')}
+                source={require('../../assets/images/tap.jpg')}
                 style={{width: 150, height: 150}}
                 />
                 <AnswerText>TAP</AnswerText>

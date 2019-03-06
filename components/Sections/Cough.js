@@ -37,7 +37,7 @@ class Cough extends React.Component {
       text: "Needs human diagnosis.", // TO-DO: What's a better message for this?
       sectionEnd: true
     },
-    6: { 
+    6: {
       text: "Count respiratory rate (RR) during 1 minute.\n\
   (Counter here)",
       answers: [
@@ -88,7 +88,10 @@ class Cough extends React.Component {
     },
     13: {
         specialScreen: true,
-        screenTitle: "CounterChoiceScreen"
+        screenTitle: "RespiratoryRate",
+        resultToGoto: (result) => {
+            return "6"
+        }
     }
   }
 

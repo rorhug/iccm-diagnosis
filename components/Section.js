@@ -3,7 +3,7 @@ import { Icon } from 'expo';
 import { ScrollView, Text, View, Dimensions } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
-import CounterChoiceScreen from '../screens/CounterChoiceScreen';
+import RespiratoryRate from './RespRate/RespiratoryRate';
 
 import styled, { css } from '@emotion/native'
 
@@ -135,6 +135,14 @@ export class Section extends React.Component {
     {
       return <Text>Invalid Question (no answers or sectionEnd)</Text>
     }
+    }
+  respRateDecision = (question) => {
+    return function(respRate) {
+
+        questionId = question.resultToGoto(respRate)
+        this.moveToQuestion(questionId)
+        
+    }.bind(this)
   }
 
   questionLogic = (question) => {
@@ -169,13 +177,20 @@ export class Section extends React.Component {
   }
 
   renderSpecialScreen = (question) => {
-    return <CounterChoiceScreen />
+    switch(question.screenTitle) {
+        case "RespiratoryRate":
+            return <RespiratoryRate respRate={this.respRateDecision(question)}/>
+    }
   }
 
   render() {
     let question = this.currentQuestion()
 
-    return question.specialScreen ? this.renderSpecialScreen(question) : this.renderQuestion(question)
+    if (question.specialScreen) {
+        return this.renderSpecialScreen(question);
+    } else {
+        return this.renderQuestion(question);
+    }
   }
 
 }
