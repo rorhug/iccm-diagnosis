@@ -20,7 +20,6 @@ const InfoText = styled.Text`
 
 const ButtonsBox = styled.View`
   display: flex;
-  align-items: center;
   margin: 20px 0 0 0;
   background-color: #eeeeee;
   padding-bottom: 10px;
@@ -109,11 +108,14 @@ export class Section extends React.Component {
   }
 
   answerButtons = (question) => {
-    if (question.sectionEnd && !question.answers) {
+    if (question.sectionEnd && !question.answers)
+    {
       return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
         <AnswerText>Next Section</AnswerText>
       </AnswerButton>
-    } else if (question.answers.length > 0) {
+    } 
+    else if (question.answers.length > 0) 
+    {
       return question.answers.map((answer, index) =>
         <AnswerRow key={index}>
           <AnswerButton
@@ -126,7 +128,9 @@ export class Section extends React.Component {
           </AnswerButton>
           {answer.info!=undefined && this.infoCollapsable(answer, index)}
         </AnswerRow>)
-    } else {
+    } 
+    else 
+    {
       return <Text>Invalid Question (no answers or sectionEnd)</Text>
     }
   }
