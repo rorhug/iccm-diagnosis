@@ -58,6 +58,13 @@ const sectionStyle = css`
 // <Section questions={questions} />
 export class PatientDetails extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      activeSections: []
+    };
+  }
+
   static questions = [
     {
       text: '< 2 months',
@@ -76,11 +83,6 @@ export class PatientDetails extends React.Component {
       content: 'can touch the ear as shown in image',
     },
   ];
-
-  state = {
-    activeSections: [],
-    currentQuestionId: "1"
-  };
 
   accordion = () => {
     console.log(PatientDetails.questions)
@@ -137,11 +139,6 @@ export class PatientDetails extends React.Component {
   };
 
   render() {
-    return <Section
-      title="Patient Age"
-      questions={PatientDetails.questions}
-      onCompletion={this.props.onCompletion}
-      questionBox={this.accordion}
-      initialState={this.state} />
+    return this.accordion()
   }
 }
