@@ -6,7 +6,7 @@ import styled, { css } from '@emotion/native'
 import { Text, View } from 'react-native';
 
 const Title = styled.View`
-  flex-basis: 60%
+  flex-basis: 65%
 `
 
 const ButtonsBox = styled.View`
@@ -18,7 +18,7 @@ const ButtonsBox = styled.View`
 
 const Content = styled.View`
   padding: 10px;
-  margin-left: 5px;
+  margin: 10px;
 `
 
 const InfoView = styled.View`
@@ -41,7 +41,11 @@ const AgeText = styled.Text`
   margin: 10px 10px 0 10px;
 `
 const infoItemStyle = css`
-  flex-basis: 30%
+  flex-basis: 35%
+`
+
+const collapseStyle = css`
+  display: flex
 `
 
 const accordionStyle = css`
@@ -62,7 +66,7 @@ const AgeOptions = [
   },
   {
     title: '1-5 year',
-    content: 'can walk\ncannot touch the opposite ear with fingers while passing over the head - IMG??',
+    content: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
   },
   {
     title: '> 5 year',
@@ -92,6 +96,7 @@ export class PatientDetails extends React.Component {
           onChange={this._updateSections}
           sectionContainerStyle={accordionStyle}
           touchableProps={{style: infoItemStyle}}
+          collapsibleProps={{style: collapseStyle}}
           underlayColor={null}
         />
       </ButtonsBox>
