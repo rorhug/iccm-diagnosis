@@ -35,12 +35,16 @@ const AnswerText = styled.Text`
   margin: 10px 10px 0 10px;
 `
 
+const initialState = {
+  currentQuestionId: "1"
+}
+
 export class Section extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      currentQuestionId: "1"
-    }
+    this.state = props.initialState || initialState;
+    console.log(this.state);
+    console.log(this.props.questionBox())
   }
 
   moveToQuestion = (id) => {
@@ -71,14 +75,24 @@ export class Section extends React.Component {
     }
   }
 
-  render() {
-    let question = this.currentQuestion()
+  renderQuestions = (question) => {
+    if(this.props.questionBox){
+      return <this.props.questionBox/>
+    }else{
+      return <Question>{question.text}</Question>
+    }
+  }
 
+  // {question.text}</QuestionBox>
+  render() {
+    let question = this.currentQuestion();
+    console.log(this.props.questionBox);
+    
+    // let QuestionBox = this.props.questionBox || Question;
+    // console.log(QuestionBox);
     return <ScrollView>
       <Header>{this.props.title}</Header>
-
-      <Question>{question.text}</Question>
-
+      {this.renderQuestions(question)}
       <ButtonsBox>
         {this.answerButtons(question)}
       </ButtonsBox>

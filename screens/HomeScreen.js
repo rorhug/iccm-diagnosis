@@ -12,10 +12,11 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
-import { DangerSigns } from '../components/Sections/DangerSigns';
-import { Fever } from '../components/Sections/Fever';
 import { Cough } from '../components/Sections/Cough';
+import { DangerSigns } from '../components/Sections/DangerSigns';
 import { Diarrhoea } from '../components/Sections/Diarrhoea';
+import { Fever } from '../components/Sections/Fever';
+import { PatientDetails } from '../components/Sections/PatientDetails';
 import { Sections } from '../utils/constants';
 
 import styled, { css } from '@emotion/native'
@@ -32,6 +33,7 @@ const Container = styled.View`
 const End = <View>End of Survey</View>
 
 const sections = {
+  [Sections.patient_details]: PatientDetails,
   [Sections.dangersigns]: DangerSigns,
   [Sections.fever]: Fever,
   [Sections.cough]: Cough,
@@ -41,8 +43,8 @@ const sections = {
 const initialState = () => {
   return {
     sections: {
-      current: Sections.dangersigns,
-      next: [Sections.fever, Sections.cough, Sections.diarrhoea],
+      current: Sections.patient_details,
+      next: [Sections.dangersigns, Sections.fever, Sections.cough, Sections.diarrhoea],
       waiting: [],
       completed: []
     },
