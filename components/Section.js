@@ -31,6 +31,7 @@ const Question = styled.Text`
 `
 
 const AnswerButton = styled.TouchableOpacity`
+  flex: 2 2;
 `
 
 const InfoButton = styled.TouchableOpacity`
@@ -119,13 +120,12 @@ export class Section extends React.Component {
             accessibilityLabel={answer.text}
             onPress={() => question.sectionEnd ? 
               this.props.onCompletion(this.state.currentQuestionId) :
-              this.moveToQuestion(answer.goto) }
+              this.moveToQuestion(answer.goto)}
           >
             <AnswerText>{answer.text}</AnswerText>
           </AnswerButton>
           {answer.info!=undefined && this.infoCollapsable(answer, index)}
-        </AnswerRow>
-      )
+        </AnswerRow>)
     } else {
       return <Text>Invalid Question (no answers or sectionEnd)</Text>
     }
