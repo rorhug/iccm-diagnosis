@@ -1,8 +1,10 @@
 var AudioContext = require('web-audio-api').AudioContext
+//var OfflineAudioContext = require('web-audio-api').OfflineAudioContext
 context = new AudioContext
 var fs = require('fs')
 var exec = require('child_process').exec;
 var _ = require('underscore');
+//var length = 0;
 
 var pcmdata = [] ;
 
@@ -22,10 +24,20 @@ function decodeSoundFile(soundfile){
     if (err) throw err
     context.decodeAudioData(buf, function(audioBuffer) {
       console.log(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate, audioBuffer.duration);
+//      length =audioBuffer.length;
       pcmdata = (audioBuffer.getChannelData(0)) ;
       samplerate = audioBuffer.sampleRate;
       maxvals = [] ; max = 0 ;
       playsound(soundfile)
+/*      var filter = context.createBiquadFilter();
+      //filter.type is defined as string type in the latest API. But this is defined as number type in old API.
+      filter.type = (typeof filter.type === 'string') ? 'lowpass' : 0; // LOWPASS
+      filter.frequency.value = 5000;
+      // Connect source to filter, filter to destination.
+      source.connect(filter);
+      filter.connect(context.destination);
+*/
+      pcmdata = magnifySound(pcmdata);
       findPeaks(pcmdata, samplerate)
     }, function(err) { throw err })
   })
@@ -40,12 +52,15 @@ function decodeSoundFile(soundfile){
  * @return {[type]}            [description]
  */
 function findPeaks(pcmdata, samplerate){
+//  offlineContext = new OfflineAudioContext(1, length, samplerate);
+
   var interval = 0.05 * 1000 ; index = 0 ;
   var step = Math.round( samplerate * (interval/1000) );
   var max = 0 ;
   var prevmax = 0 ;
-  var prevdiffthreshold = 0.2;
+  var prevdiffthreshold = 0.4;
   var count = 0;
+  var cooldown = 0;
 
   //loop through song in time with sample rate
   var samplesound = setInterval(function() {
@@ -63,10 +78,18 @@ function findPeaks(pcmdata, samplerate){
 
     // Spot a significant increase? Potential peak
     bars = getbars(max) ;
-    if(max-prevmax >= prevdiffthreshold){
+    if((max-prevmax >= prevdiffthreshold) && cooldown == 0){
     //if((max-prevmax >= 0.1) && (max >= 0.5)){
       bars = bars + " == peak == ";
       count = count + 1
+      cooldown = 5;
+    }
+    else{
+      if(cooldown > 0)
+      {
+          cooldown = cooldown - 1;
+      }
+      //console.log("Cooldown: " + cooldown);
     }
 
     // Print out mini equalizer on commandline
@@ -114,6 +137,10 @@ function playsound(soundfile){
   });
 }
 
-/*function findMax(pcmdata){
-
-}*/
+function magnifySound(pcmdata){
+  for(var i = 0; i < pcmdata.length; i++)
+  {
+    pcmdata[i] = pcmdata[i]*2;
+  }
+  return pcmdata;
+}
