@@ -51,15 +51,22 @@ const accordionStyle = css`
   justify-content: space-between;
 `
 
-// TO-DO: Get age earlier, auto-answer age-related questions?
-const SECTIONS = [
+const AgeOptions = [
   {
-    title: 'First',
-    content: 'ABCD ipsum...',
+    title: '< 2 months',
+    content: '',
   },
   {
-    title: 'Second',
-    content: 'Lorem hipsum...',
+    title: '< 1 year',
+    content: 'cannot walk',
+  },
+  {
+    title: '1-5 year',
+    content: 'can walk\ncannot touch the opposite ear with fingers while passing over the head - IMG??',
+  },
+  {
+    title: '> 5 year',
+    content: 'can touch the ear as shown in image',
   },
 ];
 
@@ -76,7 +83,7 @@ export class PatientDetails extends React.Component {
     return (
       <ButtonsBox>
         <Accordion
-          sections={SECTIONS}
+          sections={AgeOptions}
           expandMultiple={true}
           activeSections={this.state.activeSections}
           renderSectionTitle={this._renderSectionTitle}
