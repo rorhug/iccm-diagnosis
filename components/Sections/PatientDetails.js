@@ -85,6 +85,8 @@ export class PatientDetails extends React.Component {
   accordion = () => {
     console.log(PatientDetails.questions)
     return (
+      <>
+      <AgeText>What age is the child?</AgeText>
       <ButtonsBox>
         <Accordion
           sections={PatientDetails.questions}
@@ -100,6 +102,7 @@ export class PatientDetails extends React.Component {
           underlayColor={null}
         />
       </ButtonsBox>
+      </>
     )
   };
 
