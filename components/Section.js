@@ -43,14 +43,9 @@ export class Section extends React.Component {
   constructor(props) {
     super(props)
     this.state = props.initialState || initialState;
-    console.log(this.state);
-    console.log(this.props.questionBox())
   }
 
   moveToQuestion = (id) => {
-    //let currentQuestion = this.currentQuestion()
-    
-    //if (id === Sections.next) this.props.onCompletion()
     this.setState({ currentQuestionId: id })
   }
 

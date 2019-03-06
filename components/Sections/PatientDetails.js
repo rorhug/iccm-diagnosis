@@ -3,33 +3,53 @@ import Accordion from 'react-native-collapsible/Accordion';
 import { Section } from '../Section';
 import styled, { css } from '@emotion/native'
 
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Button,
-} from 'react-native';
+import { Text, View } from 'react-native';
+
+const Title = styled.View`
+  flex-basis: 60%
+`
+
+const ButtonsBox = styled.View`
+  display: flex;
+  flex-direction: row;
+  background-color: #eeeeee;
+  padding-bottom: 10px;
+`
 
 const Content = styled.View`
-  background-color: #fff;
   padding: 10px;
+  margin-left: 5px;
 `
 
-const Header = styled.View`
-  background-color: #F5FCFF;
-  padding: 20px;
+const InfoView = styled.View`
 `
 
-const HeaderText = styled.Text`
-  text-align: center;
-  font-size: 20px;
+const InfoText = styled.Text`
+  font-size: 18px;
+  background-color: #ffffff;
+  padding: 10px;
+  margin: 10px 10px 0 10px;
 `
 
+const AgeButton = styled.TouchableOpacity`
+`
 
+const AgeText = styled.Text`
+  font-size: 18px;
+  background-color: #ffffff;
+  padding: 10px;
+  margin: 10px 10px 0 10px;
+`
+const infoItemStyle = css`
+  flex-basis: 30%
+`
+
+const accordionStyle = css`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+`
 
 // TO-DO: Get age earlier, auto-answer age-related questions?
 const SECTIONS = [
@@ -54,30 +74,40 @@ export class PatientDetails extends React.Component {
 
   accordion = () => {
     return (
-      <Accordion
-        sections={SECTIONS}
-        expandMultiple={true}
-        activeSections={this.state.activeSections}
-        renderSectionTitle={this._renderSectionTitle}
-        renderHeader={this._renderHeader}
-        renderContent={this._renderContent}
-        onChange={this._updateSections}
-      />
+      <ButtonsBox>
+        <Accordion
+          sections={SECTIONS}
+          expandMultiple={true}
+          activeSections={this.state.activeSections}
+          renderSectionTitle={this._renderSectionTitle}
+          renderHeader={this._renderHeader}
+          renderContent={this._renderContent}
+          onChange={this._updateSections}
+          sectionContainerStyle={accordionStyle}
+          touchableProps={{style: infoItemStyle}}
+          underlayColor={null}
+        />
+      </ButtonsBox>
+
     )
   };
 
   // render title of expandible - just return padding
   _renderSectionTitle = section => {
     return (
-      <Content/>
+      <Title>
+        <AgeButton onPress={() => this.props.onCompletion()}>
+          <AgeText>{section.title}</AgeText>
+        </AgeButton>
+      </Title>
     );
   };
 
   _renderHeader = section => {
     return (
-      <Header>
-        <HeaderText>{section.title}</HeaderText>
-      </Header>
+      <InfoView>
+        <InfoText>help</InfoText>
+      </InfoView>
     );
   };
 
