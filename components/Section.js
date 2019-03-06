@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from 'expo';
-import { ScrollView } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
+import Collapsible from 'react-native-collapsible';
 
 import { Sections } from '../utils/constants';
 
@@ -12,9 +13,13 @@ const Header = styled.Text`
   padding-bottom: 10px;
 `
 
+const InfoText = styled.Text`
+  padding: 10px;
+  margin: 10px;
+`
+
 const ButtonsBox = styled.View`
   display: flex;
-  align-items: center;
   margin: 20px 0 0 0;
   background-color: #eeeeee;
   padding-bottom: 10px;
@@ -25,7 +30,10 @@ const Question = styled.Text`
 `
 
 const AnswerButton = styled.TouchableOpacity`
-  width: 100%;
+  flex: 2 2;
+`
+
+const InfoButton = styled.TouchableOpacity`
 `
 
 const AnswerText = styled.Text`
@@ -35,54 +43,112 @@ const AnswerText = styled.Text`
   margin: 10px 10px 0 10px;
 `
 
+const AnswerRow = styled.View`
+  display: flex;
+  flex-flow: row wrap;
+  align-content: space-between;
+  justify-content: space-between;
+`
+const LineBreak = styled.View`
+  width: 100%
+`
+
+const initialState = {
+  currentQuestionId: "1"
+}
+
 export class Section extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentQuestionId: "1"
-    }
+      ...initialState, 
+      ...this.props.initialState
+    };
+    console.log(this.state)
+    console.log(this.props)
   }
 
   moveToQuestion = (id) => {
-    //let currentQuestion = this.currentQuestion()
-    
-    //if (id === Sections.next) this.props.onCompletion()
     this.setState({ currentQuestionId: id })
   }
 
   currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
+  _toggleSection(answer) {
+    const activeSections = this.state.activeSections
+    let updatedSections = [];
+
+    if (activeSections.includes(answer)) {
+      updatedSections = activeSections.filter(a => a !== answer);
+    } else if (this.props.expandMultiple) {
+      updatedSections = [...activeSections, answer];
+    } else {
+      updatedSections = [answer];
+    }
+    console.log(updatedSections)
+    this.setState({ activeSections: updatedSections });
+  }
+
+  infoCollapsable = (answer, key) => {
+    return (
+      <>
+        <InfoButton onPress={() => this._toggleSection(key)}>
+            <AnswerText>help</AnswerText>
+        </InfoButton>
+
+        <LineBreak/>
+
+        <Collapsible 
+          collapsed={!this.state.activeSections.includes(key)}
+        >
+          <InfoText>{answer.info}</InfoText>
+        </Collapsible>
+      </>
+    )
+  }
+
   answerButtons = (question) => {
-    if (question.sectionEnd) {
+    if (question.sectionEnd && !question.answers)
+    {
       return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
         <AnswerText>Next Section</AnswerText>
       </AnswerButton>
-    } else if (question.answers.length > 0) {
-      return question.answers.map((answer, index) => 
-        <AnswerButton
-          accessibilityLabel={answer.text}
-          onPress={() => this.moveToQuestion(answer.goto)}
-          key={index}
-        >
-          <AnswerText>{answer.text}</AnswerText>
-        </AnswerButton>)
-    } else {
+    } 
+    else if (question.answers.length > 0) 
+    {
+      return question.answers.map((answer, index) =>
+        <AnswerRow key={index}>
+          <AnswerButton
+            accessibilityLabel={answer.text}
+            onPress={() => question.sectionEnd ? 
+              this.props.onCompletion(this.state.currentQuestionId) :
+              this.moveToQuestion(answer.goto)}
+          >
+            <AnswerText>{answer.text}</AnswerText>
+          </AnswerButton>
+          {answer.info!=undefined && this.infoCollapsable(answer, index)}
+        </AnswerRow>)
+    } 
+    else 
+    {
       return <Text>Invalid Question (no answers or sectionEnd)</Text>
     }
   }
 
   render() {
-    let question = this.currentQuestion()
+    let question = this.currentQuestion();
 
-    return <ScrollView>
-      <Header>{this.props.title}</Header>
+    return (
+      <ScrollView>
+        <Header>{this.props.title}</Header>
+        
+        <Question>{question.text}</Question>
 
-      <Question>{question.text}</Question>
-
-      <ButtonsBox>
-        {this.answerButtons(question)}
-      </ButtonsBox>
-    </ScrollView>
+        <ButtonsBox>
+            {this.answerButtons(question)}
+        </ButtonsBox>
+      </ScrollView>
+    )
   }
 
 }

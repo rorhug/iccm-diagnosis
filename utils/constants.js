@@ -30,6 +30,7 @@ const Sections = {
     cough: 'cough',
     diarrhoea: 'diarrhoea',
     dangersigns: 'dangersigns',
+    patient_details: 'patient_details',
 }
 
 export { Colors, Layout, Sections };
