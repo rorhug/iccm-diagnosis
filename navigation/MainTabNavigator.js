@@ -12,7 +12,10 @@ import TapCounterScreen from '../screens/TapCounterScreen';
 import TutorialScreen from '../screens/TutorialScreen';
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen
+  Home: HomeScreen,
+  CounterChoice: { screen: CounterChoiceScreen, navigationOptions: { header: null } },
+  Tutorial: { screen: TutorialScreen, navigationOptions: { header: null } },
+  TapCounter: { screen: TapCounterScreen, navigationOptions: { header: null } },
 });
 
 HomeStack.navigationOptions = {
@@ -29,11 +32,12 @@ HomeStack.navigationOptions = {
   ),
 };
 
+/*
 // Temporary Stack
 const CounterStack = createStackNavigator({
-    CounterChoice: { screen: CounterChoiceScreen, navigationOptions: { header: null } },
-    Tutorial: { screen: TutorialScreen, navigationOptions: { header: null } },
-    TapCounter: { screen: TapCounterScreen, navigationOptions: { header: null } }
+CounterChoice: { screen: CounterChoiceScreen, navigationOptions: { header: null } },
+  Tutorial: { screen: TutorialScreen, navigationOptions: { header: null } },
+  TapCounter: { screen: TapCounterScreen, navigationOptions: { header: null } }
 });
 CounterStack.navigationOptions = {
     tabBarLabel: 'CounterChoice',
@@ -45,7 +49,7 @@ CounterStack.navigationOptions = {
     )
 };
 // Temporary Stack
-
+*/
 
 const LinksStack = createStackNavigator({
   Links: LinksScreen,
@@ -79,5 +83,5 @@ export default createBottomTabNavigator({
   HomeStack,
   // LinksStack,
   RecordStack,
-  CounterStack
+  // CounterStack
 });

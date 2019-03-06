@@ -11,7 +11,7 @@ class Cough extends React.Component {
     0: {
       text: "Child > 2 months and < 5 years, with cough or rapid breathing and/or fever =< 3 weeks?",
       answers: [
-        { text: "Yes", goto: "6" },
+        { text: "Yes", goto: "13" },
         { text: "No", goto: "2" },
       ]
     },
@@ -86,10 +86,14 @@ class Cough extends React.Component {
   Treat with amoxicillin.",
       sectionEnd: true
     },
+    13: {
+        specialScreen: true,
+        screenTitle: "CounterChoiceScreen"
+    }
   }
 
   render() {
-    return <Section title="Cough" questions={Cough.questions} onCompletion={this.props.onCompletion}/>
+    return <Section navigation={this.props.navigation} title="Cough" questions={Cough.questions} onCompletion={this.props.onCompletion}/>
   }
 }
 

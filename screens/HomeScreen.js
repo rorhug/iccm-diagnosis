@@ -96,7 +96,7 @@ export default class HomeScreen extends React.Component {
     if (currentSection) {
       let CurrentSectionComponent = sections[this.state.sections.current]
       return (
-        <Container><CurrentSectionComponent onCompletion={this.moveToNextSection} /></Container>
+        <Container><CurrentSectionComponent navigation={this.props.navigation} onCompletion={this.moveToNextSection} /></Container>
       );
     } else {
       return (

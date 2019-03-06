@@ -3,6 +3,7 @@ import { Icon } from 'expo';
 import { ScrollView, Text, View, Dimensions } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
+import CounterChoiceScreen from '../screens/CounterChoiceScreen';
 
 import styled, { css } from '@emotion/native'
 
@@ -136,20 +137,45 @@ export class Section extends React.Component {
     }
   }
 
-  render() {
-    let question = this.currentQuestion();
+  questionLogic = (question) => {
+    if (question.sectionEnd) {
+        return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
+            <AnswerText>Next Section</AnswerText>
+        </AnswerButton> 
+    } else if (question.answers.length > 0) {
+        return question.answers.map((answer, index) => 
+        <AnswerButton
+        accessibilityLabel={answer.text}
+        onPress={() => this.moveToQuestion(answer.goto)}
+        key={index}
+        >
+        <AnswerText>{answer.text}</AnswerText>
+        </AnswerButton>)
+    } else {
+        return <Text>Invalid Question (no answers or sectionEnd)</Text>
+    }
+  }
 
-    return (
-      <ScrollView>
+  renderQuestion = (question) => {
+    return <ScrollView>
         <Header>{this.props.title}</Header>
-        
         <Question>{question.text}</Question>
 
         <ButtonsBox>
-            {this.answerButtons(question)}
+            {this.questionLogic(question)}
         </ButtonsBox>
-      </ScrollView>
-    )
+
+    </ScrollView>
+  }
+
+  renderSpecialScreen = (question) => {
+    return <CounterChoiceScreen />
+  }
+
+  render() {
+    let question = this.currentQuestion()
+
+    return question.specialScreen ? this.renderSpecialScreen(question) : this.renderQuestion(question)
   }
 
 }
