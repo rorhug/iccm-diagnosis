@@ -144,7 +144,7 @@ export class PatientDetails extends React.Component {
 
   render() {
     return <Section
-      title="Patient Details"
+      title="Patient Age"
       questions={this.questions}
       onCompletion={this.props.onCompletion}
       questionBox={this.accordion}

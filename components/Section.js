@@ -57,7 +57,7 @@ export class Section extends React.Component {
         <AnswerText>Next Section</AnswerText>
       </AnswerButton>
     } else if (question.answers.length > 0) {
-      return question.answers.map((answer, index) => 
+      return question.answers.map((answer, index) =>
         <AnswerButton
           accessibilityLabel={answer.text}
           onPress={() => this.moveToQuestion(answer.goto)}
@@ -71,27 +71,28 @@ export class Section extends React.Component {
   }
 
   renderQuestions = (question) => {
-    if(this.props.questionBox){
-      return <this.props.questionBox/>
-    }else{
-      return <Question>{question.text}</Question>
+    if (this.props.questionBox) {
+      return <this.props.questionBox />
+    } else {
+      let question = this.currentQuestion();
+      return (
+      <>
+        <Question>{question.text}</Question>
+        <ButtonsBox>
+          {this.answerButtons(question)}
+        </ButtonsBox>
+      </>
+      )
     }
   }
 
-  // {question.text}</QuestionBox>
   render() {
-    let question = this.currentQuestion();
-    console.log(this.props.questionBox);
-    
-    // let QuestionBox = this.props.questionBox || Question;
-    // console.log(QuestionBox);
-    return <ScrollView>
+    return (
+    <ScrollView>
       <Header>{this.props.title}</Header>
-      {this.renderQuestions(question)}
-      <ButtonsBox>
-        {this.answerButtons(question)}
-      </ButtonsBox>
+      {this.renderQuestions()}
     </ScrollView>
+    )
   }
 
 }
