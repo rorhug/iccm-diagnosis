@@ -44,6 +44,8 @@ export class ResultsScreen extends React.Component {
     let results = this.props.sectionResults;
     let components = this.props.sectionComponents
     console.log(results)
+    console.log('components')
+    console.log(components)
 
     return (
         <View>
@@ -52,6 +54,7 @@ export class ResultsScreen extends React.Component {
             <View>
                 {Object.keys(results).map(function(key) {
                   let endingId = results[key]
+                  console.log(components[key].questions);
                   return <View key={key}>
                       <SubHeading>Section: {key}</SubHeading>
                       <AnswerText>Answer: {components[key].questions[endingId].text}</AnswerText>

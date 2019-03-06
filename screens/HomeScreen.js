@@ -44,7 +44,7 @@ const initialState = () => {
   return {
     sections: {
       current: Sections.patient_details,
-      next: [Sections.dangersigns, Sections.fever, Sections.cough, Sections.diarrhoea],
+      next: [Sections.dangersigns], //Sections.fever, Sections.cough, Sections.diarrhoea
       waiting: [],
       completed: []
     },

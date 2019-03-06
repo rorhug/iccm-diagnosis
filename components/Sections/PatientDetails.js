@@ -48,35 +48,34 @@ const collapseStyle = css`
   display: flex
 `
 
-const accordionStyle = css`
+const sectionStyle = css`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
 `
 
-const AgeOptions = [
-  {
-    title: '< 2 months',
-    content: '',
-  },
-  {
-    title: '< 1 year',
-    content: 'cannot walk',
-  },
-  {
-    title: '1-5 year',
-    content: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
-  },
-  {
-    title: '> 5 year',
-    content: 'can touch the ear as shown in image',
-  },
-];
-
-
 // <Section questions={questions} />
 export class PatientDetails extends React.Component {
+
+  static questions = [
+    {
+      text: '< 2 months',
+      content: '',
+    },
+    {
+      text: '< 1 year',
+      content: 'cannot walk',
+    },
+    {
+      text: '1-5 year',
+      content: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
+    },
+    {
+      text: '> 5 year',
+      content: 'can touch the ear as shown in image',
+    },
+  ];
 
   state = {
     activeSections: [],
@@ -84,23 +83,23 @@ export class PatientDetails extends React.Component {
   };
 
   accordion = () => {
+    console.log(PatientDetails.questions)
     return (
       <ButtonsBox>
         <Accordion
-          sections={AgeOptions}
+          sections={PatientDetails.questions}
           expandMultiple={true}
           activeSections={this.state.activeSections}
           renderSectionTitle={this._renderSectionTitle}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}
           onChange={this._updateSections}
-          sectionContainerStyle={accordionStyle}
+          sectionContainerStyle={sectionStyle}
           touchableProps={{style: infoItemStyle}}
           collapsibleProps={{style: collapseStyle}}
           underlayColor={null}
         />
       </ButtonsBox>
-
     )
   };
 
@@ -108,8 +107,8 @@ export class PatientDetails extends React.Component {
   _renderSectionTitle = section => {
     return (
       <Title>
-        <AgeButton onPress={() => this.props.onCompletion()}>
-          <AgeText>{section.title}</AgeText>
+        <AgeButton onPress={() => this.props.onCompletion(PatientDetails.questions.indexOf(section))}>
+          <AgeText>{section.text}</AgeText>
         </AgeButton>
       </Title>
     );
@@ -135,17 +134,10 @@ export class PatientDetails extends React.Component {
     this.setState({ activeSections });
   };
 
-  questions = {
-    1: {
-      text: 'test',
-      answers: [{ text: "Yes", goto: "1" },]
-    }
-  }
-
   render() {
     return <Section
       title="Patient Age"
-      questions={this.questions}
+      questions={PatientDetails.questions}
       onCompletion={this.props.onCompletion}
       questionBox={this.accordion}
       initialState={this.state} />
