@@ -1,4 +1,5 @@
 var AudioContext = require('web-audio-api').AudioContext
+//var OfflineAudioContext = require('web-audio-api').OfflineAudioContext
 context = new AudioContext
 var fs = require('fs')
 var exec = require('child_process').exec;
@@ -28,12 +29,27 @@ function decodeSoundFile(soundfile, done){
     if (err) throw err
     context.decodeAudioData(buf, function(audioBuffer) {
       console.log(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate, audioBuffer.duration);
+//      length =audioBuffer.length;
       pcmdata = (audioBuffer.getChannelData(0)) ;
       samplerate = audioBuffer.sampleRate;
       maxvals = [] ; max = 0 ;
+<<<<<<< HEAD
 
       findPeaks(pcmdata, samplerate, done);
 
+=======
+      playsound(soundfile)
+/*      var filter = context.createBiquadFilter();
+      //filter.type is defined as string type in the latest API. But this is defined as number type in old API.
+      filter.type = (typeof filter.type === 'string') ? 'lowpass' : 0; // LOWPASS
+      filter.frequency.value = 5000;
+      // Connect source to filter, filter to destination.
+      source.connect(filter);
+      filter.connect(context.destination);
+*/
+      pcmdata = magnifySound(pcmdata);
+      findPeaks(pcmdata, samplerate)
+>>>>>>> Accuracy Improvements
     }, function(err) { throw err })
   })
   return;
@@ -47,18 +63,60 @@ function decodeSoundFile(soundfile, done){
  * @param  {[type]} samplerate [description]
  * @return {[type]}            [description]
  */
+<<<<<<< HEAD
 function findPeaks(pcmdata, samplerate, done){
+=======
+function findPeaks(pcmdata, samplerate){
+//  offlineContext = new OfflineAudioContext(1, length, samplerate);
+>>>>>>> Accuracy Improvements
 
   var interval = 0.05 * 1000 ; index = 0 ;
   var step = Math.round( samplerate * (interval/1000) );
   var max = 0 ;
+<<<<<<< HEAD
+=======
+  var prevmax = 0 ;
+  var prevdiffthreshold = 0.4;
+  var count = 0;
+  var cooldown = 0;
+
+  //loop through song in time with sample rate
+  var samplesound = setInterval(function() {
+    if (index >= pcmdata.length) {
+      clearInterval(samplesound);
+      //count = count/2;
+      console.log("finished sampling sound - total peaks: " + count);
+      console.log("Using https://github.com/victordibia/beats for soundwave analysis")
+      return;
+    }
+>>>>>>> Accuracy Improvements
 
   while(index < pcmdata.length)
   {
     for(var i = index; i < index + step ; i++){
+<<<<<<< HEAD
       max = pcmdata[i] > max ? pcmdata[i] : max ;
       maxArr.push(max);
       checkAmplitude(max);
+=======
+      max = pcmdata[i] > max ? pcmdata[i].toFixed(1)  : max ;
+    }
+
+    // Spot a significant increase? Potential peak
+    bars = getbars(max) ;
+    if((max-prevmax >= prevdiffthreshold) && cooldown == 0){
+    //if((max-prevmax >= 0.1) && (max >= 0.5)){
+      bars = bars + " == peak == ";
+      count = count + 1
+      cooldown = 5;
+    }
+    else{
+      if(cooldown > 0)
+      {
+          cooldown = cooldown - 1;
+      }
+      //console.log("Cooldown: " + cooldown);
+>>>>>>> Accuracy Improvements
     }
     max = 0 ; index += step ;
   }
@@ -99,6 +157,7 @@ function playsound(soundfile){
   });
 }
 
+<<<<<<< HEAD
 /**
  * [Magnifies the pcmdata such that it can be easily analysed]
  * @param {[float]} pcmdata [array to be magnified]
@@ -294,3 +353,12 @@ function loopThrough(pcmdata,samplerate,done){
 }
 
   // export default decodeSoundFile;
+=======
+function magnifySound(pcmdata){
+  for(var i = 0; i < pcmdata.length; i++)
+  {
+    pcmdata[i] = pcmdata[i]*2;
+  }
+  return pcmdata;
+}
+>>>>>>> Accuracy Improvements
