@@ -21,15 +21,7 @@ const Content = styled.View`
   margin: 10px;
 `
 
-const InfoView = styled.View`
-`
 
-const InfoText = styled.Text`
-  font-size: 18px;
-  background-color: #ffffff;
-  padding: 10px;
-  margin: 10px 10px 0 10px;
-`
 
 const AgeButton = styled.TouchableOpacity`
 `
@@ -48,12 +40,7 @@ const collapseStyle = css`
   display: flex
 `
 
-const sectionStyle = css`
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-between;
-`
+
 
 // <Section questions={questions} />
 export class PatientDetails extends React.Component {
@@ -65,45 +52,51 @@ export class PatientDetails extends React.Component {
     };
   }
 
-  static questions = [
-    {
-      text: '< 2 months',
-      content: '',
-    },
-    {
-      text: '< 1 year',
-      content: 'cannot walk',
-    },
-    {
-      text: '1-5 year',
-      content: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
-    },
-    {
-      text: '> 5 year',
-      content: 'can touch the ear as shown in image',
-    },
-  ];
+  static questions = {
+    1: {
+      text: "What age is the child?",
+      sectionEnd: true,
+      answers: [
+        {
+          text: '< 2 months',
+          info: '',
+        },
+        {
+          text: '< 1 year',
+          info: 'cannot walk',
+        },
+        {
+          text: '1-5 year',
+          info: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
+        },
+        {
+          text: '> 5 year',
+          info: 'can touch the ear as shown in image',
+        },
+      ]
+    }
+  };
 
   accordion = () => {
     console.log(PatientDetails.questions)
     return (
       <>
-      <AgeText>What age is the child?</AgeText>
-      <ButtonsBox>
-        <Accordion
-          sections={PatientDetails.questions}
-          expandMultiple={true}
-          activeSections={this.state.activeSections}
-          renderSectionTitle={this._renderSectionTitle}
-          renderHeader={this._renderHeader}
-          renderContent={this._renderContent}
-          onChange={this._updateSections}
-          sectionContainerStyle={sectionStyle}
-          touchableProps={{style: infoItemStyle}}
-          collapsibleProps={{style: collapseStyle}}
-          underlayColor={null}
-        />
-      </ButtonsBox>
+        <AgeText>What age is the child?</AgeText>
+        <ButtonsBox>
+          <Accordion
+            sections={PatientDetails.questions}
+            expandMultiple={true}
+            activeSections={this.state.activeSections}
+            renderSectionTitle={this._renderSectionTitle}
+            renderHeader={this._renderHeader}
+            renderContent={this._renderContent}
+            onChange={this._updateSections}
+            sectionContainerStyle={sectionStyle}
+            touchableProps={{ style: infoItemStyle }}
+            collapsibleProps={{ style: collapseStyle }}
+            underlayColor={null}
+          />
+        </ButtonsBox>
       </>
     )
   };
@@ -139,6 +132,15 @@ export class PatientDetails extends React.Component {
   };
 
   render() {
-    return this.accordion()
+    return <Section
+      title="Patient Age"
+      initialState={this.state}
+      questions={PatientDetails.questions}
+      onCompletion={this.props.onCompletion}
+      activeSections={[]}
+      expandMultiple={true}
+    />
+
+    //this.accordion()
   }
 }
