@@ -172,7 +172,7 @@ answerButtons = (question) => {
         <AnswerButton
             accessibilityLabel={answer.text}
             onPress={() => question.sectionEnd ? 
-            this.props.onCompletion(this.state.currentQuestionId) :
+            this.props.onCompletion(index) :
             this.moveToQuestion(answer.goto)}
         >
             <AnswerText>{answer.text}</AnswerText>
@@ -207,7 +207,7 @@ answerButtons = (question) => {
 
   render() {
     let question = this.currentQuestion()
-    
+
     if (question.specialScreen) {
         return this.renderSpecialScreen(question);
     } else {
