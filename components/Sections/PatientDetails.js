@@ -1,9 +1,10 @@
 import React from 'react';
+import { Text, View } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
-import { Section } from '../Section';
 import styled, { css } from '@emotion/native'
 
-import { Text, View } from 'react-native';
+import { Section } from '../Section';
+import { QuestionText } from '../../utils/constants'
 
 export class PatientDetails extends React.Component {
 
@@ -14,28 +15,18 @@ export class PatientDetails extends React.Component {
     };
   }
 
-  static questions = {
-    1: {
+  static questions = [
+      QuestionText.age.less2m,
+      QuestionText.age.less1y,
+      QuestionText.age.oneto5,
+      QuestionText.age.over5
+  ];
+
+  static q = {
+    0: {
       text: "What age is the child?",
       sectionEnd: true,
-      answers: [
-        {
-          text: '< 2 months',
-          info: '',
-        },
-        {
-          text: '< 1 year',
-          info: 'cannot walk',
-        },
-        {
-          text: '1-5 year',
-          info: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
-        },
-        {
-          text: '> 5 year',
-          info: 'can touch the ear as shown in image',
-        },
-      ]
+      answers: PatientDetails.questions
     }
   };
 
@@ -43,7 +34,7 @@ export class PatientDetails extends React.Component {
     return <Section
       title="Patient Age"
       initialState={this.state}
-      questions={PatientDetails.questions}
+      questions={PatientDetails.q}
       onCompletion={this.props.onCompletion}
       activeSections={[]}
       expandMultiple={true}

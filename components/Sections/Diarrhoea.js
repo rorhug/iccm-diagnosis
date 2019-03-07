@@ -5,7 +5,7 @@ import { Section } from '../Section';
 // <Section questions={questions} />
 export class Diarrhoea extends React.Component {
   static questions = {
-    1: {
+    0: {
       text: "Child > 2 months and < 5 years with diarrhea (>= loose stools/24h) <= 3 weeks without blood or rice water aspect.",
       answers: [
         { text: "yes", goto: "10" },

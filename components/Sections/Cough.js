@@ -8,7 +8,7 @@ import { Section } from '../Section';
 // <Section questions={questions} />
 class Cough extends React.Component {
   static questions = {
-    1: {
+    0: {
       text: "Child > 2 months and < 5 years, with cough or rapid breathing and/or fever =< 3 weeks?",
       answers: [
         { text: "Yes", goto: "6" },

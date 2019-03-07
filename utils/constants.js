@@ -33,4 +33,22 @@ const Sections = {
     patient_details: 'patient_details',
 }
 
-export { Colors, Layout, Sections };
+const QuestionText = {
+  age: {
+    less2m : { text: '< 2 months', info: ''},
+    less1y : { 
+      text: '< 1 year',
+      info: 'cannot walk',
+    },
+    oneto5 : {
+      text: '1-5 year',
+      info: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
+    },
+    over5  : {
+      text: '> 5 year',
+      info: 'can touch the ear as shown in image',
+    },
+  }
+}
+
+export { Colors, Layout, Sections, QuestionText };
