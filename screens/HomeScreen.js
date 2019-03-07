@@ -70,11 +70,7 @@ export default class HomeScreen extends React.Component {
     sections.completed.push(sections.current);
     sections.current = sections.next.shift();
 
-<<<<<<< HEAD
     this.setState(sections);
-=======
-    this.setState( sections );
->>>>>>> pass age to sections
   };
 
   saveResult = (id) => {
@@ -99,11 +95,7 @@ export default class HomeScreen extends React.Component {
         <Container>
           <CurrentSectionComponent
             navigation={this.props.navigation}
-<<<<<<< HEAD
             patientAge={PatientDetails.patientAge(this.state.sectionResults[Sections.patient_details])}
-=======
-            patientAge={PatientDetails.patientAge(this.state.sectionResults[Sections.patient_details])} 
->>>>>>> pass age to sections
             onCompletion={this.moveToNextSection}
           />
         </Container>
@@ -112,17 +104,10 @@ export default class HomeScreen extends React.Component {
       return (
         <ScrollView>
           <Container>
-<<<<<<< HEAD
             <ResultsScreen
-              reset={this.resetState}
-              sectionResults={this.state.sectionResults}
-              sectionComponents={sections}
-=======
-            <ResultsScreen 
               reset={this.resetState} 
               sectionResults={this.state.sectionResults} 
-              sectionComponents={sections} 
->>>>>>> pass age to sections
+              sectionComponents={sections}
             />
           </Container>
         </ScrollView>
