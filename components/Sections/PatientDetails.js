@@ -16,10 +16,10 @@ export class PatientDetails extends React.Component {
   }
 
   static questions = [
-      QuestionText.age.less2m,
-      QuestionText.age.less1y,
-      QuestionText.age.oneto5,
-      QuestionText.age.over5
+    QuestionText.age.less2m,
+    QuestionText.age.less1y,
+    QuestionText.age.oneto5,
+    QuestionText.age.over5
   ];
 
   static q = {
@@ -32,7 +32,7 @@ export class PatientDetails extends React.Component {
 
   static patientAge = (age_id) => {
     console.log(age_id)
-    if(age_id){
+    if (age_id) {
       return PatientDetails.questions[age_id].text
     }
   }

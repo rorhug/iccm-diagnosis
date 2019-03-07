@@ -10,24 +10,24 @@ import { QuestionText } from '../../utils/constants'
 class Cough extends React.Component {
     static questions = {
         0: {
-          text: "Child with cough or rapid breathing and/or fever?",
-          answers: [
-            { text: "Yes", goto: "2" },
-            { text: "No", goto: "101" },
-          ]
+            text: "Child with cough or rapid breathing and/or fever?",
+            answers: [
+                { text: "Yes", goto: "2" },
+                { text: "No", goto: "101" },
+            ]
         },
         2: { // Cough too long?
-          text: "Cough/rapid breathing and/or fever lasting (in weeks):",
-          answers: [
-            { text: "Less than 3w", goto: "3" },
-            { text: "More than 3w", goto: "100" },
-          ]
+            text: "Cough/rapid breathing and/or fever lasting (in weeks):",
+            answers: [
+                { text: "Less than 3w", goto: "3" },
+                { text: "More than 3w", goto: "100" },
+            ]
         },
         3: { // Automatically check age of child.
             containsFunction: true,
             function: (age) => {
                 console.log(age)
-                switch(age){
+                switch (age) {
                     case QuestionText.age.less2m.text:
                         console.log('Age less2m');
                         return "100"
@@ -42,15 +42,15 @@ class Cough extends React.Component {
                         return "100"
                 }
                 return "6"
-              // if age < 2 months or > 5 years -> return 100 (Refer)
-              // else age okay return 6
+                // if age < 2 months or > 5 years -> return 100 (Refer)
+                // else age okay return 6
             }
-          },
+        },
         6: {
-          text: "Click 'Continue' to measure childs respiratory rate.",
-          answers: [
-            { text: "Continue", goto: "7" }
-          ]
+            text: "Click 'Continue' to measure childs respiratory rate.",
+            answers: [
+                { text: "Continue", goto: "7" }
+            ]
         },
         7: {
             specialScreen: true,
@@ -59,24 +59,24 @@ class Cough extends React.Component {
                 // need age and RR count.
                 // Child < 1 year & RR < 50 -> goto 102
                 // Child < 1 year & RR >= 50 -> goto 8
-    
+
                 // Child > 1 year & RR < 40 -> goto 102
                 // Child > 1 year & RR >= 40 -> goto 8
-    
+
                 return "6"
             }
         },
         8: {
-          text: "Pneumonia.\n\
+            text: "Pneumonia.\n\
       Signs of severe pneumonia?\n\
           - Chest indrawing\n\
           - Stridor\n\
           - Nasal flaring\n\
           - Cyanosis",
-          answers: [
-            { text: "Yes", goto: "104" },
-            { text: "No", goto: "103" },
-          ]
+            answers: [
+                { text: "Yes", goto: "104" },
+                { text: "No", goto: "103" },
+            ]
         },
         100: { // Wrong are group / cough too long
             text: "Refer to Health Centre.",
@@ -102,15 +102,15 @@ class Cough extends React.Component {
             sectionEnd: true
         }
     }
-    
 
-  render() {
-    return <Section 
-        title="Cough" 
-        questions={Cough.questions} 
-        {...this.props}
-    />
-  }
+
+    render() {
+        return <Section
+            title="Cough"
+            questions={Cough.questions}
+            {...this.props}
+        />
+    }
 }
 
 export { Cough }
