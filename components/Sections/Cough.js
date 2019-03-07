@@ -97,7 +97,6 @@ class Cough extends React.Component {
         }
     }
 
-
     render() {
         return <Section
             title="Cough"
