@@ -1,5 +1,6 @@
 import React from 'react';
 import { Section } from '../Section';
+import { QuestionText } from '../../utils/constants'
 
 // import console = require('console');
 
@@ -25,6 +26,21 @@ class Cough extends React.Component {
         3: { // Automatically check age of child.
             containsFunction: true,
             function: (age) => {
+                switch(age){
+                    case QuestionText.age.less2m.text:
+                        console.log('Age less2m');
+                        return "100"
+                    case QuestionText.age.less1y.text:
+                        console.log('Age less1y');
+                        return "6"
+                    case QuestionText.age.oneto5.text:
+                        console.log('Age oneto5');
+                        return "6"
+                    case QuestionText.age.over5.text:
+                        console.log('Age over5');
+                        return "100"
+                }
+                return "6"
               // if age < 2 months or > 5 years -> return 100 (Refer)
               // else age okay return 6
             }
