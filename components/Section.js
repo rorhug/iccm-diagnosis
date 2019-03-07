@@ -54,7 +54,7 @@ const LineBreak = styled.View`
 `
 
 const initialState = {
-  currentQuestionId: "1"
+  currentQuestionId: "0"
 }
 
 export class Section extends React.Component {
@@ -121,7 +121,7 @@ export class Section extends React.Component {
           <AnswerButton
             accessibilityLabel={answer.text}
             onPress={() => question.sectionEnd ? 
-              this.props.onCompletion(this.state.currentQuestionId) :
+              this.props.onCompletion(index) :
               this.moveToQuestion(answer.goto)}
           >
             <AnswerText>{answer.text}</AnswerText>

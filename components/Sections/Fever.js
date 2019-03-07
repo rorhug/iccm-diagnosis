@@ -6,7 +6,7 @@ import { Section } from '../Section';
 // <Section questions={questions} />
 export class Fever extends React.Component {
   static questions = {
-    1: { // First question
+    0: { // First question
       text: "Child with fever of history of fever in past 48 hours?",
       answers: [
         { text: "Yes", goto: "3" },

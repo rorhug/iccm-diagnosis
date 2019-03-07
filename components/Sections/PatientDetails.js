@@ -14,28 +14,30 @@ export class PatientDetails extends React.Component {
     };
   }
 
-  static questions = {
-    1: {
+  static questions = [
+    {
+      text: '< 2 months',
+      info: '',
+    },
+    {
+      text: '< 1 year',
+      info: 'cannot walk',
+    },
+    {
+      text: '1-5 year',
+      info: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
+    },
+    {
+      text: '> 5 year',
+      info: 'can touch the ear as shown in image',
+    },
+  ];
+
+  static q = {
+    0: {
       text: "What age is the child?",
       sectionEnd: true,
-      answers: [
-        {
-          text: '< 2 months',
-          info: '',
-        },
-        {
-          text: '< 1 year',
-          info: 'cannot walk',
-        },
-        {
-          text: '1-5 year',
-          info: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
-        },
-        {
-          text: '> 5 year',
-          info: 'can touch the ear as shown in image',
-        },
-      ]
+      answers: PatientDetails.questions
     }
   };
 
@@ -43,7 +45,7 @@ export class PatientDetails extends React.Component {
     return <Section
       title="Patient Age"
       initialState={this.state}
-      questions={PatientDetails.questions}
+      questions={PatientDetails.q}
       onCompletion={this.props.onCompletion}
       activeSections={[]}
       expandMultiple={true}

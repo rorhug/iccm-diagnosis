@@ -3,7 +3,7 @@ import { Section } from '../Section';
 
 export class DangerSigns extends React.Component {
   static questions = {
-  1: {
+  0: {
     text: "Does the child have any of the following danger signs?\n\
     - Convulsions\n\
     - Lethargy/Unconciousness\n\
