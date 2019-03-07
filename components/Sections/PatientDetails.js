@@ -30,14 +30,21 @@ export class PatientDetails extends React.Component {
     }
   };
 
+  static patientAge = (age_id) => {
+    console.log(age_id)
+    if(age_id){
+      return PatientDetails.questions[age_id].text
+    }
+  }
+
   render() {
     return <Section
       title="Patient Age"
       initialState={this.state}
       questions={PatientDetails.q}
-      onCompletion={this.props.onCompletion}
       activeSections={[]}
       expandMultiple={true}
+      {...this.props}
     />
   }
 }

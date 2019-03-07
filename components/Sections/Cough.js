@@ -26,6 +26,7 @@ class Cough extends React.Component {
         3: { // Automatically check age of child.
             containsFunction: true,
             function: (age) => {
+                console.log(age)
                 switch(age){
                     case QuestionText.age.less2m.text:
                         console.log('Age less2m');
@@ -104,7 +105,11 @@ class Cough extends React.Component {
     
 
   render() {
-    return <Section navigation={this.props.navigation} title="Cough" questions={Cough.questions} onCompletion={this.props.onCompletion}/>
+    return <Section 
+        title="Cough" 
+        questions={Cough.questions} 
+        {...this.props}
+    />
   }
 }
 

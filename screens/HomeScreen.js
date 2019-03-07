@@ -67,13 +67,10 @@ export default class HomeScreen extends React.Component {
     console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
 
     this.saveResult(endingQuestionId)
-
     sections.completed.push(sections.current);
     sections.current = sections.next.shift();
 
-    this.setState(
-      sections
-    );
+    this.setState( sections );
   };
 
   saveResult = (id) => {
@@ -92,16 +89,27 @@ export default class HomeScreen extends React.Component {
 
   render() {
     let currentSection = this.state.sections.current;
-
     if (currentSection) {
-      let CurrentSectionComponent = sections[this.state.sections.current]
+      let CurrentSectionComponent = sections[currentSection]
       return (
-        <Container><CurrentSectionComponent navigation={this.props.navigation} onCompletion={this.moveToNextSection} /></Container>
+        <Container>
+          <CurrentSectionComponent
+            navigation={this.props.navigation}
+            patientAge={PatientDetails.patientAge(this.state.sectionResults[Sections.patient_details])} 
+            onCompletion={this.moveToNextSection}
+          />
+        </Container>
       );
     } else {
       return (
         <ScrollView>
-          <Container><ResultsScreen reset={this.resetState} sectionResults={this.state.sectionResults} sectionComponents={sections} /></Container>
+          <Container>
+            <ResultsScreen 
+              reset={this.resetState} 
+              sectionResults={this.state.sectionResults} 
+              sectionComponents={sections} 
+            />
+          </Container>
         </ScrollView>
       );
     }

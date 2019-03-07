@@ -66,11 +66,14 @@ export class Section extends React.Component {
       ...initialState, 
       ...this.props.initialState
     };
-    console.log(this.state)
-    console.log(this.props)
   }
 
   moveToQuestion = (id) => {
+    if (this.props.questions[id].containsFunction){
+      id = this.props.questions[id].function(this.props.patientAge);
+      console.log(`ID: ${id}`);
+    }
+
     this.setState({ currentQuestionId: id })
   }
 
@@ -87,7 +90,6 @@ export class Section extends React.Component {
     } else {
       updatedSections = [answer];
     }
-    console.log(updatedSections)
     this.setState({ activeSections: updatedSections });
   }
 
@@ -136,7 +138,7 @@ answerButtons = (question) => {
         <AnswerButton
             accessibilityLabel={answer.text}
             onPress={() => question.sectionEnd ? 
-            this.props.onCompletion(this.state.currentQuestionId) :
+            this.props.onCompletion(index) :
             this.moveToQuestion(answer.goto)}
         >
             <AnswerText>{answer.text}</AnswerText>
@@ -171,7 +173,7 @@ answerButtons = (question) => {
 
   render() {
     let question = this.currentQuestion()
-    
+
     if (question.specialScreen) {
         return this.renderSpecialScreen(question);
     } else {
@@ -180,5 +182,3 @@ answerButtons = (question) => {
   }
 
 }
-
-
