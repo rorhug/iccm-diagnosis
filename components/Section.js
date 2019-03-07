@@ -108,7 +108,7 @@ export class Section extends React.Component {
       </>
     )
   }
-
+  /* THIS IS FROM REBASE, NEED TO SEE WHICH FUNCTION WORKS
   answerButtons = (question) => {
     if (question.sectionEnd && !question.answers)
     {
@@ -136,6 +136,7 @@ export class Section extends React.Component {
       return <Text>Invalid Question (no answers or sectionEnd)</Text>
     }
     }
+    */
   respRateDecision = (question) => {
     return function(respRate) {
         questionId = question.resultToGoto(respRate)
@@ -144,24 +145,33 @@ export class Section extends React.Component {
     }.bind(this)
   }
 
-  questionLogic = (question) => {
-    if (question.sectionEnd) {
-        return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
-            <AnswerText>Next Section</AnswerText>
-        </AnswerButton> 
-    } else if (question.answers.length > 0) {
-        return question.answers.map((answer, index) => 
+answerButtons = (question) => {
+    if (question.sectionEnd && !question.answers)
+    {
+    return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
+        <AnswerText>Next Section</AnswerText>
+    </AnswerButton>
+    } 
+    else if (question.answers.length > 0) 
+    {
+    return question.answers.map((answer, index) =>
+        <AnswerRow key={index}>
         <AnswerButton
-        accessibilityLabel={answer.text}
-        onPress={() => this.moveToQuestion(answer.goto)}
-        key={index}
+            accessibilityLabel={answer.text}
+            onPress={() => question.sectionEnd ? 
+            this.props.onCompletion(this.state.currentQuestionId) :
+            this.moveToQuestion(answer.goto)}
         >
-        <AnswerText>{answer.text}</AnswerText>
-        </AnswerButton>)
-    } else {
-        return <Text>Invalid Question (no answers or sectionEnd)</Text>
+            <AnswerText>{answer.text}</AnswerText>
+        </AnswerButton>
+        {answer.info!=undefined && this.infoCollapsable(answer, index)}
+        </AnswerRow>)
+    } 
+    else 
+    {
+    return <Text>Invalid Question (no answers or sectionEnd)</Text>
     }
-  }
+}
 
   renderQuestion = (question) => {
     return <ScrollView>
@@ -169,7 +179,7 @@ export class Section extends React.Component {
         <Question>{question.text}</Question>
 
         <ButtonsBox>
-            {this.questionLogic(question)}
+            {this.answerButtons(question)}
         </ButtonsBox>
 
     </ScrollView>
@@ -184,7 +194,7 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
-
+    
     if (question.specialScreen) {
         return this.renderSpecialScreen(question);
     } else {
