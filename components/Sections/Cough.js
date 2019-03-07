@@ -35,7 +35,7 @@ class Cough extends React.Component {
                     case QuestionText.age.oneto5.text:
                         return "6"
                 }
-                return "6"
+                return "100"
                 // if age < 2 months or > 5 years -> return 100 (Refer)
                 // else age okay return 6
             }
