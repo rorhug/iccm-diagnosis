@@ -108,35 +108,7 @@ export class Section extends React.Component {
       </>
     )
   }
-  /* THIS IS FROM REBASE, NEED TO SEE WHICH FUNCTION WORKS
-  answerButtons = (question) => {
-    if (question.sectionEnd && !question.answers)
-    {
-      return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
-        <AnswerText>Next Section</AnswerText>
-      </AnswerButton>
-    } 
-    else if (question.answers.length > 0) 
-    {
-      return question.answers.map((answer, index) =>
-        <AnswerRow key={index}>
-          <AnswerButton
-            accessibilityLabel={answer.text}
-            onPress={() => question.sectionEnd ? 
-              this.props.onCompletion(index) :
-              this.moveToQuestion(answer.goto)}
-          >
-            <AnswerText>{answer.text}</AnswerText>
-          </AnswerButton>
-          {answer.info!=undefined && this.infoCollapsable(answer, index)}
-        </AnswerRow>)
-    } 
-    else 
-    {
-      return <Text>Invalid Question (no answers or sectionEnd)</Text>
-    }
-    }
-    */
+
   respRateDecision = (question) => {
     return function(respRate) {
         questionId = question.resultToGoto(respRate)
