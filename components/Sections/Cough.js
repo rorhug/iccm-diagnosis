@@ -26,7 +26,6 @@ class Cough extends React.Component {
         3: { // Automatically check age of child.
             containsFunction: true,
             function: (age) => {
-                console.log(age)
                 switch (age) {
                     case QuestionText.age.less2m.text:
                     case QuestionText.age.over5.text:

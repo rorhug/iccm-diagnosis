@@ -73,8 +73,8 @@ export class Section extends React.Component {
   moveToQuestion = (id) => {
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
+      console.log(`MOVE TO SECTION, GOING TO QID: ${id}`)
     }
-
     this.setState({ currentQuestionId: id })
   }
 
@@ -158,10 +158,6 @@ export class Section extends React.Component {
       return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
         <AnswerText>Next Section</AnswerText>
       </AnswerButton>
-    }
-    else if (question.containsFunction) {
-      // This function takes age.
-      question.function()
     }
     else if (question.answers.length > 0) {
       return question.answers.map((answer, index) =>
