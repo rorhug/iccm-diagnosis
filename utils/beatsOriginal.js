@@ -168,7 +168,7 @@ function findPeaks(pcmdata, samplerate){
 =======
 
     // Print out mini equalizer on commandline
-    //console.log(bars, max )
+    console.log(bars, max )
     prevmax = max ; max = 0 ; index += step ;
   }, interval,pcmdata);
 }
@@ -471,6 +471,19 @@ function printResults(){
   {
     console.log("Amplitude: " + amps[i] + " - Frequency: " + freqs[i]);
   }
+  totalFreqs();
   return;
 }
+<<<<<<< HEAD
 >>>>>>> Counting frequencies (Bugged)
+=======
+
+function totalFreqs(){
+  var total = 0;
+  for(var i = 0; i < freqs.length; i++)
+  {
+    total = total  + freqs[i];
+  }
+  console.log("Total frequencies: " + total);
+}
+>>>>>>> Frequency changes
