@@ -3,6 +3,7 @@ import { Icon } from 'expo';
 import { ScrollView, Text, View, Dimensions } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
+import RespiratoryRate from './RespRate/RespiratoryRate';
 
 import styled, { css } from '@emotion/native'
 
@@ -62,14 +63,16 @@ export class Section extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ...initialState, 
+      ...initialState,
       ...this.props.initialState
     };
-    console.log(this.state)
-    console.log(this.props)
   }
 
   moveToQuestion = (id) => {
+    if (this.props.questions[id].containsFunction) {
+      id = this.props.questions[id].function(this.props.patientAge);
+    }
+
     this.setState({ currentQuestionId: id })
   }
 
@@ -86,7 +89,6 @@ export class Section extends React.Component {
     } else {
       updatedSections = [answer];
     }
-    console.log(updatedSections)
     this.setState({ activeSections: updatedSections });
   }
 
@@ -94,64 +96,84 @@ export class Section extends React.Component {
     return (
       <>
         <InfoButton onPress={() => this._toggleSection(key)}>
-            <AnswerText>help</AnswerText>
+          <AnswerText>help</AnswerText>
         </InfoButton>
 
-        <LineBreak/>
+        <LineBreak />
 
-        <Collapsible 
-          collapsed={!this.state.activeSections.includes(key)}>
-          
+        <Collapsible
+          collapsed={!this.state.activeSections.includes(key)}
+        >
           <InfoText>{answer.info}</InfoText>
         </Collapsible>
       </>
     )
   }
 
+  respRateDecision = (question) => {
+    return function (respRate) {
+      questionId = question.resultToGoto(respRate)
+      console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
+      this.moveToQuestion(questionId)
+    }.bind(this)
+  }
+
   answerButtons = (question) => {
-    if (question.sectionEnd && !question.answers)
-    {
+    if (question.sectionEnd && !question.answers) {
       return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
         <AnswerText>Next Section</AnswerText>
       </AnswerButton>
-    } 
-    else if (question.answers.length > 0) 
-    {
+    }
+    else if (question.containsFunction) {
+      // This function takes age.
+      question.function()
+    }
+    else if (question.answers.length > 0) {
       return question.answers.map((answer, index) =>
         <AnswerRow key={index}>
           <AnswerButton
             accessibilityLabel={answer.text}
-            onPress={() => question.sectionEnd ? 
+            onPress={() => question.sectionEnd ?
               this.props.onCompletion(index) :
               this.moveToQuestion(answer.goto)}
           >
             <AnswerText>{answer.text}</AnswerText>
           </AnswerButton>
-          {answer.info!=undefined && this.infoCollapsable(answer, index)}
+          {answer.info != undefined && this.infoCollapsable(answer, index)}
         </AnswerRow>)
-    } 
-    else 
-    {
+    }
+    else {
       return <Text>Invalid Question (no answers or sectionEnd)</Text>
     }
   }
 
+  renderQuestion = (question) => {
+    return <ScrollView>
+      <Header>{this.props.title}</Header>
+      <Question>{question.text}</Question>
+
+      <ButtonsBox>
+        {this.answerButtons(question)}
+      </ButtonsBox>
+
+    </ScrollView>
+  }
+
+  renderSpecialScreen = (question) => {
+    switch (question.screenTitle) {
+      case "RespiratoryRate":
+        return <RespiratoryRate respRate={this.respRateDecision(question)} />
+    }
+  }
+
   render() {
-    let question = this.currentQuestion();
+    let question = this.currentQuestion()
 
-    return (
-      <ScrollView>
-        <Header>{this.props.title}</Header>
-        
-        <Question>{question.text}</Question>
-
-        <ButtonsBox>
-            {this.answerButtons(question)}
-        </ButtonsBox>
-      </ScrollView>
-    )
+    if (question.specialScreen) {
+      return this.renderSpecialScreen(question);
+    } else {
+      return this.renderQuestion(question);
+    }
   }
 
 }
-
-

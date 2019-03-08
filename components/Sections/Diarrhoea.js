@@ -77,6 +77,6 @@ export class Diarrhoea extends React.Component {
   }
 
   render() {
-    return <Section title="Diarrhoea" questions={Diarrhoea.questions} onCompletion={this.props.onCompletion}/>
+    return <Section title="Diarrhoea" questions={Diarrhoea.questions} {...this.props}/>
   }
 }

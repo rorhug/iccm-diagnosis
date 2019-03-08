@@ -51,4 +51,10 @@ const QuestionText = {
   }
 }
 
-export { Colors, Layout, Sections, QuestionText };
+const RrComponents = {
+    counterchoice: 'counterchoice',
+    tutorial: 'tutorial',
+    tapcounter: 'tapcounter'
+}
+
+export { Colors, Layout, Sections, QuestionText, RrComponents };

@@ -77,6 +77,6 @@ export class Fever extends React.Component {
   }
 
   render() {
-    return <Section title="Fever" questions={Fever.questions} onCompletion={this.props.onCompletion}/>
+    return <Section title="Fever" questions={Fever.questions} {...this.props}/>
   }
 }

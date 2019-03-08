@@ -8,7 +8,7 @@ import LinksScreen from '../screens/LinksScreen';
 import RecordScreen from '../screens/RecordScreen';
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+  Home: HomeScreen
 });
 
 HomeStack.navigationOptions = {
@@ -56,5 +56,5 @@ RecordStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   // LinksStack,
-  RecordStack,
+  RecordStack
 });
