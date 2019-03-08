@@ -48,7 +48,7 @@ class Cough extends React.Component {
         7: {
             specialScreen: true,
             screenTitle: "RespiratoryRate",
-            resultToGoto: (result) => {
+            resultToGoto: (age, rr) => {
                 // need age and RR count.
                 // Child < 1 year & RR < 50 -> goto 102
                 // Child < 1 year & RR >= 50 -> goto 8
@@ -56,7 +56,24 @@ class Cough extends React.Component {
                 // Child > 1 year & RR < 40 -> goto 102
                 // Child > 1 year & RR >= 40 -> goto 8
 
-                return "6"
+                // Setup age
+                ageNorm = "gt1"
+                if (age === QuestionText.age.less2m.text || age === QuestionText.age.less1y.text) {
+                    ageNorm = "lt1"
+                }
+
+                console.log(`COUGH ageNorm ${ageNorm}`)
+                console.log(`COUGH rr ${rr}`)
+
+                if (ageNorm === "lt1" && rr < 50) {
+                    return "102"
+                } else if (ageNorm === "lt1" && rr >= 50) {
+                    return "8"
+                } else if (ageNorm === "gt1" && rr < 40) {
+                    return "102"
+                } else if (ageNorm === "gt1" && rr >= 40) {
+                    return "8"
+                }
             }
         },
         8: {

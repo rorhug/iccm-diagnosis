@@ -71,9 +71,10 @@ export class Section extends React.Component {
   }
 
   moveToQuestion = (id) => {
+    console.log(`MOVE TO SECTION, GOING TO QID: ${id}`)
+
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
-      console.log(`MOVE TO SECTION, GOING TO QID: ${id}`)
     }
     this.setState({ currentQuestionId: id })
   }
@@ -147,7 +148,7 @@ export class Section extends React.Component {
     */
   respRateDecision = (question) => {
     return function (respRate) {
-      questionId = question.resultToGoto(respRate)
+      questionId = question.resultToGoto(this.props.patientAge, respRate)
       console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
       this.moveToQuestion(questionId)
     }.bind(this)
