@@ -7,6 +7,7 @@ var _ = require('underscore');
 //var length = 0;
 
 var pcmdata = [];
+var maxArr = [];
 var amps = [];
 var freqs = [];
 
@@ -73,15 +74,17 @@ function findPeaks(pcmdata, samplerate){
       //count = count/2;
       console.log("finished sampling sound - total peaks: " + count);
       console.log("Using https://github.com/victordibia/beats for soundwave analysis")
-      printArray(amps);
-      countFreq(amps,samplerate);
-      printArray(freqs);
+    //  printArray(amps);
+      countFreq(amps);
+    //  printArray(freqs);
+      printResults();
       return;
     }
 
     for(var i = index; i < index + step ; i++){
       max = pcmdata[i] > max ? pcmdata[i].toFixed(1)  : max ;
       //console.log(max);
+      maxArr.push(max);
       checkAmplitude(max);
     }
 
@@ -182,19 +185,24 @@ function printArray(array){
   return;
 }
 
-function countFreq(amps,samplerate){
-  var interval = 0.05 * 1000 ; index = 0 ;
-  var step = Math.round( samplerate * (interval/1000) );
-  for(var i = index; i < index + step ; i++)
+function countFreq(amps){
+  for(var j = 0; j < maxArr.length; j++)
   {
-    max = pcmdata[i] > max ? pcmdata[i].toFixed(1)  : max ;
-    for(var j = 0; j < amps.length; j++)
+    for(var i = 0; i < amps.length; i++)
     {
-      if(max == amps[j])
+      if(maxArr[j] == amps[i])
       {
-        freqs[j] = freqs[j] + 1;
+        freqs[i] = freqs[i] + 1;
       }
     }
   }
-  index += step ;
+  return;
+}
+
+function printResults(){
+  for(var i = 0; i < amps.length; i++)
+  {
+    console.log("Amplitude: " + amps[i] + " - Frequency: " + freqs[i]);
+  }
+  return;
 }
