@@ -5,8 +5,7 @@ import { Section } from '../Section';
 
 export class DangerSigns extends React.Component {
 
-state = {
-      activeSections: [] }
+state = { activeSections: [] }
 
   static questions = {
   0: {
