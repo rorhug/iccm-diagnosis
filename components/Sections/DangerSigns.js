@@ -1,5 +1,4 @@
 import React from 'react';
-import Accordion from 'react-native-collapsible/Accordion';
 import { Text } from 'react-native';
 import { Section } from '../Section';
 

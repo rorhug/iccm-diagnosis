@@ -6,7 +6,7 @@ import { Sections } from '../utils/constants';
 
 import styled, { css } from '@emotion/native'
 
-const width90 = (Dimensions.get('window').width/100)*80;
+const info_width = (Dimensions.get('window').width/100)*80;
 
 const Header = styled.Text`
   font-weight: bold;
@@ -16,7 +16,7 @@ const Header = styled.Text`
 
 const InfoText = styled.Text({
   padding: 20,
-  width: width90
+  width: info_width
 })
 
 const ButtonsBox = styled.View`
@@ -24,7 +24,6 @@ const ButtonsBox = styled.View`
   margin: 20px 0 0 0;
   background-color: #eeeeee;
   padding-bottom: 10px;
-  type=""
 `
 
 const Question = styled.Text`
@@ -101,8 +100,8 @@ export class Section extends React.Component {
         <LineBreak/>
 
         <Collapsible 
-          collapsed={!this.state.activeSections.includes(key)}
-          style={css `flex: 1; align-self: stretch; padding: 10px; flex-wrap: wrap`}>
+          collapsed={!this.state.activeSections.includes(key)}>
+          
           <InfoText>{answer.info}</InfoText>
         </Collapsible>
       </>
