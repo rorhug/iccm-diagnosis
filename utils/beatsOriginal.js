@@ -13,6 +13,7 @@ var amps = [];
 var freqs = [];
 =======
 var pcmdata = [] ;
+<<<<<<< HEAD
 var amp = [];
 >>>>>>> Analysing amplitudes
 
@@ -23,6 +24,16 @@ var finalBPM = 0;
 
 var soundfile = "sounds/New-3Breaths.mp3"
 decodeSoundFile(soundfile, (bpm) => console.log(bpm));
+=======
+var amps = [];
+
+//Note: I have no rights to these sound files and they are not created by me.
+//You may downlaod and use your own sound file to further test this.
+//
+var soundfile = "sounds/Piece8.mp3"
+decodeSoundFile(soundfile);
+//printAmps(amps);
+>>>>>>> Amplitudes measured
 
 /**
  * [decodeSoundFile Use web-audio-api to convert audio file to a buffer of pcm data]
@@ -58,8 +69,12 @@ function decodeSoundFile(soundfile, done){
 >>>>>>> Accuracy Improvements
 =======
       findPeaks(pcmdata, samplerate);
+<<<<<<< HEAD
       findAmplitudes(pcmdata);
 >>>>>>> Analysing amplitudes
+=======
+      //console.log("Called print");
+>>>>>>> Amplitudes measured
     }, function(err) { throw err })
   })
   return;
@@ -97,6 +112,7 @@ function findPeaks(pcmdata, samplerate){
       //count = count/2;
       console.log("finished sampling sound - total peaks: " + count);
       console.log("Using https://github.com/victordibia/beats for soundwave analysis")
+      printAmps(amps);
       return;
     }
 >>>>>>> Accuracy Improvements
@@ -110,6 +126,8 @@ function findPeaks(pcmdata, samplerate){
       checkAmplitude(max);
 =======
       max = pcmdata[i] > max ? pcmdata[i].toFixed(1)  : max ;
+      //console.log(max);
+      checkAmplitude(max);
     }
 
     // Spot a significant increase? Potential peak
@@ -128,12 +146,28 @@ function findPeaks(pcmdata, samplerate){
       //console.log("Cooldown: " + cooldown);
 >>>>>>> Accuracy Improvements
     }
+<<<<<<< HEAD
     max = 0 ; index += step ;
   }
       countFreq(amps);
       printResults();
       loopThrough(pcmdata, samplerate, done);
       return;
+=======
+
+    // Print out mini equalizer on commandline
+    //console.log(bars, max )
+    prevmax = max ; max = 0 ; index += step ;
+  }, interval,pcmdata);
+}
+
+/**
+ * TBD
+ * @return {[type]} [description]
+ */
+function detectBeats(){
+
+>>>>>>> Amplitudes measured
 }
 
 /**
@@ -375,24 +409,30 @@ function magnifySound(pcmdata){
 >>>>>>> Accuracy Improvements
 =======
 
-function findAmplitudes(pcmdata){
+function checkAmplitude(value){
   var present = false;
-  console.log("Called 1");
-  for(var i = 0; i < pcmdata.length; i++)
+  //console.log("Called 1");
+  for(var i = 0; i < amps.length; i++)
   {
-    for(var j = 0; j < amps.length; j++)
+    if(value == amps[i])
     {
-      if(pcmdata[i] == amps[j])
-      {
-        present = true;
-      }
+      present = true;
     }
-    if(!present)
-    {
-      amps.push(pcmdata[i]);
-      console.log("Running:" + pcmdata[i]);
-    }
-    present = false;
   }
+  if(!present)
+  {
+    amps.push(value);
+    //console.log("Pushed: " + value);
+  }
+  return;
+}
+
+function printAmps(array){
+  console.log("Length of Amps: " + array.length);
+  for(var i = 0; i < array.length; i++)
+  {
+    console.log((i + 1) + ". Value: " + array[i]);
+  }
+  return;
 }
 >>>>>>> Analysing amplitudes
