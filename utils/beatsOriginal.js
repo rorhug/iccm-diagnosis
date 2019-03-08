@@ -6,8 +6,9 @@ var exec = require('child_process').exec;
 var _ = require('underscore');
 //var length = 0;
 
-var pcmdata = [] ;
+var pcmdata = [];
 var amps = [];
+var freqs = [];
 
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
@@ -72,7 +73,9 @@ function findPeaks(pcmdata, samplerate){
       //count = count/2;
       console.log("finished sampling sound - total peaks: " + count);
       console.log("Using https://github.com/victordibia/beats for soundwave analysis")
-      printAmps(amps);
+      printArray(amps);
+      countFreq(amps,samplerate);
+      printArray(freqs);
       return;
     }
 
@@ -164,16 +167,34 @@ function checkAmplitude(value){
   if(!present)
   {
     amps.push(value);
+    freqs.push(0);
     //console.log("Pushed: " + value);
   }
   return;
 }
 
-function printAmps(array){
-  console.log("Length of Amps: " + array.length);
+function printArray(array){
+  console.log("Length of Array: " + array.length);
   for(var i = 0; i < array.length; i++)
   {
     console.log((i + 1) + ". Value: " + array[i]);
   }
   return;
+}
+
+function countFreq(amps,samplerate){
+  var interval = 0.05 * 1000 ; index = 0 ;
+  var step = Math.round( samplerate * (interval/1000) );
+  for(var i = index; i < index + step ; i++)
+  {
+    max = pcmdata[i] > max ? pcmdata[i].toFixed(1)  : max ;
+    for(var j = 0; j < amps.length; j++)
+    {
+      if(max == amps[j])
+      {
+        freqs[j] = freqs[j] + 1;
+      }
+    }
+  }
+  index += step ;
 }
