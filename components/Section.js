@@ -1,11 +1,12 @@
 import React from 'react';
 import { Icon } from 'expo';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View, Dimensions } from 'react-native';
 import Collapsible from 'react-native-collapsible';
-
 import { Sections } from '../utils/constants';
 
 import styled, { css } from '@emotion/native'
+
+const info_width = (Dimensions.get('window').width/100)*80;
 
 const Header = styled.Text`
   font-weight: bold;
@@ -13,10 +14,10 @@ const Header = styled.Text`
   padding-bottom: 10px;
 `
 
-const InfoText = styled.Text`
-  padding: 10px;
-  margin: 10px;
-`
+const InfoText = styled.Text({
+  padding: 20,
+  width: info_width
+})
 
 const ButtonsBox = styled.View`
   display: flex;
@@ -99,8 +100,8 @@ export class Section extends React.Component {
         <LineBreak/>
 
         <Collapsible 
-          collapsed={!this.state.activeSections.includes(key)}
-        >
+          collapsed={!this.state.activeSections.includes(key)}>
+          
           <InfoText>{answer.info}</InfoText>
         </Collapsible>
       </>
