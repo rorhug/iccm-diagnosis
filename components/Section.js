@@ -102,7 +102,7 @@ export class Section extends React.Component {
 
         <Collapsible 
           collapsed={!this.state.activeSections.includes(key)}
-          style={css `flex: 1; align-self: stretch; padding: 10px; flex-wrap: wrap; background-color: aqua`}>
+          style={css `flex: 1; align-self: stretch; padding: 10px; flex-wrap: wrap`}>
           <InfoText>{answer.info}</InfoText>
         </Collapsible>
       </>
