@@ -6,10 +6,15 @@ var exec = require('child_process').exec;
 var _ = require('underscore');
 //var length = 0;
 
+<<<<<<< HEAD
 var pcmdata = [];
 var maxArr = [];
 var amps = [];
 var freqs = [];
+=======
+var pcmdata = [] ;
+var amp = [];
+>>>>>>> Analysing amplitudes
 
 var total = 0;
 var average = 0;
@@ -48,8 +53,13 @@ function decodeSoundFile(soundfile, done){
       filter.connect(context.destination);
 */
       pcmdata = magnifySound(pcmdata);
+<<<<<<< HEAD
       findPeaks(pcmdata, samplerate)
 >>>>>>> Accuracy Improvements
+=======
+      findPeaks(pcmdata, samplerate);
+      findAmplitudes(pcmdata);
+>>>>>>> Analysing amplitudes
     }, function(err) { throw err })
   })
   return;
@@ -361,4 +371,28 @@ function magnifySound(pcmdata){
   }
   return pcmdata;
 }
+<<<<<<< HEAD
 >>>>>>> Accuracy Improvements
+=======
+
+function findAmplitudes(pcmdata){
+  var present = false;
+  console.log("Called 1");
+  for(var i = 0; i < pcmdata.length; i++)
+  {
+    for(var j = 0; j < amps.length; j++)
+    {
+      if(pcmdata[i] == amps[j])
+      {
+        present = true;
+      }
+    }
+    if(!present)
+    {
+      amps.push(pcmdata[i]);
+      console.log("Running:" + pcmdata[i]);
+    }
+    present = false;
+  }
+}
+>>>>>>> Analysing amplitudes
