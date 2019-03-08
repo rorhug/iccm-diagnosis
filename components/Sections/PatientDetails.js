@@ -31,7 +31,7 @@ export class PatientDetails extends React.Component {
   };
 
   static patientAge = (age_id) => {
-    if (age_id) {
+    if (PatientDetails.questions[age_id]) {
       return PatientDetails.questions[age_id].text
     }
   }

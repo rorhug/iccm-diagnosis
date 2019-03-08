@@ -29,17 +29,11 @@ class Cough extends React.Component {
                 console.log(age)
                 switch (age) {
                     case QuestionText.age.less2m.text:
-                        console.log('Age less2m');
+                    case QuestionText.age.over5.text:
                         return "100"
                     case QuestionText.age.less1y.text:
-                        console.log('Age less1y');
-                        return "6"
                     case QuestionText.age.oneto5.text:
-                        console.log('Age oneto5');
                         return "6"
-                    case QuestionText.age.over5.text:
-                        console.log('Age over5');
-                        return "100"
                 }
                 return "6"
                 // if age < 2 months or > 5 years -> return 100 (Refer)
