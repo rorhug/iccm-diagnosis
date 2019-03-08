@@ -73,7 +73,9 @@ export class Section extends React.Component {
   moveToQuestion = (id) => {
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
+      console.log(`ID: ${id}`);
     }
+
     this.setState({ currentQuestionId: id })
   }
 
@@ -102,7 +104,7 @@ export class Section extends React.Component {
 
         <LineBreak />
 
-        <Collapsible
+        <Collapsible 
           collapsed={!this.state.activeSections.includes(key)}
         >
           <InfoText>{answer.info}</InfoText>
@@ -146,7 +148,7 @@ export class Section extends React.Component {
     */
   respRateDecision = (question) => {
     return function (respRate) {
-      questionId = question.resultToGoto(this.props.patientAge, respRate)
+      questionId = question.resultToGoto(respRate)
       console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
       this.moveToQuestion(questionId)
     }.bind(this)
@@ -157,6 +159,10 @@ export class Section extends React.Component {
       return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
         <AnswerText>Next Section</AnswerText>
       </AnswerButton>
+    }
+    else if (question.containsFunction) {
+      // This function takes age.
+      question.function()
     }
     else if (question.answers.length > 0) {
       return question.answers.map((answer, index) =>
