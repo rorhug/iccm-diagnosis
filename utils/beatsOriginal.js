@@ -7,13 +7,14 @@ var _ = require('underscore');
 //var length = 0;
 
 var pcmdata = [] ;
-var amp = [];
+var amps = [];
 
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
 //
 var soundfile = "sounds/Piece8.mp3"
 decodeSoundFile(soundfile);
+//printAmps(amps);
 
 /**
  * [decodeSoundFile Use web-audio-api to convert audio file to a buffer of pcm data]
@@ -40,7 +41,7 @@ function decodeSoundFile(soundfile){
 */
       pcmdata = magnifySound(pcmdata);
       findPeaks(pcmdata, samplerate);
-      findAmplitudes(pcmdata);
+      //console.log("Called print");
     }, function(err) { throw err })
   })
 }
@@ -71,11 +72,14 @@ function findPeaks(pcmdata, samplerate){
       //count = count/2;
       console.log("finished sampling sound - total peaks: " + count);
       console.log("Using https://github.com/victordibia/beats for soundwave analysis")
+      printAmps(amps);
       return;
     }
 
     for(var i = index; i < index + step ; i++){
       max = pcmdata[i] > max ? pcmdata[i].toFixed(1)  : max ;
+      //console.log(max);
+      checkAmplitude(max);
     }
 
     // Spot a significant increase? Potential peak
@@ -95,7 +99,7 @@ function findPeaks(pcmdata, samplerate){
     }
 
     // Print out mini equalizer on commandline
-    console.log(bars, max )
+    //console.log(bars, max )
     prevmax = max ; max = 0 ; index += step ;
   }, interval,pcmdata);
 }
@@ -147,23 +151,29 @@ function magnifySound(pcmdata){
   return pcmdata;
 }
 
-function findAmplitudes(pcmdata){
+function checkAmplitude(value){
   var present = false;
-  console.log("Called 1");
-  for(var i = 0; i < pcmdata.length; i++)
+  //console.log("Called 1");
+  for(var i = 0; i < amps.length; i++)
   {
-    for(var j = 0; j < amps.length; j++)
+    if(value == amps[i])
     {
-      if(pcmdata[i] == amps[j])
-      {
-        present = true;
-      }
+      present = true;
     }
-    if(!present)
-    {
-      amps.push(pcmdata[i]);
-      console.log("Running:" + pcmdata[i]);
-    }
-    present = false;
   }
+  if(!present)
+  {
+    amps.push(value);
+    //console.log("Pushed: " + value);
+  }
+  return;
+}
+
+function printAmps(array){
+  console.log("Length of Amps: " + array.length);
+  for(var i = 0; i < array.length; i++)
+  {
+    console.log((i + 1) + ". Value: " + array[i]);
+  }
+  return;
 }
