@@ -71,8 +71,6 @@ export class Section extends React.Component {
   }
 
   moveToQuestion = (id) => {
-    console.log(`MOVE TO SECTION, GOING TO QID: ${id}`)
-
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
     }

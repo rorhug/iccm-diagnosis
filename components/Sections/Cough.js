@@ -49,21 +49,20 @@ class Cough extends React.Component {
             specialScreen: true,
             screenTitle: "RespiratoryRate",
             resultToGoto: (age, rr) => {
-                // need age and RR count.
+                // Logic
                 // Child < 1 year & RR < 50 -> goto 102
                 // Child < 1 year & RR >= 50 -> goto 8
 
                 // Child > 1 year & RR < 40 -> goto 102
                 // Child > 1 year & RR >= 40 -> goto 8
 
-                // Setup age
+                // Only care about > 1 or < 1
                 ageNorm = "gt1"
                 if (age === QuestionText.age.less2m.text || age === QuestionText.age.less1y.text) {
                     ageNorm = "lt1"
                 }
-
-                console.log(`COUGH ageNorm ${ageNorm}`)
-                console.log(`COUGH rr ${rr}`)
+                
+                console.log(`Cough.js quesiton[7]. Age: ${ageNorm}, Resp: ${rr}`)
 
                 if (ageNorm === "lt1" && rr < 50) {
                     return "102"
