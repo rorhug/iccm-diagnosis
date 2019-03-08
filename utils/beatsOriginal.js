@@ -7,6 +7,7 @@ var _ = require('underscore');
 //var length = 0;
 
 var pcmdata = [] ;
+var amp = [];
 
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
@@ -38,7 +39,8 @@ function decodeSoundFile(soundfile){
       filter.connect(context.destination);
 */
       pcmdata = magnifySound(pcmdata);
-      findPeaks(pcmdata, samplerate)
+      findPeaks(pcmdata, samplerate);
+      findAmplitudes(pcmdata);
     }, function(err) { throw err })
   })
 }
@@ -143,4 +145,25 @@ function magnifySound(pcmdata){
     pcmdata[i] = pcmdata[i]*2;
   }
   return pcmdata;
+}
+
+function findAmplitudes(pcmdata){
+  var present = false;
+  console.log("Called 1");
+  for(var i = 0; i < pcmdata.length; i++)
+  {
+    for(var j = 0; j < amps.length; j++)
+    {
+      if(pcmdata[i] == amps[j])
+      {
+        present = true;
+      }
+    }
+    if(!present)
+    {
+      amps.push(pcmdata[i]);
+      console.log("Running:" + pcmdata[i]);
+    }
+    present = false;
+  }
 }
