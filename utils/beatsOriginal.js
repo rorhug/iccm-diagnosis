@@ -13,11 +13,12 @@ var freqs = [];
 
 var total = 0;
 var average = 0;
+var deviation = 0;
 
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
 //
-var soundfile = "sounds/New-3Breaths.mp3"
+var soundfile = "sounds/New-9Raspy.mp3"
 decodeSoundFile(soundfile);
 //printAmps(amps);
 
@@ -35,7 +36,7 @@ function decodeSoundFile(soundfile){
       pcmdata = (audioBuffer.getChannelData(0)) ;
       samplerate = audioBuffer.sampleRate;
       maxvals = [] ; max = 0 ;
-      playsound(soundfile)
+//      playsound(soundfile)
 /*      var filter = context.createBiquadFilter();
       //filter.type is defined as string type in the latest API. But this is defined as number type in old API.
       filter.type = (typeof filter.type === 'string') ? 'lowpass' : 0; // LOWPASS
@@ -83,6 +84,7 @@ function findPeaks(pcmdata, samplerate){
       countFreq(amps);
     //  printArray(freqs);
       printResults();
+      playsound(soundfile);
       loopThrough(pcmdata,samplerate);
       return;
     }
@@ -95,10 +97,10 @@ function findPeaks(pcmdata, samplerate){
     }
 
     // Spot a significant increase? Potential peak
-//    bars = getbars(max) ;
-/*    if(max > average/* && cooldown == 0)
+/*    bars = getbars(max) ;
+    if(max > average/* && cooldown == 0)
     {
-      if(!aboveAverage)
+/*      if(!aboveAverage)
       {
         /*if(aboveCount >= 1)
         {
@@ -107,19 +109,19 @@ function findPeaks(pcmdata, samplerate){
         aboveAverage = true;
       }
       aboveCount++;
-      bars = bars + " == peak == (" + aboveCount + ") " + " -- average -- " + average ;
+      bars = bars + " == peak == " ;
     }
-    else/* if(max < average)
+    else/* if(max < average)*/
     {
-      if(aboveAverage && aboveCount >= 2)
+/*      if(aboveAverage && aboveCount >= 2)
       {
         count++;
       }
       bars = bars + " == trough == (" + max + ")";
-      aboveAverage = false;
-      aboveCount = 0;
+/*      aboveAverage = false;
+      aboveCount = 0;*/
     }
-    bars = bars + " -- " + count + " -- ";
+/*    bars = bars + " -- " + count + " -- ";
 */    // Print out mini equalizer on commandline
 //    console.log(bars, max )
 //    prevmax = max ;
@@ -251,6 +253,22 @@ function bpm(count){
   return count;
 }
 
+function standardDeviation(pcmdata){
+//  var deviations = [];
+  var result = 0;
+  for(var i = 0; i < amps.length; i++)
+  {
+    result = amps[i] - average;
+    result = Math.pow(result, 2);
+    result = result*freqs[i];
+//    deviations.push(result);
+//    console.log(result);
+    deviation = deviation + (result/total);
+  }
+  //deviation = Math.sqrt(deviation);
+  console.log("Deviation: " + deviation);
+}
+
 function loopThrough(pcmdata,samplerate){
 
     var interval = 0.05 * 1000 ; index = 0 ;
@@ -261,6 +279,7 @@ function loopThrough(pcmdata,samplerate){
     var count = 0;
     var aboveAverage = false;
     var aboveCount = 0;
+    standardDeviation(pcmdata);
   //  var cooldown = 0;
 
     //loop through song in time with sample rate
@@ -286,7 +305,7 @@ function loopThrough(pcmdata,samplerate){
 
       // Spot a significant increase? Potential peak
       bars = getbars(max) ;
-      if(max > average/* && cooldown == 0*/)
+      if(max > (average + deviation)/*0.0128(average*0.4029)/* && cooldown == 0*/)
       {
         if(!aboveAverage)
         {
@@ -312,7 +331,7 @@ function loopThrough(pcmdata,samplerate){
       }
       bars = bars + " -- " + count + " -- ";
       // Print out mini equalizer on commandline
-      console.log(bars, max )
+//      console.log(bars, max )
       prevmax = max ; max = 0 ; index += step ;
     }, interval,pcmdata);
   }
