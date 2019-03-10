@@ -12,11 +12,12 @@ var amps = [];
 var freqs = [];
 
 var total = 0;
+var average = 0;
 
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
 //
-var soundfile = "sounds/Piece8.mp3"
+var soundfile = "sounds/New-3Breaths.mp3"
 decodeSoundFile(soundfile);
 //printAmps(amps);
 
@@ -48,6 +49,7 @@ function decodeSoundFile(soundfile){
       //console.log("Called print");
     }, function(err) { throw err })
   })
+  return; /*Integer*/
 }
 
 
@@ -67,7 +69,7 @@ function findPeaks(pcmdata, samplerate){
   var prevmax = 0 ;
   var prevdiffthreshold = 0.4;
   var count = 0;
-  var cooldown = 0;
+//  var cooldown = 0;
 
   //loop through song in time with sample rate
   var samplesound = setInterval(function() {
@@ -92,20 +94,20 @@ function findPeaks(pcmdata, samplerate){
 
     // Spot a significant increase? Potential peak
     bars = getbars(max) ;
-    if((max-prevmax >= prevdiffthreshold) && cooldown == 0){
+    if((max > average)/* && cooldown == 0*/){
     //if((max-prevmax >= 0.1) && (max >= 0.5)){
       bars = bars + " == peak == ";
       count = count + 1
-      cooldown = 5;
+//      cooldown = 5;
     }
-    else{
+/*    else{
       if(cooldown > 0)
       {
           cooldown = cooldown - 1;
       }
       //console.log("Cooldown: " + cooldown);
     }
-
+*/
     // Print out mini equalizer on commandline
     console.log(bars, max )
     prevmax = max ; max = 0 ; index += step ;
@@ -221,11 +223,11 @@ function totalFreqs(){
 }
 
 function weightedAverage(amps,freqs,total){
-  var average = 0;
+  average = 0;
   for(var i = 0; i < amps.length; i++)
   {
     average = average + (amps[i]*(freqs[i]/total));
   }
-  console.log("Average amplitude: " + average);
+  console.log("Average amplitude: " + average.toFixed(3));
   return;
 }
