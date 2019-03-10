@@ -35,6 +35,8 @@ var pcmdata = [];
 var amps = [];
 var freqs = [];
 
+var total = 0;
+
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
 //
@@ -71,11 +73,15 @@ function decodeSoundFile(soundfile, done){
       source.connect(filter);
       filter.connect(context.destination);
 */
+<<<<<<< HEAD
       pcmdata = magnifySound(pcmdata);
 <<<<<<< HEAD
       findPeaks(pcmdata, samplerate)
 >>>>>>> Accuracy Improvements
 =======
+=======
+      //pcmdata = magnifySound(pcmdata);
+>>>>>>> Analysis Improvements
       findPeaks(pcmdata, samplerate);
 <<<<<<< HEAD
       findAmplitudes(pcmdata);
@@ -413,7 +419,7 @@ function loopThrough(pcmdata,samplerate,done){
 function magnifySound(pcmdata){
   for(var i = 0; i < pcmdata.length; i++)
   {
-    pcmdata[i] = pcmdata[i]*2;
+    pcmdata[i] = (pcmdata[i]*2);
   }
   return pcmdata;
 }
@@ -472,6 +478,7 @@ function printResults(){
     console.log("Amplitude: " + amps[i] + " - Frequency: " + freqs[i]);
   }
   totalFreqs();
+  weightedAverage(amps,freqs,total);
   return;
 }
 <<<<<<< HEAD
@@ -479,11 +486,24 @@ function printResults(){
 =======
 
 function totalFreqs(){
-  var total = 0;
+  total = 0;
   for(var i = 0; i < freqs.length; i++)
   {
     total = total  + freqs[i];
   }
   console.log("Total frequencies: " + total);
 }
+<<<<<<< HEAD
 >>>>>>> Frequency changes
+=======
+
+function weightedAverage(amps,freqs,total){
+  var average = 0;
+  for(var i = 0; i < amps.length; i++)
+  {
+    average = average + (amps[i]*(freqs[i]/total));
+  }
+  console.log("Average amplitude: " + average);
+  return;
+}
+>>>>>>> Analysis Improvements
