@@ -17,7 +17,7 @@ var average = 0;
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
 //
-var soundfile = "sounds/New-8Breaths.mp3"
+var soundfile = "sounds/New-3Raspy.mp3"
 decodeSoundFile(soundfile);
 //printAmps(amps);
 
@@ -61,55 +61,55 @@ function decodeSoundFile(soundfile){
  * @return {[type]}            [description]
  */
 function findPeaks(pcmdata, samplerate){
-//  offlineContext = new OfflineAudioContext(1, length, samplerate);
 
   var interval = 0.05 * 1000 ; index = 0 ;
   var step = Math.round( samplerate * (interval/1000) );
   var max = 0 ;
-  var prevmax = 0 ;
-  var prevdiffthreshold = 0.4;
-  var count = 0;
-  var aboveAverage = false;
-  var aboveCount = 0;
+//  var prevmax = 0 ;
+//  var prevdiffthreshold = 0.4;
+//  var count = 0;
+//  var aboveAverage = false;
+//  var aboveCount = 0;
 //  var cooldown = 0;
 
   //loop through song in time with sample rate
   var samplesound = setInterval(function() {
     if (index >= pcmdata.length) {
       clearInterval(samplesound);
-      count = bpm(count);
-      console.log("finished sampling sound - total breaths: " + count + " bpm");
-      console.log("Using https://github.com/victordibia/beats for soundwave analysis")
+//      count = bpm(count);
+//      console.log("finished sampling sound - total breaths: " + count + " bpm");
+//      console.log("Using https://github.com/victordibia/beats for soundwave analysis")
     //  printArray(amps);
       countFreq(amps);
     //  printArray(freqs);
       printResults();
+      loopThrough(pcmdata,samplerate);
       return;
     }
 
     for(var i = index; i < index + step ; i++){
-      max = pcmdata[i] > max ? pcmdata[i].toFixed(1)  : max ;
+      max = pcmdata[i] > max ? pcmdata[i]/*.toFixed(1)*/  : max ;
       //console.log(max);
       maxArr.push(max);
       checkAmplitude(max);
     }
 
     // Spot a significant increase? Potential peak
-    bars = getbars(max) ;
-    if(max > average/* && cooldown == 0*/)
+//    bars = getbars(max) ;
+/*    if(max > average/* && cooldown == 0)
     {
       if(!aboveAverage)
       {
         /*if(aboveCount >= 1)
         {
           count = count + 1;
-        }*/
+        }
         aboveAverage = true;
       }
       aboveCount++;
-      bars = bars + " == peak == (" + aboveCount + ")";
+      bars = bars + " == peak == (" + aboveCount + ") " + " -- average -- " + average ;
     }
-    else/* if(max < average)*/
+    else/* if(max < average)
     {
       if(aboveAverage && aboveCount >= 2)
       {
@@ -120,9 +120,10 @@ function findPeaks(pcmdata, samplerate){
       aboveCount = 0;
     }
     bars = bars + " -- " + count + " -- ";
-    // Print out mini equalizer on commandline
-    console.log(bars, max )
-    prevmax = max ; max = 0 ; index += step ;
+*/    // Print out mini equalizer on commandline
+//    console.log(bars, max )
+//    prevmax = max ;
+    max = 0 ; index += step ;
   }, interval,pcmdata);
 }
 
@@ -216,10 +217,10 @@ function countFreq(amps){
 }
 
 function printResults(){
-  for(var i = 0; i < amps.length; i++)
+/*  for(var i = 0; i < amps.length; i++)
   {
     console.log("Amplitude: " + amps[i] + " - Frequency: " + freqs[i]);
-  }
+  }*/
   totalFreqs();
   weightedAverage(amps,freqs,total);
   return;
@@ -249,3 +250,69 @@ function bpm(count){
   count = count*6;
   return count;
 }
+
+function loopThrough(pcmdata,samplerate){
+
+    var interval = 0.05 * 1000 ; index = 0 ;
+    var step = Math.round( samplerate * (interval/1000) );
+    var max = 0 ;
+    var prevmax = 0 ;
+    var prevdiffthreshold = 0.4;
+    var count = 0;
+    var aboveAverage = false;
+    var aboveCount = 0;
+  //  var cooldown = 0;
+
+    //loop through song in time with sample rate
+    var samplesound = setInterval(function() {
+      if (index >= pcmdata.length) {
+        clearInterval(samplesound);
+        count = bpm(count);
+        console.log("finished sampling sound - total breaths: " + count + " bpm");
+        console.log("Using https://github.com/victordibia/beats for soundwave analysis")
+      //  printArray(amps);
+      //  countFreq(amps);
+      //  printArray(freqs);
+      //  printResults();
+        return;
+      }
+
+      for(var i = index; i < index + step ; i++){
+        max = pcmdata[i] > max ? pcmdata[i]/*.toFixed(1)*/  : max ;
+/*        //console.log(max);
+        maxArr.push(max);
+        checkAmplitude(max);
+*/      }
+
+      // Spot a significant increase? Potential peak
+      bars = getbars(max) ;
+      if(max > average/* && cooldown == 0*/)
+      {
+        if(!aboveAverage)
+        {
+          /*if(aboveCount >= 1)
+          {
+            count = count + 1;
+          }
+          */
+          aboveAverage = true;
+        }
+        aboveCount++;
+        bars = bars + " == peak == "/* + aboveCount + ")"*/ ;
+      }
+      else/* if(max < average)*/
+      {
+        if(aboveAverage && aboveCount >= 2)
+        {
+          count++;
+        }
+        bars = bars + " == trough == "/* + max + ")"*/;
+        aboveAverage = false;
+        aboveCount = 0;
+      }
+      bars = bars + " -- " + count + " -- ";
+      // Print out mini equalizer on commandline
+      console.log(bars, max )
+      prevmax = max ; max = 0 ; index += step ;
+    }, interval,pcmdata);
+  }
