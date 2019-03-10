@@ -41,7 +41,7 @@ var average = 0;
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
 //
-var soundfile = "sounds/New-3Raspy.mp3"
+var soundfile = "sounds/New-3Breaths.mp3"
 decodeSoundFile(soundfile);
 //printAmps(amps);
 >>>>>>> Amplitudes measured
