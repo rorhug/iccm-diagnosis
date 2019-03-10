@@ -38,6 +38,7 @@ var freqs = [];
 var total = 0;
 var average = 0;
 var deviation = 0;
+var finalBPM = 0;
 
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
@@ -613,6 +614,7 @@ function loopThrough(pcmdata,samplerate){
       if (index >= pcmdata.length) {
         clearInterval(samplesound);
         count = bpm(count);
+        finalBPM = count;
         console.log("finished sampling sound - total breaths: " + count + " bpm");
         console.log("Using https://github.com/victordibia/beats for soundwave analysis")
       //  printArray(amps);
