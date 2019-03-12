@@ -91,11 +91,13 @@ export default class HomeScreen extends React.Component {
     let currentSection = this.state.sections.current;
     if (currentSection) {
       let CurrentSectionComponent = sections[currentSection]
+      let age_id = this.state.sectionResults[Sections.patient_details]
       return (
         <Container>
           <CurrentSectionComponent
             navigation={this.props.navigation}
-            patientAge={PatientDetails.patientAge(this.state.sectionResults[Sections.patient_details])}
+            patientAge={PatientDetails.patientAge(age_id)}
+            patientAgeOne={PatientDetails.patientAgeOne(age_id)}
             onCompletion={this.moveToNextSection}
           />
         </Container>
