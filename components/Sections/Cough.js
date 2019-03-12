@@ -32,11 +32,11 @@ class Cough extends React.Component {
                         return "100"
                     case QuestionText.age.less1y.text:
                     case QuestionText.age.oneto5.text:
-                        return "6"
+                        return "7"
                 }
                 return "100"
                 // if age < 2 months or > 5 years -> return 100 (Refer)
-                // else age okay return 6
+                // else age okay return 7
             }
         },
         6: {
@@ -55,16 +55,15 @@ class Cough extends React.Component {
                 if (age === QuestionText.age.less2m.text || age === QuestionText.age.less1y.text) {
                     ageNorm = "lt1"
                 }
-                
+
                 console.log(`Cough.js quesiton[7]. Age: ${ageNorm}, Resp: ${rr}`)
 
-                if (ageNorm === "lt1" && rr < 50) {
+                if ((ageNorm === "lt1" && rr < 50) ||
+                    (ageNorm === "gt1" && rr < 40)) {
                     return "102"
-                } else if (ageNorm === "lt1" && rr >= 50) {
-                    return "8"
-                } else if (ageNorm === "gt1" && rr < 40) {
-                    return "102"
-                } else if (ageNorm === "gt1" && rr >= 40) {
+                } else if (
+                    (ageNorm === "lt1" && rr >= 50) ||
+                    (ageNorm === "gt1" && rr >= 40)) {
                     return "8"
                 }
             }
