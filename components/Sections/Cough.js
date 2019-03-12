@@ -40,12 +40,6 @@ class Cough extends React.Component {
             }
         },
         6: {
-            text: "Click 'Continue' to measure childs respiratory rate.",
-            answers: [
-                { text: "Continue", goto: "7" }
-            ]
-        },
-        7: {
             specialScreen: true,
             screenTitle: "RespiratoryRate",
             resultToGoto: (age, rr) => {
