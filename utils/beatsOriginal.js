@@ -43,8 +43,8 @@ var finalBPM = 0;
 //Note: I have no rights to these sound files and they are not created by me.
 //You may downlaod and use your own sound file to further test this.
 //
-var soundfile = "sounds/New-9Raspy.mp3"
-decodeSoundFile(soundfile);
+var soundfile = "sounds/New-3Breaths.mp3"
+decodeSoundFile(soundfile, (bpm) => console.log(bpm));
 //printAmps(amps);
 >>>>>>> Amplitudes measured
 
@@ -88,12 +88,16 @@ function decodeSoundFile(soundfile, done){
 =======
 =======
       //pcmdata = magnifySound(pcmdata);
+<<<<<<< HEAD
 >>>>>>> Analysis Improvements
       findPeaks(pcmdata, samplerate);
 <<<<<<< HEAD
       findAmplitudes(pcmdata);
 >>>>>>> Analysing amplitudes
 =======
+=======
+      findPeaks(pcmdata, samplerate, done);
+>>>>>>> Passing Function
       //console.log("Called print");
 >>>>>>> Amplitudes measured
     }, function(err) { throw err })
@@ -114,6 +118,7 @@ function decodeSoundFile(soundfile, done){
  * @return {[type]}            [description]
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 function findPeaks(pcmdata, samplerate, done){
 =======
 function findPeaks(pcmdata, samplerate){
@@ -122,6 +127,9 @@ function findPeaks(pcmdata, samplerate){
 >>>>>>> Accuracy Improvements
 =======
 >>>>>>> Testing different breathing
+=======
+function findPeaks(pcmdata, samplerate, done){
+>>>>>>> Passing Function
 
   var interval = 0.05 * 1000 ; index = 0 ;
   var step = Math.round( samplerate * (interval/1000) );
@@ -155,7 +163,7 @@ function findPeaks(pcmdata, samplerate){
     //  printArray(freqs);
       printResults();
       playsound(soundfile);
-      loopThrough(pcmdata,samplerate);
+      loopThrough(pcmdata, samplerate, done);
       return;
     }
 >>>>>>> Accuracy Improvements
@@ -596,7 +604,7 @@ function standardDeviation(pcmdata){
   console.log("Deviation: " + deviation);
 }
 
-function loopThrough(pcmdata,samplerate){
+function loopThrough(pcmdata,samplerate,done){
 
     var interval = 0.05 * 1000 ; index = 0 ;
     var step = Math.round( samplerate * (interval/1000) );
@@ -613,8 +621,8 @@ function loopThrough(pcmdata,samplerate){
     var samplesound = setInterval(function() {
       if (index >= pcmdata.length) {
         clearInterval(samplesound);
-        count = bpm(count);
-        finalBPM = count;
+        finalBPM = bpm(count);
+        done(finalBPM)
         console.log("finished sampling sound - total breaths: " + count + " bpm");
         console.log("Using https://github.com/victordibia/beats for soundwave analysis")
       //  printArray(amps);
@@ -663,4 +671,10 @@ function loopThrough(pcmdata,samplerate){
       prevmax = max ; max = 0 ; index += step ;
     }, interval,pcmdata);
   }
+<<<<<<< HEAD
 >>>>>>> Testing different breathing
+=======
+
+
+  export default decodeSoundFile;
+>>>>>>> Passing Function
