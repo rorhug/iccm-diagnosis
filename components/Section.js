@@ -114,7 +114,7 @@ export class Section extends React.Component {
   }
   respRateDecision = (question) => {
     return function (respRate) {
-      questionId = question.resultToGoto(this.props.patientAge ,respRate)
+      questionId = question.resultToGoto(this.props.patientAgeOne ,respRate)
       console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
       this.moveToQuestion(questionId)
     }.bind(this)

@@ -33,23 +33,33 @@ const Sections = {
     patient_details: 'patient_details',
 }
 
+const Age = {
+  less2m : '< 2 months',
+  less1y : '< 1 year',
+  over1y : '> 1 year',
+  oneto5 : '1-5 year',
+  over5  : '> 5 year'
+}
+
 const QuestionText = {
   age: {
-    less2m : { text: '< 2 months', info: ''},
+    less2m : { text: Age.less2m, info: ''},
     less1y : { 
-      text: '< 1 year',
+      text: Age.less1y,
       info: 'cannot walk',
     },
     oneto5 : {
-      text: '1-5 year',
+      text: Age.oneto5,
       info: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
     },
     over5  : {
-      text: '> 5 year',
+      text: Age.over5,
       info: 'can touch the ear as shown in image',
     },
   }
 }
+
+
 
 const RrComponents = {
     counterchoice: 'counterchoice',
@@ -57,4 +67,4 @@ const RrComponents = {
     tapcounter: 'tapcounter'
 }
 
-export { Colors, Layout, Sections, QuestionText, RrComponents };
+export { Colors, Layout, Sections, QuestionText, RrComponents, Age };

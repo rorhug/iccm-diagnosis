@@ -1,6 +1,6 @@
 import React from 'react';
 import { Section } from '../Section';
-import { QuestionText } from '../../utils/constants'
+import { QuestionText, Age } from '../../utils/constants'
 
 // import console = require('console');
 
@@ -27,12 +27,12 @@ class Cough extends React.Component {
             containsFunction: true,
             function: (age) => {
                 switch (age) {
-                    case QuestionText.age.less2m.text:
-                    case QuestionText.age.over5.text:
+                    case Age.less2m:
+                    case Age.over5:
                         return "100"
-                    case QuestionText.age.less1y.text:
-                    case QuestionText.age.oneto5.text:
-                        return "7"
+                    case Age.less1y:
+                    case Age.oneto5:
+                        return "6"
                 }
                 return "100"
                 // if age < 2 months or > 5 years -> return 100 (Refer)
@@ -42,28 +42,15 @@ class Cough extends React.Component {
         6: {
             specialScreen: true,
             screenTitle: "RespiratoryRate",
-            resultToGoto: (age, rr) => {
-                // Logic
-                // Child < 1 year & RR < 50 -> goto 102
-                // Child < 1 year & RR >= 50 -> goto 8
+            resultToGoto: (age, restRate) => {
+                console.log(`Cough.js quesiton[7]. Age: ${age}, Resp: ${restRate}`)
 
-                // Child > 1 year & RR < 40 -> goto 102
-                // Child > 1 year & RR >= 40 -> goto 8
-
-                // Only care about > 1 or < 1
-                ageNorm = "gt1"
-                if (age === QuestionText.age.less2m.text || age === QuestionText.age.less1y.text) {
-                    ageNorm = "lt1"
-                }
-
-                console.log(`Cough.js quesiton[7]. Age: ${ageNorm}, Resp: ${rr}`)
-
-                if ((ageNorm === "lt1" && rr < 50) ||
-                    (ageNorm === "gt1" && rr < 40)) {
+                if ((age === Age.less1y && restRate < 50) ||
+                    (age === Age.over1y && restRate < 40)) {
                     return "102"
                 } else if (
-                    (ageNorm === "lt1" && rr >= 50) ||
-                    (ageNorm === "gt1" && rr >= 40)) {
+                    (age === Age.less1y && restRate >= 50) ||
+                    (age === Age.over1y && restRate >= 40)) {
                     return "8"
                 }
             }
