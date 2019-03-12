@@ -190,21 +190,4 @@ export class Section extends React.Component {
     }
   }
 
-  renderSpecialScreen = (question) => {
-    switch (question.screenTitle) {
-      case "RespiratoryRate":
-        return <RespiratoryRate respRate={this.respRateDecision(question)} />
-    }
-  }
-
-  render() {
-    let question = this.currentQuestion()
-
-    if (question.specialScreen) {
-      return this.renderSpecialScreen(question);
-    } else {
-      return this.renderQuestion(question);
-    }
-  }
-
 }
