@@ -41,11 +41,9 @@ export class PatientDetails extends React.Component {
     switch (age_text) {
       case Age.less2m:
       case Age.less1y:
-        console.log(`AGE ${Age.less1y}`)
         return Age.less1y
       case Age.oneto5:
       case Age.oneto5:
-        console.log(`AGE ${Age.over1y}`)
         return Age.over1y
     }
   }
