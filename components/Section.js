@@ -39,7 +39,9 @@ const InfoButton = styled.TouchableOpacity`
 `
 
 const InfoImage = styled.Image`
-  align-self: center
+  align-self: center;
+  width: 150;
+  height: 150;
 `
 
 const AnswerText = styled.Text`
