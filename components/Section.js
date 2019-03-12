@@ -3,8 +3,6 @@ import { Icon } from 'expo';
 import { ScrollView, Text, View, Dimensions } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
-
-import CounterChoiceScreen from '../screens/CounterChoiceScreen';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 
 import styled, { css } from '@emotion/native'
