@@ -26,7 +26,6 @@ class Cough extends React.Component {
         3: { // Automatically check age of child.
             containsFunction: true,
             function: (age) => {
-                console.log(age)
                 switch (age) {
                     case QuestionText.age.less2m.text:
                     case QuestionText.age.over5.text:
@@ -35,29 +34,39 @@ class Cough extends React.Component {
                     case QuestionText.age.oneto5.text:
                         return "6"
                 }
-                return "6"
+                return "100"
                 // if age < 2 months or > 5 years -> return 100 (Refer)
                 // else age okay return 6
             }
         },
         6: {
-            text: "Click 'Continue' to measure childs respiratory rate.",
-            answers: [
-                { text: "Continue", goto: "7" }
-            ]
-        },
-        7: {
             specialScreen: true,
             screenTitle: "RespiratoryRate",
-            resultToGoto: (result) => {
-                // need age and RR count.
+            resultToGoto: (age, rr) => {
+                // Logic
                 // Child < 1 year & RR < 50 -> goto 102
                 // Child < 1 year & RR >= 50 -> goto 8
 
                 // Child > 1 year & RR < 40 -> goto 102
                 // Child > 1 year & RR >= 40 -> goto 8
 
-                return "6"
+                // Only care about > 1 or < 1
+                ageNorm = "gt1"
+                if (age === QuestionText.age.less2m.text || age === QuestionText.age.less1y.text) {
+                    ageNorm = "lt1"
+                }
+                
+                console.log(`Cough.js quesiton[7]. Age: ${ageNorm}, Resp: ${rr}`)
+
+                if (ageNorm === "lt1" && rr < 50) {
+                    return "102"
+                } else if (ageNorm === "lt1" && rr >= 50) {
+                    return "8"
+                } else if (ageNorm === "gt1" && rr < 40) {
+                    return "102"
+                } else if (ageNorm === "gt1" && rr >= 40) {
+                    return "8"
+                }
             }
         },
         8: {
@@ -96,7 +105,6 @@ class Cough extends React.Component {
             sectionEnd: true
         }
     }
-
 
     render() {
         return <Section

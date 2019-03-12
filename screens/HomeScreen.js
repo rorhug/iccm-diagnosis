@@ -105,8 +105,8 @@ export default class HomeScreen extends React.Component {
         <ScrollView>
           <Container>
             <ResultsScreen
-              reset={this.resetState}
-              sectionResults={this.state.sectionResults}
+              reset={this.resetState} 
+              sectionResults={this.state.sectionResults} 
               sectionComponents={sections}
             />
           </Container>

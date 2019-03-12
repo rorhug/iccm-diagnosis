@@ -71,6 +71,7 @@ export class Section extends React.Component {
   moveToQuestion = (id) => {
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
+      console.log(`ID: ${id}`);
     }
 
     this.setState({ currentQuestionId: id })
@@ -101,7 +102,7 @@ export class Section extends React.Component {
 
         <LineBreak />
 
-        <Collapsible
+        <Collapsible 
           collapsed={!this.state.activeSections.includes(key)}
         >
           <InfoText>{answer.info}</InfoText>
@@ -109,10 +110,44 @@ export class Section extends React.Component {
       </>
     )
   }
-
   respRateDecision = (question) => {
     return function (respRate) {
       questionId = question.resultToGoto(respRate)
+      console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
+      this.moveToQuestion(questionId)
+    }.bind(this)
+  }
+  /*
+  answerButtons = (question) => {
+      </AnswerButton>
+    }
+    else if (question.containsFunction) {
+      // This function takes age.
+      question.function()
+    }
+    else if (question.answers.length > 0) {
+      return question.answers.map((answer, index) =>
+        <AnswerRow key={index}>
+          <AnswerButton
+            accessibilityLabel={answer.text}
+            onPress={() => question.sectionEnd ?
+              this.props.onCompletion(index) :
+              this.moveToQuestion(answer.goto)}
+          >
+            <AnswerText>{answer.text}</AnswerText>
+          </AnswerButton>
+          {answer.info != undefined && this.infoCollapsable(answer, index)}
+        </AnswerRow>)
+    }
+    else {
+      return <Text>Invalid Question (no answers or sectionEnd)</Text>
+    }
+    }
+    */
+  respRateDecision = (question) => {
+    return function (respRate) {
+    patientAge = this.props.patientAge
+      questionId = question.resultToGoto(patientAge, respRate)
       console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
       this.moveToQuestion(questionId)
     }.bind(this)
@@ -157,6 +192,23 @@ export class Section extends React.Component {
       </ButtonsBox>
 
     </ScrollView>
+  }
+
+  renderSpecialScreen = (question) => {
+    switch (question.screenTitle) {
+      case "RespiratoryRate":
+        return <RespiratoryRate respRate={this.respRateDecision(question)} />
+    }
+  }
+
+  render() {
+    let question = this.currentQuestion()
+
+    if (question.specialScreen) {
+      return this.renderSpecialScreen(question);
+    } else {
+      return this.renderQuestion(question);
+    }
   }
 
   renderSpecialScreen = (question) => {
