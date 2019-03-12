@@ -4,6 +4,11 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const tintColor = '#2f95dc';
 
+const Images = {
+  ageLess5year : require('../assets/images/age-info-less5y.png'),
+  ageOver5year : require('../assets/images/age-info-over5y.png')
+};
+
 const Colors = {
   tintColor,
   tabIconDefault: '#ccc',
@@ -43,7 +48,7 @@ const Age = {
 
 const QuestionText = {
   age: {
-    less2m : { text: Age.less2m, info: ''},
+    less2m : { text: Age.less2m },
     less1y : { 
       text: Age.less1y,
       info: 'cannot walk',
@@ -51,15 +56,15 @@ const QuestionText = {
     oneto5 : {
       text: Age.oneto5,
       info: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
+      img: Images.ageLess5year
     },
     over5  : {
       text: Age.over5,
       info: 'can touch the ear as shown in image',
+      img: Images.ageOver5year
     },
   }
 }
-
-
 
 const RrComponents = {
     counterchoice: 'counterchoice',
@@ -67,4 +72,4 @@ const RrComponents = {
     tapcounter: 'tapcounter'
 }
 
-export { Colors, Layout, Sections, QuestionText, RrComponents, Age };
+export { Colors, Layout, Sections, QuestionText, RrComponents, Age, Images };

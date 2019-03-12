@@ -1,13 +1,13 @@
 import React from 'react';
 import { Icon } from 'expo';
-import { ScrollView, Text, View, Dimensions } from 'react-native';
+import { ScrollView, Text, View, Dimensions, Image } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 
 import styled, { css } from '@emotion/native'
 
-const info_width = (Dimensions.get('window').width/100)*80;
+const info_width = (Dimensions.get('window').width / 100) * 80;
 
 const Header = styled.Text`
   font-weight: bold;
@@ -36,6 +36,12 @@ const AnswerButton = styled.TouchableOpacity`
 `
 
 const InfoButton = styled.TouchableOpacity`
+`
+
+const InfoImage = styled.Image`
+  align-self: center;
+  width: 150;
+  height: 150;
 `
 
 const AnswerText = styled.Text`
@@ -68,6 +74,8 @@ export class Section extends React.Component {
     };
   }
 
+  currentQuestion = () => this.props.questions[this.state.currentQuestionId]
+
   moveToQuestion = (id) => {
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
@@ -76,8 +84,6 @@ export class Section extends React.Component {
 
     this.setState({ currentQuestionId: id })
   }
-
-  currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
   _toggleSection(answer) {
     const activeSections = this.state.activeSections
@@ -102,21 +108,14 @@ export class Section extends React.Component {
 
         <LineBreak />
 
-        <Collapsible 
+        <Collapsible
           collapsed={!this.state.activeSections.includes(key)}
         >
           <InfoText>{answer.info}</InfoText>
+          {answer.img && <InfoImage source={answer.img}/>}
         </Collapsible>
       </>
     )
-  }
-  
-  respRateDecision = (question) => {
-    return function (respRate) {
-      questionId = question.resultToGoto(this.props.patientAgeOne ,respRate)
-      console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
-      this.moveToQuestion(questionId)
-    }.bind(this)
   }
 
   answerButtons = (question) => {
@@ -124,10 +123,6 @@ export class Section extends React.Component {
       return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
         <AnswerText>Next Section</AnswerText>
       </AnswerButton>
-    }
-    else if (question.containsFunction) {
-      // This function takes age.
-      question.function()
     }
     else if (question.answers.length > 0) {
       return question.answers.map((answer, index) =>
@@ -160,21 +155,13 @@ export class Section extends React.Component {
     </ScrollView>
   }
 
-  renderSpecialScreen = (question) => {
-    switch (question.screenTitle) {
-      case "RespiratoryRate":
-        return <RespiratoryRate respRate={this.respRateDecision(question)} />
-    }
-  }
-
-  render() {
-    let question = this.currentQuestion()
-    
-    if (question.specialScreen) {
-      return this.renderSpecialScreen(question);
-    } else {
-      return this.renderQuestion(question);
-    }
+  // TODO move the following to functions out of Section
+  respRateDecision = (question) => {
+    return function (respRate) {
+      questionId = question.resultToGoto(this.props.patientAgeOne, respRate)
+      console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
+      this.moveToQuestion(questionId)
+    }.bind(this)
   }
 
   renderSpecialScreen = (question) => {
