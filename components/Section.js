@@ -1,13 +1,13 @@
 import React from 'react';
 import { Icon } from 'expo';
-import { ScrollView, Text, View, Dimensions } from 'react-native';
+import { ScrollView, Text, View, Dimensions, Image } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 
 import styled, { css } from '@emotion/native'
 
-const info_width = (Dimensions.get('window').width/100)*80;
+const info_width = (Dimensions.get('window').width / 100) * 80;
 
 const Header = styled.Text`
   font-weight: bold;
@@ -36,6 +36,10 @@ const AnswerButton = styled.TouchableOpacity`
 `
 
 const InfoButton = styled.TouchableOpacity`
+`
+
+const InfoImage = styled.Image`
+  align-self: center
 `
 
 const AnswerText = styled.Text`
@@ -93,6 +97,14 @@ export class Section extends React.Component {
     this.setState({ activeSections: updatedSections });
   }
 
+  renderImage = (img) => {
+    console.log(img)
+    return (<InfoImage
+      source={img}
+      style={{ width: 150, height: 150 }}
+    />)
+  }
+
   infoCollapsable = (answer, key) => {
     return (
       <>
@@ -102,18 +114,19 @@ export class Section extends React.Component {
 
         <LineBreak />
 
-        <Collapsible 
+        <Collapsible
           collapsed={!this.state.activeSections.includes(key)}
         >
           <InfoText>{answer.info}</InfoText>
+          {answer.img && this.renderImage(answer.img)}
         </Collapsible>
       </>
     )
   }
-  
+
   respRateDecision = (question) => {
     return function (respRate) {
-      questionId = question.resultToGoto(this.props.patientAgeOne ,respRate)
+      questionId = question.resultToGoto(this.props.patientAgeOne, respRate)
       console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
       this.moveToQuestion(questionId)
     }.bind(this)
@@ -169,7 +182,7 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
-    
+
     if (question.specialScreen) {
       return this.renderSpecialScreen(question);
     } else {
