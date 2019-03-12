@@ -72,6 +72,8 @@ export class Section extends React.Component {
     };
   }
 
+  currentQuestion = () => this.props.questions[this.state.currentQuestionId]
+
   moveToQuestion = (id) => {
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
@@ -80,8 +82,6 @@ export class Section extends React.Component {
 
     this.setState({ currentQuestionId: id })
   }
-
-  currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
   _toggleSection(answer) {
     const activeSections = this.state.activeSections
@@ -97,14 +97,6 @@ export class Section extends React.Component {
     this.setState({ activeSections: updatedSections });
   }
 
-  renderImage = (img) => {
-    console.log(img)
-    return (<InfoImage
-      source={img}
-      style={{ width: 150, height: 150 }}
-    />)
-  }
-
   infoCollapsable = (answer, key) => {
     return (
       <>
@@ -118,18 +110,10 @@ export class Section extends React.Component {
           collapsed={!this.state.activeSections.includes(key)}
         >
           <InfoText>{answer.info}</InfoText>
-          {answer.img && this.renderImage(answer.img)}
+          {answer.img && <InfoImage source={answer.img}/>}
         </Collapsible>
       </>
     )
-  }
-
-  respRateDecision = (question) => {
-    return function (respRate) {
-      questionId = question.resultToGoto(this.props.patientAgeOne, respRate)
-      console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
-      this.moveToQuestion(questionId)
-    }.bind(this)
   }
 
   answerButtons = (question) => {
@@ -167,6 +151,15 @@ export class Section extends React.Component {
       </ButtonsBox>
 
     </ScrollView>
+  }
+
+  // TODO move the following to functions out of Section
+  respRateDecision = (question) => {
+    return function (respRate) {
+      questionId = question.resultToGoto(this.props.patientAgeOne, respRate)
+      console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
+      this.moveToQuestion(questionId)
+    }.bind(this)
   }
 
   renderSpecialScreen = (question) => {
