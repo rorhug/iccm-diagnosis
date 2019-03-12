@@ -2,10 +2,14 @@ import React from 'react';
 import { Section } from '../Section';
 import { QuestionText } from '../../utils/constants'
 
+// import decodeSoundFile from ../../utils/
+// 
+
+// decodeSoundFile(s, (bpm => ))
 // import console = require('console');
-
+//
 // TODO respitory rate reader
-
+//
 // <Section questions={questions} />
 class Cough extends React.Component {
     static questions = {
