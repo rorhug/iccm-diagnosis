@@ -69,8 +69,6 @@ export class Section extends React.Component {
   }
 
   moveToQuestion = (id) => {
-    console.log(id)
-    console.log(this.props.questions[id])
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
       console.log(`ID: ${id}`);
@@ -112,44 +110,11 @@ export class Section extends React.Component {
       </>
     )
   }
+  
   respRateDecision = (question) => {
     return function (respRate) {
+      console.log(this.props.patientAgeOne)
       questionId = question.resultToGoto(this.props.patientAgeOne ,respRate)
-      console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
-      this.moveToQuestion(questionId)
-    }.bind(this)
-  }
-  /*
-  answerButtons = (question) => {
-      </AnswerButton>
-    }
-    else if (question.containsFunction) {
-      // This function takes age.
-      question.function()
-    }
-    else if (question.answers.length > 0) {
-      return question.answers.map((answer, index) =>
-        <AnswerRow key={index}>
-          <AnswerButton
-            accessibilityLabel={answer.text}
-            onPress={() => question.sectionEnd ?
-              this.props.onCompletion(index) :
-              this.moveToQuestion(answer.goto)}
-          >
-            <AnswerText>{answer.text}</AnswerText>
-          </AnswerButton>
-          {answer.info != undefined && this.infoCollapsable(answer, index)}
-        </AnswerRow>)
-    }
-    else {
-      return <Text>Invalid Question (no answers or sectionEnd)</Text>
-    }
-    }
-    */
-  respRateDecision = (question) => {
-    return function (respRate) {
-    patientAge = this.props.patientAge
-      questionId = question.resultToGoto(patientAge, respRate)
       console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
       this.moveToQuestion(questionId)
     }.bind(this)
@@ -205,7 +170,7 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
-
+    
     if (question.specialScreen) {
       return this.renderSpecialScreen(question);
     } else {
