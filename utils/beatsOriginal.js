@@ -581,7 +581,7 @@ function weightedAverage(amps,freqs,total){
 
 function bpm(count){
   count = count/2;
-  count = count*6;
+//  count = count*6;
   return count;
 }
 <<<<<<< HEAD
@@ -618,9 +618,10 @@ function loopThrough(pcmdata,samplerate,done){
   //  var cooldown = 0;
 
     //loop through song in time with sample rate
-    var samplesound = setInterval(function() {
+    // var samplesound = setInterval(function() {
+    while(1) {
       if (index >= pcmdata.length) {
-        clearInterval(samplesound);
+        //clearInterval(samplesound);
         finalBPM = bpm(count);
         done(finalBPM)
         console.log("finished sampling sound - total breaths: " + count + " bpm");
@@ -669,12 +670,16 @@ function loopThrough(pcmdata,samplerate,done){
       // Print out mini equalizer on commandline
 //      console.log(bars, max )
       prevmax = max ; max = 0 ; index += step ;
-    }, interval,pcmdata);
+    }
   }
 <<<<<<< HEAD
 >>>>>>> Testing different breathing
 =======
 
 
+<<<<<<< HEAD
   export default decodeSoundFile;
 >>>>>>> Passing Function
+=======
+  // export default decodeSoundFile;
+>>>>>>> Removing multiplier
