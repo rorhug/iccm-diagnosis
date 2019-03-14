@@ -14,20 +14,23 @@ export class TapCounter extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      count: 0,
       time: 1,
       current: start
     };
-    this.count = 1;
+    this.tick = this.tick.bind(this);
   }
 
   startTapping = () => {
-
+    this.tick();
+    this.setState({
+      current: tapping
+    })
     setTimeout(() => {
       clearInterval(this.interval);
-      this.setState({ current: finished, bpm: this.count });
+      this.calculatebpm();
+      this.setState({ current: finished });
     }, 60000);
-
-    this.setState({ current: tapping })
   }
 
   tick() {
@@ -39,7 +42,14 @@ export class TapCounter extends Component {
   }
 
   onPress = () => {
-    this.count += 1
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
+
+  calculatebpm = () => {
+      this.bpm = (this.state.count)
+      this.bpm = Math.round(this.bpm)
   }
 
   componentWillUnmount() {
@@ -72,15 +82,26 @@ export class TapCounter extends Component {
       case finished:
         return (
           <View style={styles.container}>
+
             <View style={[styles.countContainer]}>
               <Text style={[styles.countText]}>
-                The bpm is: {this.state.bpm}
+                Inhalations: {this.state.count}
+              </Text>
+            </View>
+            <View style={[styles.countContainer]}>
+              <Text style={[styles.countText]}>
+                Time taken: {this.state.time !== 0 ? this.state.time : null}
+              </Text>
+            </View>
+            <View style={[styles.countContainer]}>
+              <Text style={[styles.countText]}>
+                The calculated bpm is: {this.bpm !== 0 ? this.bpm : null}
               </Text>
             </View>
 
             <TouchableHighlight
               style={styles.calbutton}
-              onPress={() => this.props.respRate(this.state.bpm)}
+              onPress={() => this.props.respRate(this.bpm)}
             >
               <Text> Continue </Text>
             </TouchableHighlight>
