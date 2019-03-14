@@ -13,7 +13,6 @@ const Header = styled.Text`
   font-weight: bold;
   font-size: 40px;
   padding-bottom: 10px;
-  text-align: center;
 `
 
 const InfoText = styled.Text({
@@ -25,15 +24,11 @@ const ButtonsBox = styled.View`
   display: flex;
   margin: 20px 0 0 0;
   background-color: #eeeeee;
-  padding-top: 5px;
-  padding-bottom: 15px;
-  border-radius: 10px;
-  border-width: 1px; 
-  border-color: #fff;
+  padding-bottom: 10px;
 `
 
 const Question = styled.Text`
-  font-size: 28px;
+  font-size: 20px;
 `
 
 const AnswerButton = styled.TouchableOpacity`
@@ -50,8 +45,8 @@ const InfoImage = styled.Image`
 `
 
 const AnswerText = styled.Text`
-  font-size: 20px;
-  background-color: #FFB732;
+  font-size: 18px;
+  background-color: #ffffff;
   padding: 10px;
   margin: 10px 10px 0 10px;
 `
