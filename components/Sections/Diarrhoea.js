@@ -1,79 +1,119 @@
 import React from 'react';
 import { Section } from '../Section';
+import { Age } from '../../utils/constants'
 
+/*
+    TO-DO: Questions are structured weirdly on the sheet,
+    possible to restructure in a better way, but need to make sure with client.
+*/
 
 // <Section questions={questions} />
 export class Diarrhoea extends React.Component {
   static questions = {
     0: {
-      text: "Child > 2 months and < 5 years with diarrhea (>= loose stools/24h) <= 3 weeks without blood or rice water aspect.",
+      text: "Child with:\n\
+- Diarrhea (3 or more loose stools in 24 hrs)\n\
+- lasting 3 weeks or less\n\
+- WITHOUT blood or rice water aspect.\n\
+\n\
+Is all the above TRUE?",
       answers: [
-        { text: "yes", goto: "10" },
-        { text: "no", goto: "2" },
+        { text: "yes", goto: "1" },
+        { text: "no", goto: "3" },
       ]
     },
-    2: {
-      text: "Less than loose stools/24h?",
-      answers: [
-        { text: "yes", goto: "3" },
-        { text: "no", goto: "4" },
-      ]
+    1: { // Automatically check age of child.
+        containsFunction: true,
+        function: (age) => {
+            switch (age) {
+                // Outside of age group
+                case Age.less2m:
+                case Age.over5:
+                    return "100"
+                // Inside the age group
+                case Age.less1y:
+                case Age.oneto5:
+                    return "2"
+            }
+            return "100"
+        }
+    },
+    2: { // Danger signs
+        text: "Signs of severe dehydration?\n\
+        - Sunken eyes\n\
+        - Skin pinch > 3 seconds\n\
+        - Other danger signs",
+        answers: [
+          { text: "yes", goto: "5" }, // Age already checked - skipping 4
+          { text: "no", goto: "101" }, // Uncomplicated diarrhea
+        ]
     },
     3: {
-      text: "No need for treatment. Continue normal feeding according to age.",
-      sectionEnd: true
+        text: "Less than 3 stools in 24 hrs?",
+        answers: [
+            { text: "yes", goto: "102" },
+            { text: "other problem", goto: "4" }
+        ]
     },
-    4: { // Wrong age?
-      text: "Child < 2 months or > 5 years?",
-      answers: [
-        { text: "yes", goto: "5" },
-        { text: "no", goto: "6" },
-      ]
+    4: { // Automatically check age of child.
+        containsFunction: true,
+        function: (age) => {
+            switch (age) {
+                // Outside of age group
+                case Age.less2m:
+                case Age.over5:
+                    return "100"
+                // Inside the age group
+                case Age.less1y:
+                case Age.oneto5:
+                    return "5"
+            }
+            return "100"
+        }
     },
     5: {
-      text: "Refer to Health Centre.",
-      sectionEnd: true
-    },
-    6: {
       text: "Longer than 3 week history?",
       answers: [
-        { text: "yes", goto: "5" },
-        { text: "no", goto: "7" },
+        { text: "yes", goto: "100" },
+        { text: "other problem", goto: "6" },
+      ]
+    },
+    6: {
+      text: "Bloody diarrhea or rice water stools?",
+      answers: [
+        { text: "yes", goto: "100" },
+        { text: "other problem", goto: "7" },
       ]
     },
     7: {
-      text: "Bloody diarrhea or rice water stools?",
-      answers: [
-        { text: "yes", goto: "5" },
-        { text: "no", goto: "8" },
-      ]
-    },
-    8: {
       text: "Signs of severe dehydration?",
       answers: [
-        { text: "yes", goto: "5" },
-        { text: "no", goto: "9" },
+        { text: "yes", goto: "100" },
+        { text: "no", goto: "103" },
       ]
     },
-    9: {
-      text: "Needs human diagnosis.",
-      sectionEnd: true
+
+    100: {
+        text: "Refer to Health Centre.",
+        sectionEnd: true
     },
-    10: {
-      text: "Signs of severe dehydration?\n\
-      - Sunken eyes\n\
-      - Skin pinch > 3 seconds\n\
-      - Other danger signs",
-      answers: [
-        { text: "yes", goto: "4" },
-        { text: "no", goto: "11" },
-      ]
+    101: {
+        text: "Uncomplicated diarrhea: give ORS and Zinc sulfate according to age, \n\
+    plus Albendazole (if not received within last 6 months).",
+        sectionEnd: true
     },
-    11: {
-      text: "Uncomplicated diarrhoea: give ORS and Zinc sulfate according to age, \n\
-  plus Albendazole (if not received within last 6 months).",
-      sectionEnd: true
+    102: {
+        text: "No need for treatment. Continue normal feeding according to age.",
+        sectionEnd: true
     },
+    103: {
+        text: "Everything okay in this section.",
+        sectionEnd: true
+    },
+    104: {
+        text: "Patient needs human diagnosis.",
+        sectionEnd: true
+    }
   }
 
   render() {
