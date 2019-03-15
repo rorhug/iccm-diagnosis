@@ -6,11 +6,28 @@ import {
   View,
 } from 'react-native'
 
+const finished = 'finished'
+const tapping = 'tapping'
+const start = 'start'
+
 export class TapCounter extends Component {
   constructor(props) {
     super(props);
-    this.state = { count: 0, time: 0, started: false, finished: false, isCalculated: false };
-    this.tick = this.tick.bind(this);
+    this.state = {
+      time: 1,
+      current: start
+    };
+    this.count = 1;
+  }
+
+  startTapping = () => {
+
+    setTimeout(() => {
+      clearInterval(this.interval);
+      this.setState({ current: finished, bpm: this.count });
+    }, 60000);
+
+    this.setState({ current: tapping })
   }
 
   tick() {
@@ -19,93 +36,58 @@ export class TapCounter extends Component {
         time: prevState.time + 1
       }));
     }, 1000);
-    this.setState({
-      started: true
-    })
   }
+
   onPress = () => {
-    this.setState({
-      count: this.state.count + 1
-    })
+    this.count += 1
   }
-  stopbutton = () => {
-    clearInterval(this.interval);
-    this.setState({
-      finished: true
-    })
-  }
-  calculatebpm = () => {
-    if (this.state.finished) {
-      this.bpm = (this.state.count / this.state.time) * 60
-      this.bpm = Math.round(this.bpm)
-      this.setState({
-        isCalculated: true
-      })
-    }
-  }
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
-
-
   render() {
-    return (
-      <View style={styles.container}>
-        <TouchableHighlight
-          style={styles.startbutton}
-          onPress={this.tick}
-          disabled={this.state.started}
-        >
-          <Text> First Press Start </Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.tapbutton}
-          onPress={this.onPress}
-          disabled={this.state.finished}
-        >
-          <Text>Tap at every inhalation</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.stopbutton}
-          onPress={this.stopbutton}
-          disabled={this.state.finished}
-        >
-          <Text> press STOP when done </Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.calbutton}
-          onPress={this.calculatebpm}
-          disabled={this.state.isCalculated}
-        >
-          <Text> Calculate </Text>
-        </TouchableHighlight>
-        <View style={[styles.countContainer]}>
-          <Text style={[styles.countText]}>
-            Inhalations: {this.state.count}
-          </Text>
-        </View>
-        <View style={[styles.countContainer]}>
-          <Text style={[styles.countText]}>
-            Time taken: {this.state.time !== 0 ? this.state.time : null}
-          </Text>
-        </View>
-        <View style={[styles.countContainer]}>
-          <Text style={[styles.countText]}>
-            The calculated bpm is: {this.bpm !== 0 ? this.bpm : null}
-          </Text>
-        </View>
+    switch (this.state.current) {
+      case start:
+        return (
+          <View style={styles.container}>
+            <TouchableHighlight
+              style={styles.startbutton}
+              onPress={this.startTapping}
+            >
+              <Text> First Press Start </Text>
+            </TouchableHighlight>
+          </View>
+        )
 
-        <TouchableHighlight
-          style={styles.calbutton}
-          onPress={()=>this.props.respRate(this.bpm)}
-          disabled={!this.state.isCalculated}
-        >
-          <Text> Continue </Text>
-        </TouchableHighlight>
-        
-      </View>
-    )
+      case tapping:
+        return (
+          <TouchableHighlight
+            style={styles.tapbutton}
+            onPress={this.onPress}
+          >
+            <Text>Tap at every inhalation</Text>
+          </TouchableHighlight>
+        )
+      case finished:
+        return (
+          <View style={styles.container}>
+            <View style={[styles.countContainer]}>
+              <Text style={[styles.countText]}>
+                The bpm is: {this.state.bpm}
+              </Text>
+            </View>
+
+            <TouchableHighlight
+              style={styles.calbutton}
+              onPress={() => this.props.respRate(this.state.bpm)}
+            >
+              <Text> Continue </Text>
+            </TouchableHighlight>
+
+          </View>
+        )
+    }
   }
 }
 
