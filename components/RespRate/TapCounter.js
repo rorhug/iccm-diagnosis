@@ -69,22 +69,12 @@ export class TapCounter extends Component {
             <Text>Tap at every inhalation</Text>
           </TouchableHighlight>
         )
-
       case finished:
         return (
           <View style={styles.container}>
             <View style={[styles.countContainer]}>
               <Text style={[styles.countText]}>
-                Inhalations: {this.state.count}
-              </Text>
-            </View>
-            <View style={[styles.countContainer]}>
-              <Text style={[styles.countText]}>
-              </Text>
-            </View>
-            <View style={[styles.countContainer]}>
-              <Text style={[styles.countText]}>
-                The calculated bpm is: {this.state.bpm !== 0 ? this.state.bpm : null}
+                The bpm is: {this.state.bpm}
               </Text>
             </View>
 
