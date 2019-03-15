@@ -26,9 +26,8 @@ export class TapCounter extends Component {
       clearInterval(this.interval);
       this.setState({ current: finished, bpm: this.count });
     }, 60000);
-    this.setState({
-      current: tapping
-    })
+
+    this.setState({ current: tapping })
   }
 
   tick() {
@@ -40,9 +39,7 @@ export class TapCounter extends Component {
   }
 
   onPress = () => {
-    console.log(`coutn: ${this.count}`)
     this.count += 1
-    console.log(`count: ${this.count}`)
   }
 
   componentWillUnmount() {
@@ -72,10 +69,10 @@ export class TapCounter extends Component {
             <Text>Tap at every inhalation</Text>
           </TouchableHighlight>
         )
+
       case finished:
         return (
           <View style={styles.container}>
-
             <View style={[styles.countContainer]}>
               <Text style={[styles.countText]}>
                 Inhalations: {this.state.count}
@@ -83,7 +80,6 @@ export class TapCounter extends Component {
             </View>
             <View style={[styles.countContainer]}>
               <Text style={[styles.countText]}>
-                Time taken: {this.state.time !== 0 ? this.state.time : null}
               </Text>
             </View>
             <View style={[styles.countContainer]}>
