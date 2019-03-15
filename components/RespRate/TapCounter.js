@@ -29,7 +29,7 @@ export class TapCounter extends Component {
     setTimeout(() => {
       clearInterval(this.interval);
       this.calculatebpm();
-      this.setState({ current: finished });
+      this.setState({ current: finished, bpm: this.state.count });
     }, 60000);
   }
 
@@ -45,11 +45,6 @@ export class TapCounter extends Component {
     this.setState({
       count: this.state.count + 1
     })
-  }
-
-  calculatebpm = () => {
-      this.bpm = (this.state.count)
-      this.bpm = Math.round(this.bpm)
   }
 
   componentWillUnmount() {
