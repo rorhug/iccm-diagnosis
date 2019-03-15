@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import {
+  Animated,
   StyleSheet,
   TouchableHighlight,
   Text,
   View,
 } from 'react-native'
+import {styled} from '@emotion/native'
+import TimerCircle from './TimerCircle'
 
 const finished = 'finished'
 const tapping = 'tapping'
@@ -14,41 +17,33 @@ export class TapCounter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      count: 0,
       time: 1,
       current: start
     };
-    this.tick = this.tick.bind(this);
+    this.count = 0;
   }
 
   startTapping = () => {
-    this.tick();
+    // this.tick();
+    setTimeout(() => {
+      clearInterval(this.interval);
+      this.setState({ current: finished, bpm: this.count });
+    }, 60000);
     this.setState({
       current: tapping
     })
-    setTimeout(() => {
-      clearInterval(this.interval);
-      this.calculatebpm();
-      this.setState({ current: finished, bpm: this.state.count });
-    }, 60000);
   }
 
-  tick() {
-    this.interval = setInterval(() => {
-      this.setState(prevState => ({
-        time: prevState.time + 1
-      }));
-    }, 1000);
-  }
+  // tick() {
+  //   this.interval = setInterval(() => {
+  //     this.setState(prevState => ({
+  //       time: prevState.time + 1
+  //     }));
+  //   }, 1000);
+  // }
 
   onPress = () => {
-    this.setState({
-      count: this.state.count + 1
-    })
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
+    this.count += 1;
   }
 
   render() {
@@ -67,12 +62,19 @@ export class TapCounter extends Component {
 
       case tapping:
         return (
+          <>
           <TouchableHighlight
             style={styles.tapbutton}
             onPress={this.onPress}
           >
             <Text>Tap at every inhalation</Text>
           </TouchableHighlight>
+          <TimerCircle
+            seconds='59'
+            color='#f00'
+            shadowColor='#999'
+          />
+          </>
         )
       case finished:
         return (
@@ -85,7 +87,7 @@ export class TapCounter extends Component {
             </View>
             <View style={[styles.countContainer]}>
               <Text style={[styles.countText]}>
-                Time taken: {this.state.time !== 0 ? this.state.time : null}
+                Time taken: 60s
               </Text>
             </View>
             <View style={[styles.countContainer]}>
