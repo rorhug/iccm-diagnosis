@@ -7,6 +7,7 @@ var _ = require('underscore');
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 var pcmdata = [];
 var maxArr = [];
 <<<<<<< HEAD
@@ -17,6 +18,12 @@ var pcmdata = [] ;
 <<<<<<< HEAD
 var amp = [];
 >>>>>>> Analysing amplitudes
+=======
+var pcmdata = [];
+var maxArr = [];
+var amps = [];
+var freqs = [];
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
 
 var total = 0;
 var average = 0;
@@ -25,6 +32,7 @@ var finalBPM = 0;
 
 var soundfile = "sounds/New-3Breaths.mp3"
 decodeSoundFile(soundfile, (bpm) => console.log(bpm));
+<<<<<<< HEAD
 =======
 =======
 var pcmdata = [];
@@ -46,6 +54,8 @@ decodeSoundFile(soundfile, (bpm) => console.log(bpm));
 >>>>>>> Amplitudes measured
 =======
 >>>>>>> Runtime Improved + Coomments Added
+=======
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
 
 /**
  * [decodeSoundFile Use web-audio-api to convert audio file to a buffer of pcm data]
@@ -60,6 +70,7 @@ function decodeSoundFile(soundfile, done){
       pcmdata = (audioBuffer.getChannelData(0)) ;
       samplerate = audioBuffer.sampleRate;
       maxvals = [] ; max = 0 ;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -107,13 +118,18 @@ function decodeSoundFile(soundfile, done){
   return; /*Integer*/
 >>>>>>> Changes
 =======
+=======
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
 
       findPeaks(pcmdata, samplerate, done);
 
     }, function(err) { throw err })
   })
   return;
+<<<<<<< HEAD
 >>>>>>> Runtime Improved + Coomments Added
+=======
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
 }
 
 
@@ -124,6 +140,7 @@ function decodeSoundFile(soundfile, done){
  * @param  {[type]} samplerate [description]
  * @return {[type]}            [description]
  */
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 function findPeaks(pcmdata, samplerate, done){
@@ -137,10 +154,14 @@ function findPeaks(pcmdata, samplerate){
 =======
 function findPeaks(pcmdata, samplerate, done){
 >>>>>>> Passing Function
+=======
+function findPeaks(pcmdata, samplerate, done){
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
 
   var interval = 0.05 * 1000 ; index = 0 ;
   var step = Math.round( samplerate * (interval/1000) );
   var max = 0 ;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -177,10 +198,13 @@ function findPeaks(pcmdata, samplerate, done){
 >>>>>>> Accuracy Improvements
 =======
 >>>>>>> Runtime Improved + Coomments Added
+=======
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
 
   while(index < pcmdata.length)
   {
     for(var i = index; i < index + step ; i++){
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -224,12 +248,19 @@ function findPeaks(pcmdata, samplerate, done){
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+      max = pcmdata[i] > max ? pcmdata[i] : max ;
+      maxArr.push(max);
+      checkAmplitude(max);
+    }
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
     max = 0 ; index += step ;
   }
       countFreq(amps);
       printResults();
       loopThrough(pcmdata, samplerate, done);
       return;
+<<<<<<< HEAD
 =======
 
 =======
@@ -278,6 +309,8 @@ function detectBeats(){
       loopThrough(pcmdata, samplerate, done);
       return;
 >>>>>>> Runtime Improved + Coomments Added
+=======
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
 }
 
 /**
@@ -313,14 +346,20 @@ function playsound(soundfile){
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Runtime Improved + Coomments Added
+=======
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
 /**
  * [Magnifies the pcmdata such that it can be easily analysed]
  * @param {[float]} pcmdata [array to be magnified]
  * @return {[float]} pcmdata [modified array]
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
 function magnifySound(pcmdata){
   for(var i = 0; i < pcmdata.length; i++)
   {
@@ -511,6 +550,7 @@ function loopThrough(pcmdata,samplerate,done){
 }
 
   // export default decodeSoundFile;
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> Runtime Improved + Coomments Added
@@ -735,3 +775,5 @@ function loopThrough(pcmdata,samplerate,done){
 =======
   // export default decodeSoundFile;
 >>>>>>> Removing multiplier
+=======
+>>>>>>> 02253a46fad2ac78943af58bacd99eeec12038fe
