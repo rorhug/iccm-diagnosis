@@ -1,13 +1,7 @@
 import React from 'react';
 import {
-  Image,
-  Platform,
   ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Button,
+  View
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
@@ -19,17 +13,9 @@ import { Fever } from '../components/Sections/Fever';
 import { PatientDetails } from '../components/Sections/PatientDetails';
 import { Sections } from '../utils/constants';
 
-import styled, { css } from '@emotion/native'
-import { Section } from '../components/Section';
-
 import { ResultsScreen } from './ResultsScreen';
+import { Container } from '../utils/styles';
 
-const Container = styled.View`
-  flex: 1;
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 40px;
-`
 const End = <View>End of Survey</View>
 
 const sections = {
@@ -93,26 +79,26 @@ export default class HomeScreen extends React.Component {
       let CurrentSectionComponent = sections[currentSection]
       let age_id = this.state.sectionResults[Sections.patient_details]
       return (
-        <Container>
+        /* Do not change the styling on this View. */
+        <View style={{ flex: 1 }}>
           <CurrentSectionComponent
             navigation={this.props.navigation}
             patientAge={PatientDetails.patientAge(age_id)}
             patientAgeOne={PatientDetails.patientAgeOne(age_id)}
             onCompletion={this.moveToNextSection}
           />
-        </Container>
+        </View>
       );
     } else {
       return (
-        <ScrollView>
-          <Container>
+        /* Do not change the styling on this View. */
+        <View style={{ flex: 1 }}>
             <ResultsScreen
-              reset={this.resetState} 
-              sectionResults={this.state.sectionResults} 
-              sectionComponents={sections}
+                reset={this.resetState} 
+                sectionResults={this.state.sectionResults} 
+                sectionComponents={sections}
             />
-          </Container>
-        </ScrollView>
+        </View>
       );
     }
   }

@@ -5,79 +5,20 @@ import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 
-import styled, { css } from '@emotion/native'
-
-const info_width = (Dimensions.get('window').width / 100) * 80;
-
-const Header = styled.Text`
-  font-weight: bold;
-  font-size: 40px;
-  padding-bottom: 10px;
-  text-align: center;
-`
-
-const InfoText = styled.Text({
-  padding: 20,
-  width: info_width
-})
-
-const QuestionBox = styled.View`
-    display: flex;
-    background-color: #F5F5F5;
-    padding: 5px;
-    border-radius: 10px;
-    border-width: 1px; 
-    border-color: #fff;
-`
-
-const ButtonsBox = styled.View`
-  display: flex;
-  margin: 20px 0 0 0;
-  background-color: #F5F5F5;
-  padding-top: 5px;
-  padding-bottom: 15px;
-  border-radius: 10px;
-  border-width: 1px; 
-  border-color: #fff;
-`
-
-const Question = styled.Text`
-  font-size: 28px;
-  text-align: center;
-  color: #FFB732;
-`
-
-const AnswerButton = styled.TouchableOpacity`
-  flex: 2 2;
-`
-
-const InfoButton = styled.TouchableOpacity`
-`
-
-const InfoImage = styled.Image`
-  align-self: center;
-  width: 150;
-  height: 150;
-`
-
-const AnswerText = styled.Text`
-  font-size: 20px;
-  color: #FFFFFF;
-  background-color: #FFB732;
-  padding: 10px;
-  margin: 10px 10px 0 10px;
-  border-radius: 10px;
-`
-
-const AnswerRow = styled.View`
-  display: flex;
-  flex-flow: row wrap;
-  align-content: space-between;
-  justify-content: space-between;
-`
-const LineBreak = styled.View`
-  width: 100%
-`
+import { 
+    ScrollContainer,
+    Header,
+    InfoText,
+    QuestionBox,
+    ButtonsBox,
+    Question,
+    AnswerButton,
+    InfoButton,
+    InfoImage,
+    AnswerText,
+    AnswerRow,
+    LineBreak
+} from '../utils/styles';
 
 const initialState = {
   currentQuestionId: "0"
@@ -162,18 +103,21 @@ export class Section extends React.Component {
   }
 
   renderQuestion = (question) => {
-    return <ScrollView>
-      <Header>{this.props.title}</Header>
+    /* Do not change the styling on first View. */
+    return <View style={{ flex: 1 }}>
+        <Header>{this.props.title}</Header>
+        <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
 
-      <QuestionBox>
-        <Question>{question.text}</Question>
-      </QuestionBox>
+            <QuestionBox>
+                <Question>{question.text}</Question>
+            </QuestionBox>
 
-      <ButtonsBox>
-        {this.answerButtons(question)}
-      </ButtonsBox>
+            <ButtonsBox>
+                {this.answerButtons(question)}
+            </ButtonsBox>
 
-    </ScrollView>
+        </ScrollView>
+    </View>
   }
 
   // TODO move the following to functions out of Section

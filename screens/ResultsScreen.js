@@ -1,15 +1,11 @@
 import React from 'react';
 import {
-  View
+  View,
+  ScrollView
 } from 'react-native';
-
+import { Header } from '../utils/styles';
 import styled, { css } from '@emotion/native'
 
-const Header = styled.Text`
-  font-weight: bold;
-  font-size: 40px;
-  padding-bottom: 10px;
-`
 const AnswerText = styled.Text`
   font-size: 18px;
   background-color: #ffffff;
@@ -44,24 +40,26 @@ export class ResultsScreen extends React.Component {
     console.log(results)
 
     return (
-        <View>
-            
+        <View style={{ flex: 1 }}>
             <Header>Results</Header>
-            <View>
-                {Object.keys(results).map(function(key) {
-                  let endingId = results[key]
-                  return <View key={key}>
-                      <SubHeading>Section: {key}</SubHeading>
-                      <AnswerText>Answer: {components[key].questions[endingId].text}</AnswerText>
-                  </View>
-                })}
-            </View>
-            <ButtonsBox>
-                <AnswerButton onPress={() => this.props.reset()}>
-                    <AnswerText>Back to Start</AnswerText>
-                </AnswerButton>
-            </ButtonsBox>
+            <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
+                
+                <View>
+                    {Object.keys(results).map(function(key) {
+                    let endingId = results[key]
+                    return <View key={key}>
+                        <SubHeading>Section: {key}</SubHeading>
+                        <AnswerText>Answer: {components[key].questions[endingId].text}</AnswerText>
+                    </View>
+                    })}
+                </View>
+                <ButtonsBox>
+                    <AnswerButton onPress={() => this.props.reset()}>
+                        <AnswerText>Back to Start</AnswerText>
+                    </AnswerButton>
+                </ButtonsBox>
 
+            </ScrollView>
         </View>
     );
   }
