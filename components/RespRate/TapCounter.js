@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import {styled} from '@emotion/native'
+import { styled } from '@emotion/native'
 import TimerCircle from './TimerCircle'
 
 const finished = 'finished'
@@ -38,8 +38,8 @@ export class TapCounter extends Component {
 
   setTick() {
     this.interval = setInterval(() => {
-        this.time += 1
-        console.log(this.time)
+      this.time += 1
+      console.log(this.time)
     }, 1000);
   }
 
@@ -64,7 +64,7 @@ export class TapCounter extends Component {
       case tapping:
         return (
           <View style={styles.container}>
-           
+
             <TimerCircle
               seconds={59}
               radius={80}
@@ -74,7 +74,7 @@ export class TapCounter extends Component {
               shadowColor='#999'
               textStyle={{ fontSize: 20 }}
               onTimeElapsed={this.onCompletion}
-              style={{margin:10}}
+              style={{ margin: 10 }}
             />
 
             <TouchableHighlight
@@ -88,18 +88,17 @@ export class TapCounter extends Component {
       case finished:
         return (
           <View style={styles.container}>
-
             <View style={[styles.countContainer]}>
               <Text style={[styles.countText]}>
                 Inhalations per minute: {this.state.bpm}
               </Text>
             </View>
-            <View style={[styles.countContainer]}>
-              <Text style={[styles.countText]}>
-                Time taken: 60s
-              </Text>
-            </View>
-
+            <TouchableHighlight
+              style={styles.calbutton}
+              onPress={() => this.props.respRate(this.state.bpm)}
+            >
+              <Text> Continue </Text>
+            </TouchableHighlight>
           </View>
         )
     }
@@ -109,7 +108,7 @@ export class TapCounter extends Component {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    flex:1,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around',
     paddingHorizontal: 10
