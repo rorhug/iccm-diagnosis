@@ -43,7 +43,7 @@ const initialState = () => {
 }
 
 
-export default class HomeScreen extends React.Component {
+export default class DiagnosisScreen extends React.Component {
 
   constructor(props) {
     super(props)
