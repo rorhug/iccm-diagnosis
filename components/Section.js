@@ -21,10 +21,19 @@ const InfoText = styled.Text({
   width: info_width
 })
 
+const QuestionBox = styled.View`
+    display: flex;
+    background-color: #F5F5F5;
+    padding: 5px;
+    border-radius: 10px;
+    border-width: 1px; 
+    border-color: #fff;
+`
+
 const ButtonsBox = styled.View`
   display: flex;
   margin: 20px 0 0 0;
-  background-color: #eeeeee;
+  background-color: #F5F5F5;
   padding-top: 5px;
   padding-bottom: 15px;
   border-radius: 10px;
@@ -34,6 +43,8 @@ const ButtonsBox = styled.View`
 
 const Question = styled.Text`
   font-size: 28px;
+  text-align: center;
+  color: #FFB732;
 `
 
 const AnswerButton = styled.TouchableOpacity`
@@ -51,9 +62,11 @@ const InfoImage = styled.Image`
 
 const AnswerText = styled.Text`
   font-size: 20px;
+  color: #FFFFFF;
   background-color: #FFB732;
   padding: 10px;
   margin: 10px 10px 0 10px;
+  border-radius: 10px;
 `
 
 const AnswerRow = styled.View`
@@ -151,7 +164,10 @@ export class Section extends React.Component {
   renderQuestion = (question) => {
     return <ScrollView>
       <Header>{this.props.title}</Header>
-      <Question>{question.text}</Question>
+
+      <QuestionBox>
+        <Question>{question.text}</Question>
+      </QuestionBox>
 
       <ButtonsBox>
         {this.answerButtons(question)}
