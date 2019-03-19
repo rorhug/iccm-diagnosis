@@ -39,7 +39,7 @@ export class TapCounter extends Component {
   setTick() {
     this.interval = setInterval(() => {
         this.time += 1
-        console.log(this.time);
+        console.log(this.time)
     }, 1000);
   }
 
@@ -63,14 +63,18 @@ export class TapCounter extends Component {
 
       case tapping:
         return (
-          <>
+          <View style={styles.container}>
+           
             <TimerCircle
               seconds={59}
-              radius={100}
-              borderWidth={10}
+              radius={80}
+              borderWidth={20}
               color='#f00'
+              bgColor="#fff"
               shadowColor='#999'
+              textStyle={{ fontSize: 20 }}
               onTimeElapsed={this.onCompletion}
+              style={{margin:10}}
             />
 
             <TouchableHighlight
@@ -79,8 +83,7 @@ export class TapCounter extends Component {
             >
               <Text>Tap at every inhalation</Text>
             </TouchableHighlight>
-
-          </>
+          </View>
         )
       case finished:
         return (
@@ -105,9 +108,10 @@ export class TapCounter extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
+    display: 'flex',
+    flex:1,
+    alignItems: 'center',
+    justifyContent: 'space-around',
     paddingHorizontal: 10
   },
   startbutton: {
