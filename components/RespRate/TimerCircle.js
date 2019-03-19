@@ -1,153 +1,237 @@
-// based on https://github.com/MrToph/react-native-countdown-circle
-import React, { Component } from 'react'
+import React from "react";
 import {
-    Easing,
-    Animated,
-    Text
-} from 'react-native'
-import styled from '@emotion/native'
+  Easing,
+  Animated,
+  StyleSheet,
+  Text,
+  View,
+  ViewPropTypes
+} from "react-native";
+import PropTypes from "prop-types";
 
-const radius = 100
-const radiusMinusBorder = radius - 30
+// compatability for react-native versions < 0.44
+const ViewPropTypesStyle = ViewPropTypes
+  ? ViewPropTypes.style
+  : View.propTypes.style;
 
-const OuterCircle = styled.View({
-    width: radius * 2,
-    height: radius * 2,
-    borderRadius: radius,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f00',
-});
-
-const InnerCircle = styled.View({
-    width: radiusMinusBorder * 2,
-    height: radiusMinusBorder * 2,
-    borderRadius: radiusMinusBorder,
-    overflow: 'hidden',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-});
-
-const HalfCircle = {
-    position: 'absolute',
+const styles = StyleSheet.create({
+  outerCircle: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e3e3e3"
+  },
+  innerCircle: {
+    overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff"
+  },
+  leftWrap: {
+    position: "absolute",
+    top: 0,
+    left: 0
+  },
+  halfCircle: {
+    position: "absolute",
     top: 0,
     left: 0,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
-    backgroundColor: '#f00',
-    width: radius,
-    height: radius * 2,
-    borderRadius: radius,
-};
-
-const LeftWrap = styled.View({
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: radius,
-    height: radius * 2
+    backgroundColor: "#f00"
+  }
 });
 
-function calcHalfCircle1(animatedValue, { shadowColor }) {
-    const rotate = animatedValue.interpolate({
-        inputRange: [0, 50, 50, 100],
-        outputRange: ['0deg', '180deg', '180deg', '180deg'],
-    })
-    const backgroundColor = shadowColor
-    console.log(backgroundColor)
-    return { rotate, backgroundColor }
+function calcInterpolationValuesForHalfCircle1(animatedValue, { shadowColor }) {
+  const rotate = animatedValue.interpolate({
+    inputRange: [0, 50, 50, 100],
+    outputRange: ["0deg", "180deg", "180deg", "180deg"]
+  });
+
+  const backgroundColor = shadowColor;
+  return { rotate, backgroundColor };
 }
 
-function calcHalfCircle2(animatedValue, { color, shadowColor }) {
-    const rotate = animatedValue.interpolate({
-        inputRange: [0, 50, 50, 100],
-        outputRange: ['0deg', '0deg', '180deg', '360deg'],
-    })
-    const backgroundColor = animatedValue.interpolate({
-        inputRange: [0, 50, 50, 100],
-        outputRange: [color, color, shadowColor, shadowColor],
-    })
-    console.log(backgroundColor)
-    return { rotate, backgroundColor }
+function calcInterpolationValuesForHalfCircle2(
+  animatedValue,
+  { color, shadowColor }
+) {
+  const rotate = animatedValue.interpolate({
+    inputRange: [0, 50, 50, 100],
+    outputRange: ["0deg", "0deg", "180deg", "360deg"]
+  });
+
+  const backgroundColor = animatedValue.interpolate({
+    inputRange: [0, 50, 50, 100],
+    outputRange: [color, color, shadowColor, shadowColor]
+  });
+  return { rotate, backgroundColor };
 }
 
 function getInitialState(props) {
-    const circleProgress = new Animated.Value(0)
-    return {
-        secondsElapsed: 0,
-        circleProgress,
-        halfCircle1: calcHalfCircle1(circleProgress, props),
-        halfCircle2: calcHalfCircle2(circleProgress, props),
-    }
+  return {
+    circleProgress,
+    secondsElapsed: 0,
+    text: props.updateText(0, props.seconds),
+    interpolationValuesHalfCircle1: calcInterpolationValuesForHalfCircle1(
+      circleProgress,
+      props
+    ),
+    interpolationValuesHalfCircle2: calcInterpolationValuesForHalfCircle2(
+      circleProgress,
+      props
+    )
+  };
 }
+const circleProgress = new Animated.Value(0);
 
-export default class TimerCircle extends React.Component {
+export default class TimerCircle extends React.PureComponent {
+  static propTypes = {
+    seconds: PropTypes.number.isRequired,
+    radius: PropTypes.number.isRequired,
+    color: PropTypes.string,
+    shadowColor: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
+    bgColor: PropTypes.string,
+    borderWidth: PropTypes.number,
+    containerStyle: ViewPropTypesStyle,
+    textStyle: Text.propTypes.style,
+    updateText: PropTypes.func,
+    onTimeElapsed: PropTypes.func
+  };
 
-    constructor(props) {
-        super(props)
-        console.log('Timer')
-        this.state = getInitialState(props)
-        console.log('end state')
-        this.restartAnimation()
+  static defaultProps = {
+    color: "#f00",
+    shadowColor: "#999",
+    bgColor: "#e9e9ef",
+    borderWidth: 2,
+    seconds: 10,
+    children: null,
+    containerStyle: null,
+    textStyle: null,
+    onTimeElapsed: () => null,
+    updateText: (elapsedSeconds, totalSeconds) =>
+      (totalSeconds - elapsedSeconds).toString()
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = getInitialState(props);
+    this.restartAnimation();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.seconds !== nextProps.seconds) {
+      this.setState(getInitialState(nextProps));
     }
+  }
 
-    onCircleAnimated = ({ finished }) => {
-        // if animation was interrupted by stopAnimation don't restart it.
-        if (!finished) return
-        const secondsElapsed = this.state.secondsElapsed + 1
-        console.log(secondsElapsed)
+  onCircleAnimated = ({ finished }) => {
+    // if animation was interrupted by stopAnimation don't restart it.
+    if (!finished) return;
 
-        const callback = secondsElapsed < this.props.seconds
-            ? this.restartAnimation
-            : this.props.onTimeElapsed
-        this.setState(
+    const secondsElapsed = this.state.secondsElapsed + 1;
+    const callback =
+      secondsElapsed < this.props.seconds
+        ? this.restartAnimation
+        : this.props.onTimeElapsed;
+    const updatedText = this.props.updateText(
+      secondsElapsed,
+      this.props.seconds
+    );
+    this.setState(
+      {
+        ...getInitialState(this.props),
+        secondsElapsed,
+        text: updatedText
+      },
+      callback
+    );
+  };
+
+  restartAnimation = () => {
+    Animated.timing(this.state.circleProgress, {
+      toValue:
+        parseFloat(JSON.stringify(this.state.circleProgress)) +
+        100 / this.props.seconds,
+      duration: 1000,
+      easing: Easing.linear
+    }).start(this.onCircleAnimated);
+  };
+
+  renderHalfCircle({ rotate, backgroundColor }) {
+    const { radius } = this.props;
+
+    return (
+      <View
+        style={[
+          styles.leftWrap,
+          {
+            width: radius,
+            height: radius * 2
+          }
+        ]}
+      >
+        <Animated.View
+          style={[
+            styles.halfCircle,
             {
-                ...getInitialState(this.props),
-                secondsElapsed,
-            },
-            callback,
-        )
-    };
+              width: radius,
+              height: radius * 2,
+              borderRadius: radius,
+              backgroundColor,
+              transform: [
+                { translateX: radius / 2 },
+                { rotate },
+                { translateX: -radius / 2 }
+              ]
+            }
+          ]}
+        />
+      </View>
+    );
+  }
 
-    restartAnimation = () => {
-        this.state.circleProgress.stopAnimation()
-        Animated.timing(this.state.circleProgress, {
-            toValue: 100,
-            duration: 1000,
-            easing: Easing.linear,
-        }).start(this.onCircleAnimated)
-    };
+  renderInnerCircle() {
+    const radiusMinusBorder = this.props.radius - this.props.borderWidth;
+    return (
+      <View
+        style={[
+          styles.innerCircle,
+          {
+            width: radiusMinusBorder * 2,
+            height: radiusMinusBorder * 2,
+            borderRadius: radiusMinusBorder,
+            backgroundColor: this.props.bgColor,
+            ...this.props.containerStyle
+          }
+        ]}
+      >
+        <Text style={this.props.textStyle}>{this.state.text}</Text>
+      </View>
+    );
+  }
 
-    renderHalfCircle({ rotate, backgroundColor }) {
-        <LeftWrap>
-            <Animated.View style={[
-                HalfCircle,
-                {
-                    backgroundColor,
-                    transform: [
-                        { translateX: radius / 2 },
-                        { rotate },
-                        { translateX: -radius / 2 },
-                    ],
-                }
-            ]} />
-        </LeftWrap>
-    }
-
-    render() {
-        const {
-            halfCircle1,
-            halfCircle2,
-        } = this.state
-        return (
-            <OuterCircle>
-                {this.renderHalfCircle(halfCircle1)}
-                {this.renderHalfCircle(halfCircle2)}
-                <InnerCircle>
-                    <Text>Hello</Text>
-                </InnerCircle>
-            </OuterCircle>
-        )
-    }
+  render() {
+    const {
+      interpolationValuesHalfCircle1,
+      interpolationValuesHalfCircle2
+    } = this.state;
+    return (
+      <View
+        style={[
+          styles.outerCircle,
+          {
+            width: this.props.radius * 2,
+            height: this.props.radius * 2,
+            borderRadius: this.props.radius,
+            backgroundColor: this.props.color
+          }
+        ]}
+      >
+        {this.renderHalfCircle(interpolationValuesHalfCircle1)}
+        {this.renderHalfCircle(interpolationValuesHalfCircle2)}
+        {this.renderInnerCircle()}
+      </View>
+    );
+  }
 }

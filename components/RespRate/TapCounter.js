@@ -20,27 +20,28 @@ export class TapCounter extends Component {
       time: 1,
       current: start
     };
+    this.time = 0;
     this.count = 0;
   }
 
   startTapping = () => {
-    // this.tick();
-    setTimeout(() => {
-      clearInterval(this.interval);
-      this.setState({ current: finished, bpm: this.count });
-    }, 60000);
+    this.setTick();
     this.setState({
       current: tapping
     })
   }
 
-  // tick() {
-  //   this.interval = setInterval(() => {
-  //     this.setState(prevState => ({
-  //       time: prevState.time + 1
-  //     }));
-  //   }, 1000);
-  // }
+  onCompletion = () => {
+    clearInterval(this.interval);
+    this.setState({ current: finished, bpm: this.count });
+  }
+
+  setTick() {
+    this.interval = setInterval(() => {
+        this.time += 1
+        console.log(this.time);
+    }, 1000);
+  }
 
   onPress = () => {
     this.count += 1;
@@ -63,17 +64,22 @@ export class TapCounter extends Component {
       case tapping:
         return (
           <>
-          <TouchableHighlight
-            style={styles.tapbutton}
-            onPress={this.onPress}
-          >
-            <Text>Tap at every inhalation</Text>
-          </TouchableHighlight>
-          <TimerCircle
-            seconds='59'
-            color='#f00'
-            shadowColor='#999'
-          />
+            <TimerCircle
+              seconds={59}
+              radius={100}
+              borderWidth={10}
+              color='#f00'
+              shadowColor='#999'
+              onTimeElapsed={this.onCompletion}
+            />
+
+            <TouchableHighlight
+              style={styles.tapbutton}
+              onPress={this.onPress}
+            >
+              <Text>Tap at every inhalation</Text>
+            </TouchableHighlight>
+
           </>
         )
       case finished:
@@ -82,7 +88,7 @@ export class TapCounter extends Component {
 
             <View style={[styles.countContainer]}>
               <Text style={[styles.countText]}>
-                Inhalations: {this.state.count}
+                Inhalations per minute: {this.state.bpm}
               </Text>
             </View>
             <View style={[styles.countContainer]}>
@@ -90,18 +96,6 @@ export class TapCounter extends Component {
                 Time taken: 60s
               </Text>
             </View>
-            <View style={[styles.countContainer]}>
-              <Text style={[styles.countText]}>
-                The calculated bpm is: {this.bpm !== 0 ? this.bpm : null}
-              </Text>
-            </View>
-
-            <TouchableHighlight
-              style={styles.calbutton}
-              onPress={() => this.props.respRate(this.bpm)}
-            >
-              <Text> Continue </Text>
-            </TouchableHighlight>
 
           </View>
         )
@@ -112,6 +106,7 @@ export class TapCounter extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     paddingHorizontal: 10
   },
