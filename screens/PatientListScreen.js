@@ -73,7 +73,10 @@ export default class PatientListScreen extends React.Component {
     </TouchableOpacity>
   </NewPatientWrap>
 
-  newPatientButtonPressed = () => this.props.navigation.navigate('Diagnosis', { patient: {} })
+  newPatientButtonPressed = () => this.props.navigation.navigate(
+    'PatientView',
+    { patient: { first_name: "Markov", last_name: "Kollektiv" } }
+  )
 
   render() {
     return <SectionList
