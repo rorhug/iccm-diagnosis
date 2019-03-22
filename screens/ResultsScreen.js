@@ -3,7 +3,7 @@ import {
   View,
   ScrollView
 } from 'react-native';
-import { Header } from '../utils/styles';
+import { Header, AnswerTextView } from '../utils/styles';
 import styled, { css } from '@emotion/native'
 
 const AnswerText = styled.Text`
