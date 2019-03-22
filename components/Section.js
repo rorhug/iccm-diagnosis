@@ -36,9 +36,10 @@ export class Section extends React.Component {
   currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
   moveToQuestion = (id) => {
+    console.log(`ID: ${id}`);
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
-      console.log(`ID: ${id}`);
+      console.log(`changed ID: ${id}`);
     }
 
     this.setState({ currentQuestionId: id })
@@ -88,8 +89,8 @@ export class Section extends React.Component {
         <AnswerRow key={index}>
           <AnswerButton
             accessibilityLabel={answer.text}
-            onPress={() => question.sectionEnd ?
-              this.props.onCompletion(index) :
+            onPress={() => answer.goto===undefined ?
+              this.props.onCompletion(index, skip=answer.skip) :
               this.moveToQuestion(answer.goto)}
           >
             <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>

@@ -11,7 +11,7 @@ import { DangerSigns } from '../components/Sections/DangerSigns';
 import { Diarrhoea } from '../components/Sections/Diarrhoea';
 import { Fever } from '../components/Sections/Fever';
 import { PatientDetails } from '../components/Sections/PatientDetails';
-import { Sections } from '../utils/constants';
+import { Sections, QuestionText } from '../utils/constants';
 
 import { ResultsScreen } from './ResultsScreen';
 import { Container } from '../utils/styles';
@@ -48,12 +48,17 @@ export default class HomeScreen extends React.Component {
 
   currentSection = () => this.state.sections.current;
 
-  moveToNextSection = (endingQuestionId) => {
+  moveToNextSection = (endingQuestionId, skip=false) => {
     var sections = this.state.sections;
     console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
-
     this.saveResult(endingQuestionId)
-    sections.completed.push(sections.current);
+
+    if(skip){
+      console.log("SKIPPING")
+      sections.waiting.push(sections.current);
+    }else{
+      sections.completed.push(sections.current);
+    }
     sections.current = sections.next.shift();
 
     this.setState(sections);
@@ -67,6 +72,18 @@ export default class HomeScreen extends React.Component {
 
   resetState = () => {
     this.setState(initialState())
+  }
+
+  renderWaitingSections = (section, index) => {
+    let id = this.state.sectionResults[section];
+    let text = sections[section].questions[id].text
+    return (
+        <TouchableOpacity 
+          key={index}
+          onPress={()=> continueSection(section, id)}>
+          <AnswerText>{text}</AnswerText>
+        </TouchableOpacity>
+    )
   }
 
   static navigationOptions = {
