@@ -6,7 +6,6 @@ import { Sections } from '../utils/constants';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 
 import { 
-    ScrollContainer,
     Header,
     InfoText,
     QuestionBox,
@@ -16,6 +15,7 @@ import {
     InfoButton,
     InfoImage,
     AnswerText,
+    AnswerTextView,
     AnswerRow,
     LineBreak
 } from '../utils/styles';
@@ -62,7 +62,7 @@ export class Section extends React.Component {
     return (
       <>
         <InfoButton onPress={() => this._toggleSection(key)}>
-          <AnswerText>help</AnswerText>
+          <AnswerTextView><AnswerText>help</AnswerText></AnswerTextView>
         </InfoButton>
 
         <LineBreak />
@@ -80,7 +80,7 @@ export class Section extends React.Component {
   answerButtons = (question) => {
     if (question.sectionEnd && !question.answers) {
       return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
-        <AnswerText>Next Section</AnswerText>
+        <AnswerTextView><AnswerText>Next Section</AnswerText></AnswerTextView>
       </AnswerButton>
     }
     else if (question.answers.length > 0) {
@@ -92,7 +92,7 @@ export class Section extends React.Component {
               this.props.onCompletion(index) :
               this.moveToQuestion(answer.goto)}
           >
-            <AnswerText>{answer.text}</AnswerText>
+            <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
           </AnswerButton>
           {answer.info != undefined && this.infoCollapsable(answer, index)}
         </AnswerRow>)

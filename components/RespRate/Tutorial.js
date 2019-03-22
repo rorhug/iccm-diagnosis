@@ -1,9 +1,8 @@
 import React from 'react';
 import { 
-    View,
-    ScrollView
+    View
 } from 'react-native';
-import { AnswerText, Header } from '../../utils/styles';
+import { AnswerText, AnswerTextView, Header } from '../../utils/styles';
 
 export class Tutorial extends React.Component {
   constructor(props) {
@@ -13,7 +12,7 @@ export class Tutorial extends React.Component {
   render() {
     return <View>
         <Header>Tutorial Screen.</Header>
-        <AnswerText>This screen will have a gif and 2 buttons.</AnswerText>
+        <AnswerTextView><AnswerText>This screen will have a gif and 2 buttons.</AnswerText></AnswerTextView>
     </View>
   }
 

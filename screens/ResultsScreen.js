@@ -49,13 +49,13 @@ export class ResultsScreen extends React.Component {
                     let endingId = results[key]
                     return <View key={key}>
                         <SubHeading>Section: {key}</SubHeading>
-                        <AnswerText>Answer: {components[key].questions[endingId].text}</AnswerText>
+                        <AnswerTextView><AnswerText>Answer: {components[key].questions[endingId].text}</AnswerText></AnswerTextView>
                     </View>
                     })}
                 </View>
                 <ButtonsBox>
                     <AnswerButton onPress={() => this.props.reset()}>
-                        <AnswerText>Back to Start</AnswerText>
+                        <AnswerTextView><AnswerText>Back to Start</AnswerText></AnswerTextView>
                     </AnswerButton>
                 </ButtonsBox>
 

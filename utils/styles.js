@@ -60,7 +60,10 @@ exports.Question = styled.Text`
 
 exports.AnswerText = styled.Text`
   font-size: 20px;
-  color: #FFFFFF;
+  color: #05668d;
+`
+
+exports.AnswerTextView = styled.View`
   background-color: #FFB732;
   padding: 10px;
   margin: 10px 10px 0 10px;
