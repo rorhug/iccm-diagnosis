@@ -6,8 +6,11 @@ import {
     TouchableOpacity
 } from 'react-native';
 import styled, { css } from '@emotion/native'
-
 import { RrComponents } from '../../utils/constants';
+import { 
+    AnswerText,
+    AnswerTextView
+} from '../../utils/styles';
 
 // Create Buttons with Images for this screen.
 const Container = styled.View`
@@ -29,15 +32,6 @@ const ImageButtonBox = styled.View`
   align-self: baseline;
   background-color: #eeeeee;
   padding: 10px;
-`
-
-const AnswerText = styled.Text`
-    font-size: 18px;
-    text-align: center;
-    font-weight: bold;
-    background-color: #ffffff;
-    padding: 10px;
-    margin-top: 10px;
 `
 
 export class CounterChoice extends React.Component {
