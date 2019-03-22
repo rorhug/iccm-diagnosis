@@ -6,6 +6,7 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import { WaitingScreen} from '../components/WaitingScreen';
 import { Cough } from '../components/Sections/Cough';
 import { DangerSigns } from '../components/Sections/DangerSigns';
 import { Diarrhoea } from '../components/Sections/Diarrhoea';
@@ -14,16 +15,6 @@ import { PatientDetails } from '../components/Sections/PatientDetails';
 import { Sections, QuestionText } from '../utils/constants';
 
 import { ResultsScreen } from './ResultsScreen';
-import {
-  Container,
-  Header,
-  QuestionBox,
-  Question,
-  ButtonsBox,
-  AnswerButton,
-  AnswerText,
-  AnswerTextView,
-} from '../utils/styles';
 
 const End = <View>End of Survey</View>
 
@@ -104,46 +95,23 @@ export default class HomeScreen extends React.Component {
     this.setState(sections)
   };
 
-  renderWaitingSections = (section, index) => {
-    let id = this.state.sectionResults[section];
-    let text = sections[section].questions[id].text
-    return (
-      <AnswerButton
-        key={index}
-        onPress={() => this.continueSection(section, id, index)}>
-        <AnswerTextView><AnswerText>{text}</AnswerText></AnswerTextView>
-      </AnswerButton>
-    )
-  }
+  skipWaitScreen = () => {
+    let sections = this.state.sections;
+    sections.waitScreen = false;
+    this.setState(sections);
+  };
 
   render() {
     let currentSection = this.state.sections.current;
     if (this.state.sections.waitScreen) {
       return (
-        /* Do not change the styling on this View. */
-        <View style={{ flex: 1 }}>
-          <Header>Unfinished sections</Header>
-          <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
-
-            <QuestionBox>
-              <Question>Select Section to continue</Question>
-            </QuestionBox>
-            <ButtonsBox>
-              {this.state.sections.waiting.map(this.renderWaitingSections)}
-              <AnswerButton
-                onPress={() => {
-                  let sections = this.state.sections;
-                  sections.waitScreen = false;
-                  this.setState(sections);
-                }}>
-                  <AnswerTextView>
-                    <AnswerText>No - continue</AnswerText>
-                  </AnswerTextView>
-              </AnswerButton>
-            </ButtonsBox>
-          </ScrollView>
-
-        </View>
+        <WaitingScreen
+          waiting={this.state.sections.waiting}
+          sectionResults={this.state.sectionResults}
+          continueSection={this.continueSection}
+          skipWaitScreen={this.skipWaitScreen}
+          components={sections}
+        />
       );
     } else if (currentSection) {
       let CurrentSectionComponent = sections[currentSection]
