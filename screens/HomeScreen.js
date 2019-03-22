@@ -14,7 +14,16 @@ import { PatientDetails } from '../components/Sections/PatientDetails';
 import { Sections, QuestionText } from '../utils/constants';
 
 import { ResultsScreen } from './ResultsScreen';
-import { Container } from '../utils/styles';
+import {
+  Container,
+  Header,
+  QuestionBox,
+  Question,
+  ButtonsBox,
+  AnswerButton,
+  AnswerText,
+  AnswerTextView,
+} from '../utils/styles';
 
 const End = <View>End of Survey</View>
 
@@ -33,8 +42,8 @@ const initialState = () => {
       current: Sections.patient_details,
       next: [
         Sections.dangersigns,
-        Sections.fever, 
-        Sections.cough, 
+        Sections.fever,
+        Sections.cough,
         Sections.diarrhoea
       ],
       waiting: [],
@@ -68,15 +77,15 @@ export default class HomeScreen extends React.Component {
     })
   }
 
-  moveToNextSection = (endingQuestionId, skip=false) => {
+  moveToNextSection = (endingQuestionId, skip = false) => {
     var sections = this.state.sections;
     console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
     this.saveResult(endingQuestionId)
     sections.waitScreen = sections.waiting.length > 0
 
-    if(skip){
+    if (skip) {
       sections.waiting.push(sections.current);
-    }else{
+    } else {
       sections.completed.push(sections.current);
     }
     sections.current = sections.next.shift();
@@ -99,34 +108,44 @@ export default class HomeScreen extends React.Component {
     let id = this.state.sectionResults[section];
     let text = sections[section].questions[id].text
     return (
-        <TouchableOpacity 
-          key={index}
-          onPress={()=> this.continueSection(section, id, index)}>
-          <AnswerText>{text}</AnswerText>
-        </TouchableOpacity>
+      <AnswerButton
+        key={index}
+        onPress={() => this.continueSection(section, id, index)}>
+        <AnswerTextView><AnswerText>{text}</AnswerText></AnswerTextView>
+      </AnswerButton>
     )
   }
 
   render() {
     let currentSection = this.state.sections.current;
-    if (this.state.sections.waitScreen){
-      return(
-        <>
-        <Text>Select Section to continue</Text>
-        <ButtonsBox>
-          {this.state.sections.waiting.map(this.renderWaitingSections)}
-          <TouchableOpacity 
-            onPress={()=> {
-              let sections = this.state.sections;
-              sections.waitScreen = false;
-              this.setState(sections);
-              }}>
-            <AnswerText>Next Section</AnswerText>
-          </TouchableOpacity>
-        </ButtonsBox>
-        </>
+    if (this.state.sections.waitScreen) {
+      return (
+        /* Do not change the styling on this View. */
+        <View style={{ flex: 1 }}>
+          <Header>Unfinished sections</Header>
+          <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
+
+            <QuestionBox>
+              <Question>Select Section to continue</Question>
+            </QuestionBox>
+            <ButtonsBox>
+              {this.state.sections.waiting.map(this.renderWaitingSections)}
+              <AnswerButton
+                onPress={() => {
+                  let sections = this.state.sections;
+                  sections.waitScreen = false;
+                  this.setState(sections);
+                }}>
+                  <AnswerTextView>
+                    <AnswerText>No - continue</AnswerText>
+                  </AnswerTextView>
+              </AnswerButton>
+            </ButtonsBox>
+          </ScrollView>
+
+        </View>
       );
-    }else if (currentSection) {
+    } else if (currentSection) {
       let CurrentSectionComponent = sections[currentSection]
       let age_id = this.state.sectionResults[Sections.patient_details]
       return (
@@ -145,11 +164,11 @@ export default class HomeScreen extends React.Component {
       return (
         /* Do not change the styling on this View. */
         <View style={{ flex: 1 }}>
-            <ResultsScreen
-                reset={this.resetState} 
-                sectionResults={this.state.sectionResults} 
-                sectionComponents={sections}
-            />
+          <ResultsScreen
+            reset={this.resetState}
+            sectionResults={this.state.sectionResults}
+            sectionComponents={sections}
+          />
         </View>
       );
     }
