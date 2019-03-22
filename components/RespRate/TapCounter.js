@@ -17,15 +17,12 @@ export class TapCounter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: 1,
+      count: 0,
       current: start
     };
-    this.time = 0;
-    this.count = 0;
   }
 
   startTapping = () => {
-    this.setTick();
     this.setState({
       current: tapping
     })
@@ -33,18 +30,12 @@ export class TapCounter extends Component {
 
   onCompletion = () => {
     clearInterval(this.interval);
-    this.setState({ current: finished, bpm: this.count });
-  }
-
-  setTick() {
-    this.interval = setInterval(() => {
-      this.time += 1
-      console.log(this.time)
-    }, 1000);
+    this.setState({ current: finished });
   }
 
   onPress = () => {
-    this.count += 1;
+    count = this.state.count + 1  
+    this.setState({count})
   }
 
   render() {
@@ -90,12 +81,12 @@ export class TapCounter extends Component {
           <View style={styles.container}>
             <View style={[styles.countContainer]}>
               <Text style={[styles.countText]}>
-                Inhalations per minute: {this.state.bpm}
+                Inhalations per minute: {this.state.count}
               </Text>
             </View>
             <TouchableHighlight
               style={styles.calbutton}
-              onPress={() => this.props.respRate(this.state.bpm)}
+              onPress={() => this.props.respRate(this.state.count)}
             >
               <Text> Continue </Text>
             </TouchableHighlight>
