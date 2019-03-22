@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import {
+  Animated,
   StyleSheet,
   TouchableHighlight,
   Text,
   View,
 } from 'react-native'
+import { styled } from '@emotion/native'
+import TimerCircle from './TimerCircle'
 
 const finished = 'finished'
 const tapping = 'tapping'
@@ -17,33 +20,31 @@ export class TapCounter extends Component {
       time: 1,
       current: start
     };
-    this.count = 1;
+    this.time = 0;
+    this.count = 0;
   }
 
   startTapping = () => {
-
-    setTimeout(() => {
-      clearInterval(this.interval);
-      this.setState({ current: finished, bpm: this.count });
-    }, 60000);
-
-    this.setState({ current: tapping })
+    this.setTick();
+    this.setState({
+      current: tapping
+    })
   }
 
-  tick() {
+  onCompletion = () => {
+    clearInterval(this.interval);
+    this.setState({ current: finished, bpm: this.count });
+  }
+
+  setTick() {
     this.interval = setInterval(() => {
-      this.setState(prevState => ({
-        time: prevState.time + 1
-      }));
+      this.time += 1
+      console.log(this.time)
     }, 1000);
   }
 
   onPress = () => {
-    this.count += 1
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
+    this.count += 1;
   }
 
   render() {
@@ -62,29 +63,42 @@ export class TapCounter extends Component {
 
       case tapping:
         return (
-          <TouchableHighlight
-            style={styles.tapbutton}
-            onPress={this.onPress}
-          >
-            <Text>Tap at every inhalation</Text>
-          </TouchableHighlight>
+          <View style={styles.container}>
+
+            <TimerCircle
+              seconds={59}
+              radius={80}
+              borderWidth={20}
+              color='#f00'
+              bgColor="#fff"
+              shadowColor='#999'
+              textStyle={{ fontSize: 20 }}
+              onTimeElapsed={this.onCompletion}
+              style={{ margin: 10 }}
+            />
+
+            <TouchableHighlight
+              style={styles.tapbutton}
+              onPress={this.onPress}
+            >
+              <Text>Tap at every inhalation</Text>
+            </TouchableHighlight>
+          </View>
         )
       case finished:
         return (
           <View style={styles.container}>
             <View style={[styles.countContainer]}>
               <Text style={[styles.countText]}>
-                The bpm is: {this.state.bpm}
+                Inhalations per minute: {this.state.bpm}
               </Text>
             </View>
-
             <TouchableHighlight
               style={styles.calbutton}
               onPress={() => this.props.respRate(this.state.bpm)}
             >
               <Text> Continue </Text>
             </TouchableHighlight>
-
           </View>
         )
     }
@@ -93,8 +107,10 @@ export class TapCounter extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-around',
     paddingHorizontal: 10
   },
   startbutton: {
