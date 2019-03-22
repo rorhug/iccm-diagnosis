@@ -79,6 +79,9 @@ export class ResultsScreen extends React.Component {
                     <BackTextView><BackText>Back to Start</BackText></BackTextView>
                 </AnswerButton>
 
+                {/* This view is just to create space between components. */}
+                <View style={{ marginBottom: 20 }}></View>
+
             </ScrollView>
         </View>
     );
