@@ -72,10 +72,9 @@ export default class HomeScreen extends React.Component {
     var sections = this.state.sections;
     console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
     this.saveResult(endingQuestionId)
-    waiting = sections.waiting.length > 0
+    sections.waitScreen = sections.waiting.length > 0
 
     if(skip){
-      console.log("SKIPPING")
       sections.waiting.push(sections.current);
     }else{
       sections.completed.push(sections.current);
@@ -92,6 +91,7 @@ export default class HomeScreen extends React.Component {
     sections.current = section;
     sections.waiting.splice(index, 1);
     sections.startQuestion = id;
+    sections.waitScreen = false;
     this.setState(sections)
   };
 
@@ -109,13 +109,22 @@ export default class HomeScreen extends React.Component {
 
   render() {
     let currentSection = this.state.sections.current;
-    let waiting = this.state.sections.waiting;
-    if (waiting.length > 0){
-      console.log(waiting);
+    if (this.state.sections.waitScreen){
       return(
+        <>
+        <Text>Select Section to continue</Text>
         <ButtonsBox>
-          {waiting.map(this.renderWaitingSections)}
+          {this.state.sections.waiting.map(this.renderWaitingSections)}
+          <TouchableOpacity 
+            onPress={()=> {
+              let sections = this.state.sections;
+              sections.waitScreen = false;
+              this.setState(sections);
+              }}>
+            <AnswerText>Next Section</AnswerText>
+          </TouchableOpacity>
         </ButtonsBox>
+        </>
       );
     }else if (currentSection) {
       let CurrentSectionComponent = sections[currentSection]

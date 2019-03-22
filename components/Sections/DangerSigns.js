@@ -58,9 +58,9 @@ state = { activeSections: [] }
     title="DangerSigns" 
     initialState={this.state}
     questions={DangerSigns.questions} 
-    onCompletion={this.props.onCompletion}
     activeSections={[]}
     expandMultiple={true}
+    {...this.props}
     />
   }
 

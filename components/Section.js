@@ -20,15 +20,11 @@ import {
     LineBreak
 } from '../utils/styles';
 
-const initialState = {
-  currentQuestionId: "0"
-}
-
 export class Section extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ...initialState,
+      currentQuestionId: this.props.startQuestion,
       ...this.props.initialState
     };
   }
@@ -36,10 +32,8 @@ export class Section extends React.Component {
   currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
   moveToQuestion = (id) => {
-    console.log(`ID: ${id}`);
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
-      console.log(`changed ID: ${id}`);
     }
 
     this.setState({ currentQuestionId: id })
@@ -139,7 +133,6 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
-
     if (question.specialScreen) {
       return this.renderSpecialScreen(question);
     } else {
