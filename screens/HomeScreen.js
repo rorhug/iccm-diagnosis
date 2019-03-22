@@ -29,8 +29,14 @@ const sections = {
 const initialState = () => {
   return {
     sections: {
+      startQuestion: 0,
       current: Sections.patient_details,
-      next: [Sections.dangersigns, Sections.fever, Sections.cough, Sections.diarrhoea],
+      next: [
+        Sections.dangersigns,
+        Sections.fever, 
+        Sections.cough, 
+        Sections.diarrhoea
+      ],
       waiting: [],
       completed: []
     },
@@ -46,12 +52,27 @@ export default class HomeScreen extends React.Component {
     this.state = initialState()
   }
 
+  static navigationOptions = {
+    header: null,
+  };
+
+  resetState = () => {
+    this.setState(initialState())
+  }
+
   currentSection = () => this.state.sections.current;
+
+  saveResult = (id) => {
+    this.setState({
+      sectionResults: { ...this.state.sectionResults, [this.state.sections.current]: id }
+    })
+  }
 
   moveToNextSection = (endingQuestionId, skip=false) => {
     var sections = this.state.sections;
     console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
     this.saveResult(endingQuestionId)
+    waiting = sections.waiting.length > 0
 
     if(skip){
       console.log("SKIPPING")
@@ -60,19 +81,19 @@ export default class HomeScreen extends React.Component {
       sections.completed.push(sections.current);
     }
     sections.current = sections.next.shift();
+    sections.startQuestion = 0;
 
     this.setState(sections);
   };
 
-  saveResult = (id) => {
-    this.setState({
-      sectionResults: { ...this.state.sectionResults, [this.state.sections.current]: id }
-    })
-  }
-
-  resetState = () => {
-    this.setState(initialState())
-  }
+  continueSection = (section, id, index) => {
+    var sections = this.state.sections;
+    sections.next.push(sections.current);
+    sections.current = section;
+    sections.waiting.splice(index, 1);
+    sections.startQuestion = id;
+    this.setState(sections)
+  };
 
   renderWaitingSections = (section, index) => {
     let id = this.state.sectionResults[section];
@@ -80,19 +101,23 @@ export default class HomeScreen extends React.Component {
     return (
         <TouchableOpacity 
           key={index}
-          onPress={()=> continueSection(section, id)}>
+          onPress={()=> this.continueSection(section, id, index)}>
           <AnswerText>{text}</AnswerText>
         </TouchableOpacity>
     )
   }
 
-  static navigationOptions = {
-    header: null,
-  };
-
   render() {
     let currentSection = this.state.sections.current;
-    if (currentSection) {
+    let waiting = this.state.sections.waiting;
+    if (waiting.length > 0){
+      console.log(waiting);
+      return(
+        <ButtonsBox>
+          {waiting.map(this.renderWaitingSections)}
+        </ButtonsBox>
+      );
+    }else if (currentSection) {
       let CurrentSectionComponent = sections[currentSection]
       let age_id = this.state.sectionResults[Sections.patient_details]
       return (
@@ -103,6 +128,7 @@ export default class HomeScreen extends React.Component {
             patientAge={PatientDetails.patientAge(age_id)}
             patientAgeOne={PatientDetails.patientAgeOne(age_id)}
             onCompletion={this.moveToNextSection}
+            startQuestion={this.state.sections.startQuestion}
           />
         </View>
       );
