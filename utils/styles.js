@@ -3,10 +3,12 @@ import styled, { css } from '@emotion/native';
 
 const info_width = (Dimensions.get('window').width / 100) * 80;
 
-/* 
+/*
     TO-DO:
-    - Restyle CounterChoice screen
-    - Restyle Results screen
+    - Restyle CounterChoice screen - M
+    - Restyle Results screen - M
+    - Icons - L
+    - DangesSigns - list with checkboxes -L
 */
 
 exports.Container = styled.View`

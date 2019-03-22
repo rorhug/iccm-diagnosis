@@ -3,23 +3,20 @@ import {
   View,
   ScrollView
 } from 'react-native';
-import { Header, AnswerTextView } from '../utils/styles';
+import {
+    Header,
+    AnswerText,
+    AnswerButton,
+    AnswerTextView
+} from '../utils/styles';
 import styled, { css } from '@emotion/native'
 
-const AnswerText = styled.Text`
-  font-size: 18px;
-  background-color: #ffffff;
-  padding: 10px;
-  margin: 10px 10px 0 10px;
-`
 const SubHeading = styled.Text`
     font-weight: bold;
     font-size: 24px;
     padding-bottom: 10px;
 `
-const AnswerButton = styled.TouchableOpacity`
-  width: 100%;
-`
+
 const ButtonsBox = styled.View`
   display: flex;
   align-items: center;
@@ -53,11 +50,9 @@ export class ResultsScreen extends React.Component {
                     </View>
                     })}
                 </View>
-                <ButtonsBox>
-                    <AnswerButton onPress={() => this.props.reset()}>
-                        <AnswerTextView><AnswerText>Back to Start</AnswerText></AnswerTextView>
-                    </AnswerButton>
-                </ButtonsBox>
+                <AnswerButton onPress={() => this.props.reset()}>
+                    <AnswerTextView><AnswerText>Back to Start</AnswerText></AnswerTextView>
+                </AnswerButton>
 
             </ScrollView>
         </View>
