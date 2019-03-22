@@ -5,66 +5,20 @@ import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 
-import styled, { css } from '@emotion/native'
-
-const info_width = (Dimensions.get('window').width / 100) * 80;
-
-const Header = styled.Text`
-  font-weight: bold;
-  font-size: 40px;
-  padding-bottom: 10px;
-  text-align: center;
-`
-
-const InfoText = styled.Text({
-  padding: 20,
-  width: info_width
-})
-
-const ButtonsBox = styled.View`
-  display: flex;
-  margin: 20px 0 0 0;
-  background-color: #eeeeee;
-  padding-top: 5px;
-  padding-bottom: 15px;
-  border-radius: 10px;
-  border-width: 1px; 
-  border-color: #fff;
-`
-
-const Question = styled.Text`
-  font-size: 28px;
-`
-
-const AnswerButton = styled.TouchableOpacity`
-  flex: 2 2;
-`
-
-const InfoButton = styled.TouchableOpacity`
-`
-
-const InfoImage = styled.Image`
-  align-self: center;
-  width: 150;
-  height: 150;
-`
-
-const AnswerText = styled.Text`
-  font-size: 20px;
-  background-color: #FFB732;
-  padding: 10px;
-  margin: 10px 10px 0 10px;
-`
-
-const AnswerRow = styled.View`
-  display: flex;
-  flex-flow: row wrap;
-  align-content: space-between;
-  justify-content: space-between;
-`
-const LineBreak = styled.View`
-  width: 100%
-`
+import { 
+    Header,
+    InfoText,
+    QuestionBox,
+    ButtonsBox,
+    Question,
+    AnswerButton,
+    InfoButton,
+    InfoImage,
+    AnswerText,
+    AnswerTextView,
+    AnswerRow,
+    LineBreak
+} from '../utils/styles';
 
 const initialState = {
   currentQuestionId: "0"
@@ -108,7 +62,7 @@ export class Section extends React.Component {
     return (
       <>
         <InfoButton onPress={() => this._toggleSection(key)}>
-          <AnswerText>help</AnswerText>
+          <AnswerTextView><AnswerText>help</AnswerText></AnswerTextView>
         </InfoButton>
 
         <LineBreak />
@@ -126,7 +80,7 @@ export class Section extends React.Component {
   answerButtons = (question) => {
     if (question.sectionEnd && !question.answers) {
       return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
-        <AnswerText>Next Section</AnswerText>
+        <AnswerTextView><AnswerText>Next Section</AnswerText></AnswerTextView>
       </AnswerButton>
     }
     else if (question.answers.length > 0) {
@@ -138,7 +92,7 @@ export class Section extends React.Component {
               this.props.onCompletion(index) :
               this.moveToQuestion(answer.goto)}
           >
-            <AnswerText>{answer.text}</AnswerText>
+            <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
           </AnswerButton>
           {answer.info != undefined && this.infoCollapsable(answer, index)}
         </AnswerRow>)
@@ -149,15 +103,21 @@ export class Section extends React.Component {
   }
 
   renderQuestion = (question) => {
-    return <ScrollView>
-      <Header>{this.props.title}</Header>
-      <Question>{question.text}</Question>
+    /* Do not change the styling on first View. */
+    return <View style={{ flex: 1 }}>
+        <Header>{this.props.title}</Header>
+        <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
 
-      <ButtonsBox>
-        {this.answerButtons(question)}
-      </ButtonsBox>
+            <QuestionBox>
+                <Question>{question.text}</Question>
+            </QuestionBox>
 
-    </ScrollView>
+            <ButtonsBox>
+                {this.answerButtons(question)}
+            </ButtonsBox>
+
+        </ScrollView>
+    </View>
   }
 
   // TODO move the following to functions out of Section

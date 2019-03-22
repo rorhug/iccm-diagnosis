@@ -55,7 +55,7 @@ export class CounterChoice extends React.Component {
                 source={require('../../assets/images/breathing-thing.jpg')}
                 style={{width: 150, height: 150}}
                 />
-                <AnswerText>RECORD</AnswerText>
+                <AnswerTextView><AnswerText>RECORD</AnswerText></AnswerTextView>
             </ImageButtonBox>
         </TouchableOpacity>
 
@@ -65,7 +65,7 @@ export class CounterChoice extends React.Component {
                 source={require('../../assets/images/tap.jpg')}
                 style={{width: 150, height: 150}}
                 />
-                <AnswerText>TAP</AnswerText>
+                <AnswerTextView><AnswerText>TAP</AnswerText></AnswerTextView>
             </ImageButtonBox>
         </TouchableOpacity>
     </Container>

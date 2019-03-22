@@ -35,14 +35,14 @@ export class Fever extends React.Component {
     },
     3: { // Has malaria.
       text:
-      "Signs of severe malaria?\n \
-      - Unconscious / prostrate\n \
-      - Convulsions\n \
-      - Lethargy\n \
-      - Severe pallor\n \
-      - Unable to drink / vomiting\n \
-      - Respiratory distress\n \
-      - Cyanosis",
+      "Signs of severe malaria?\n" +
+      "- Unconscious / prostrate\n" +
+      "- Convulsions\n" +
+      "- Lethargy\n" +
+      "- Severe pallor\n" +
+      "- Unable to drink / vomiting\n" +
+      "- Respiratory distress\n" +
+      "- Cyanosis",
       answers: [
         { text: "Yes", goto: "103" }, // Refer urgently
         { text: "No", goto: "4" }, 
