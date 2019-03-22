@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import styled, { css } from '@emotion/native';
 
 const info_width = (Dimensions.get('window').width / 100) * 80;
@@ -41,11 +41,12 @@ exports.ButtonsBox = styled.View`
   border-color: #fff;
 `
 
+var paddingbottom = Platform.OS === 'ios' ? `30px` : `15px`;
 exports.Header = styled.Text`
   font-weight: bold;
   font-size: 40px;
   padding-top: 30px;
-  padding-bottom: 30px;
+  padding-bottom: ${paddingbottom};
   text-align: center;
   color: #fff;
   background-color: #05668d;
