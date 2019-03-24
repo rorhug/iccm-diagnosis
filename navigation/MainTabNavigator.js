@@ -27,7 +27,7 @@ InfoStack.navigationOptions = {
 };
 
 const HomeStack = createStackNavigator({
-  Home: InfoScreen
+  Home: HomeScreen
 });
 
 HomeStack.navigationOptions = {
@@ -59,7 +59,7 @@ LinksStack.navigationOptions = {
 };
 
 const RecordStack = createStackNavigator({
-  Record: RecordScreen,
+  Record: InfoScreen,
 });
 
 RecordStack.navigationOptions = {
@@ -72,6 +72,20 @@ RecordStack.navigationOptions = {
   ),
 };
 
+/*const InfoStack = createStackNavigator({
+  Info: InfoScreen,
+});
+
+RecordStack.navigationOptions = {
+  tabBarLabel: 'Info',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+    />
+  ),
+};
+*/
 export default createBottomTabNavigator({
   InfoStack,
   HomeStack,
