@@ -9,7 +9,7 @@ import RecordScreen from '../screens/RecordScreen';
 import InfoScreen from '../screens/InfoScreen';
 
 const HomeStack = createStackNavigator({
-  Home: InfoScreen
+  Home: HomeScreen
 });
 
 HomeStack.navigationOptions = {
