@@ -61,7 +61,7 @@ export class ResultsScreen extends React.Component {
         <View style={{ flex: 1 }}>
             <Header>Results</Header>
             <ScrollView style={{ paddingLeft: 20, paddingRight: 20 }}>
-                
+
                 <View>
                     {Object.keys(results).map(function(key) {
                     let endingId = results[key]
@@ -71,7 +71,7 @@ export class ResultsScreen extends React.Component {
                     </View>
                     })}
                 </View>
-                
+
                 {/* This view is just to create space between components. */}
                 <View style={{ marginTop: 15 }}></View>
 
