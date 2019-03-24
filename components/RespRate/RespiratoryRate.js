@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
     View,
     ScrollView,
     Text
@@ -7,15 +7,18 @@ import {
 import styled, { css } from '@emotion/native'
 
 import { CounterChoice } from './CounterChoice'
-import { Tutorial } from './Tutorial'
-import { TapCounter } from './TapCounter';
+import Tutorial  from './Tutorial'
+import TapCounter  from './TapCounter';
+import Recorder  from '../../screens/RecordScreen'
 import { RrComponents } from '../../utils/constants';
 
 // This holds all existing Components on this screen.
 const COMPONENTS = {
     [RrComponents.counterchoice]: CounterChoice,
     [RrComponents.tutorial]: Tutorial,
-    [RrComponents.tapcounter]: TapCounter
+    [RrComponents.tapcounter]: TapCounter,
+    [RrComponents.recorder]: Recorder,
+    [RrComponents.tapcounter1]: TapCounter,
 }
 
 export default class RespiratoryRate extends React.Component {
@@ -34,7 +37,7 @@ export default class RespiratoryRate extends React.Component {
 
   render() {
     let CurrentComponent = COMPONENTS[this.state.currentComponent]
-    
+
     return <CurrentComponent renderNext={this.renderNext} respRate={this.props.respRate}/>
   }
 }

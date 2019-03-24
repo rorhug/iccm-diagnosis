@@ -49,7 +49,7 @@ const Age = {
 const QuestionText = {
   age: {
     less2m : { text: Age.less2m },
-    less1y : { 
+    less1y : {
       text: Age.less1y,
       info: 'cannot walk',
     },
@@ -69,7 +69,9 @@ const QuestionText = {
 const RrComponents = {
     counterchoice: 'counterchoice',
     tutorial: 'tutorial',
-    tapcounter: 'tapcounter'
+    tapcounter: 'tapcounter',
+    recorder: 'recorder',
+    tapcounter1: 'tapcounter1'
 }
 
 export { Colors, Layout, Sections, QuestionText, RrComponents, Age, Images };

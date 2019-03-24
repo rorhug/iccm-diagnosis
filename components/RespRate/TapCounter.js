@@ -13,7 +13,7 @@ const finished = 'finished'
 const tapping = 'tapping'
 const start = 'start'
 
-export class TapCounter extends Component {
+export default class TapCounter extends Component {
   constructor(props) {
     super(props);
     this.state = {

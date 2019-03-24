@@ -6,6 +6,10 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import RecordScreen from '../screens/RecordScreen';
+import MeasurementScreen from '../screens/MeasurementScreen';
+import TapCounter  from '../components/RespRate/TapCounter.js';
+//import Counter  from '../components/RespRate/Tutorial.js';
+
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -40,11 +44,13 @@ LinksStack.navigationOptions = {
 };
 
 const RecordStack = createStackNavigator({
-  Record: RecordScreen,
+  Measurement: MeasurementScreen,
+  Counter: TapCounter,
+  Counter1: RecordScreen
 });
 
 RecordStack.navigationOptions = {
-  tabBarLabel: 'Record',
+  tabBarLabel: 'Measurements',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
     View,
     ScrollView,
     Image,
@@ -55,7 +55,7 @@ export class CounterChoice extends React.Component {
                 source={require('../../assets/images/breathing-thing.jpg')}
                 style={{width: 150, height: 150}}
                 />
-                <AnswerTextView><AnswerText>RECORD</AnswerText></AnswerTextView>
+                <AnswerText>RECORD</AnswerText>
             </ImageButtonBox>
         </TouchableOpacity>
 
@@ -65,7 +65,7 @@ export class CounterChoice extends React.Component {
                 source={require('../../assets/images/tap.jpg')}
                 style={{width: 150, height: 150}}
                 />
-                <AnswerTextView><AnswerText>TAP</AnswerText></AnswerTextView>
+            <AnswerText>TAP</AnswerText>
             </ImageButtonBox>
         </TouchableOpacity>
     </Container>
