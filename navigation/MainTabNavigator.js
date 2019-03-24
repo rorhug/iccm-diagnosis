@@ -27,7 +27,7 @@ InfoStack.navigationOptions = {
 };
 
 const HomeStack = createStackNavigator({
-  Home: InfoScreen
+  Home: HomeScreen
 });
 
 HomeStack.navigationOptions = {
