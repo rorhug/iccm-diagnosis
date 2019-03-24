@@ -40,7 +40,7 @@ export class ResultsScreen extends React.Component {
         <View style={{ flex: 1 }}>
             <Header>Results</Header>
             <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
-                
+
                 <View>
                     {Object.keys(results).map(function(key) {
                     let endingId = results[key]
