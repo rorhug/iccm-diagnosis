@@ -10,6 +10,15 @@ import MeasurementScreen from '../screens/MeasurementScreen';
 import TapCounter  from '../components/RespRate/TapCounter.js';
 //import Counter  from '../components/RespRate/Tutorial.js';
 
+const mapNavigationStateParamsToProps = (ScreenComponent) => {
+  return class extends React.Component {
+    static navigationOptions = ScreenComponent.navigationOptions
+    render() {
+      const { params } = this.props.navigation.state
+      return <ScreenComponent {...this.props} {...params} />
+    }
+  }
+}
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -45,7 +54,7 @@ LinksStack.navigationOptions = {
 
 const RecordStack = createStackNavigator({
   Measurement: MeasurementScreen,
-  Counter: TapCounter,
+  Counter: { screen: mapNavigationStateParamsToProps(TapCounter) },
   Counter1: RecordScreen
 });
 

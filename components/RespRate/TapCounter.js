@@ -97,7 +97,7 @@ export default class TapCounter extends Component {
               style={styles.calbutton}
               onPress={() => this.props.respRate(this.state.bpm)}
             >
-              <Text> Continue </Text>
+              <Text> {this.props.endButton || 'Continue'} </Text>
             </TouchableHighlight>
           </View>
         )
