@@ -22,15 +22,14 @@ export class WaitingScreen extends React.Component {
     return (
       <AnswerButton
         key={index}
-        onPress={() => this.props.continueSection(section, id, index)}>
+        onPress={() => this.props.continueSection(section, id)}>
         <AnswerTextView><AnswerText>{text}</AnswerText></AnswerTextView>
       </AnswerButton>
     )
   }
 
   renderNextSection = () => {
-    return (<AnswerButton
-      onPress={() => this.props.skipWaitScreen()}>
+    return (<AnswerButton onPress={() => this.props.skipWaitScreen()}>
       <AnswerTextView>
         <AnswerText>No - continue</AnswerText>
       </AnswerTextView>
@@ -44,7 +43,7 @@ export class WaitingScreen extends React.Component {
         <Header>Questions to Continue</Header>
         <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
           <QuestionBox>
-            <Question>Are any of these Tasks complete</Question>
+            <Question>Are any of these Tasks complete?</Question>
           </QuestionBox>
           <ButtonsBox>
             {this.props.waiting.map(this.renderWaitingSections)}

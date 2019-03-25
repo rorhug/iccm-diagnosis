@@ -85,11 +85,16 @@ export default class HomeScreen extends React.Component {
     this.setState(sections);
   };
 
-  continueSection = (section, id, index) => {
+  continueSection = (section, id) => {
+    console.log('new')
+    console.log(section)
     var sections = this.state.sections;
     sections.next.push(sections.current);
     sections.current = section;
-    sections.waiting.splice(index, 1);
+    index = sections.waiting.indexOf(section)
+    if (index > -1){ 
+       sections.waiting.splice(index, 1);
+    }
     sections.startQuestion = id;
     sections.waitScreen = false;
     this.setState(sections)
@@ -107,6 +112,7 @@ export default class HomeScreen extends React.Component {
       return (
         <WaitingScreen
           waiting={this.state.sections.waiting}
+          current={currentSection}
           sectionResults={this.state.sectionResults}
           continueSection={this.continueSection}
           skipWaitScreen={this.skipWaitScreen}
@@ -136,6 +142,7 @@ export default class HomeScreen extends React.Component {
             reset={this.resetState}
             sectionResults={this.state.sectionResults}
             sectionComponents={sections}
+            continueSection={this.continueSection}
           />
         </View>
       );

@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  View,
-  ScrollView
+    View,
+    ScrollView
 } from 'react-native';
 import {
     Header,
     AnswerText,
     AnswerButton,
-    AnswerTextView
+    AnswerTextView,
 } from '../utils/styles';
 import styled, { css } from '@emotion/native'
 import { Sections } from '../utils/constants';
@@ -48,6 +48,7 @@ const section_names = {
 
 export class ResultsScreen extends React.Component {
 
+<<<<<<< HEAD
   constructor(props) {
     super(props)
   }
@@ -86,5 +87,51 @@ export class ResultsScreen extends React.Component {
         </View>
     );
   }
+=======
+    constructor(props) {
+        super(props)
+        console.log(this.props)
+    }
+
+    renderAnswerText = (text) => {
+        return <AnswerTextView>
+            <AnswerText>{text}</AnswerText>
+        </AnswerTextView>
+    }
+
+    render() {
+        let results = this.props.sectionResults;
+        let components = this.props.sectionComponents;
+        return (
+            <View style={{ flex: 1 }}>
+                <Header>Results</Header>
+                <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
+
+                    <View>
+                        {Object.keys(results).map((key) => {
+                            let endingId = results[key]
+                            let question = components[key].questions[endingId]
+                            let startId = question.sectionEnd ? 0 : endingId
+                            let text = question.sectionEnd ? 'Retake' : 'Complete'
+                            return (
+                                <View key={key}>
+                                    <SubHeading>Section: {key}</SubHeading>
+                                    {question.sectionEnd && this.renderAnswerText(`Answer: ${question.text}`) }
+                                    <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
+                                        {this.renderAnswerText(text)}
+                                    </AnswerButton>
+                                </View>
+                            )
+                        })}
+                    </View>
+                    <AnswerButton onPress={() => this.props.reset()}>
+                        <AnswerTextView><AnswerText>Back to Start</AnswerText></AnswerTextView>
+                    </AnswerButton>
+
+                </ScrollView>
+            </View>
+        );
+    }
+>>>>>>> retake/complete button on result screen
 
 }
