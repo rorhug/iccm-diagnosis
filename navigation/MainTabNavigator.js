@@ -82,12 +82,8 @@ RecordStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-<<<<<<< HEAD
   InfoStack,
-  HomeStack,
-=======
   PatientListScreenStack,
   // HomeStack,
->>>>>>> 5509f65... Start patient list
   RecordStack
 });

@@ -1,4 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types'
+import {
+  ScrollView,
+  View
+} from 'react-native';
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
@@ -44,6 +49,16 @@ const initialState = () => {
 
 
 export default class DiagnosisScreen extends React.Component {
+
+  static propTypes = {
+    navigation: PropTypes.shape({
+      state: PropTypes.shape({
+        params: PropTypes.shape({
+          patient: PropTypes.object.isRequired,
+        }).isRequired
+      })
+    })
+  }
 
   constructor(props) {
     super(props)

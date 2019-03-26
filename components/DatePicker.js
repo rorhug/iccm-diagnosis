@@ -6,6 +6,8 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import { TextField as MaterialTextInput } from "react-native-material-textfield";
 // import { format } from "date-fns";
 
+import { firestore } from 'firebase'
+
 class DatePicker extends React.PureComponent {
   state = {
     pickerOpened: false
@@ -23,7 +25,7 @@ class DatePicker extends React.PureComponent {
     });
 
   handleDatePicked = value => {
-    this.props.setFieldValue(value);
+    this.props.setFieldValue(firestore.Timestamp.fromDate(value));
     this.closePicker();
     if (this.props.onSubmitEditing) this.props.onSubmitEditing();
   };
@@ -36,7 +38,7 @@ class DatePicker extends React.PureComponent {
             {...this.props}
             value={
               this.props.value
-                ? this.props.value.toISOString().slice(0,10)
+                ? this.props.value.toDate().toISOString().slice(0,10)
                 : undefined
             }
           />
