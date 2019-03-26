@@ -9,6 +9,11 @@ const info_width = (Dimensions.get('window').width / 100) * 80;
     - Restyle Results screen - M
     - Icons - L
     - DangesSigns - list with checkboxes -L
+
+    #05668d - dark blue
+    #FFB732 - orange
+    #F5F5F5 - light grey
+
 */
 
 exports.Container = styled.View`
@@ -25,7 +30,7 @@ exports.ScrollContainer = styled.ScrollView`
 
 exports.QuestionBox = styled.View`
     display: flex;
-    background-color: #F5F5F5;
+    background-color: #FFB732;
     padding: 5px;
     border-radius: 10px;
     border-width: 1px; 
@@ -63,11 +68,11 @@ exports.Question = styled.Text`
 
 exports.AnswerText = styled.Text`
   font-size: 20px;
-  color: #05668d;
+  color: #fff;
 `
 
 exports.AnswerTextView = styled.View`
-  background-color: #FFB732;
+  background-color: #05668d;
   padding: 10px;
   margin: 10px 10px 0 10px;
   border-radius: 10px;
