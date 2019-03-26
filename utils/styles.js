@@ -44,7 +44,6 @@ exports.ButtonsBox = styled.View`
 `
 
 var paddingbottom = Platform.OS === 'ios' ? `30px` : `15px`;
-
 exports.Header = styled.Text`
   font-weight: bold;
   font-size: 40px;
