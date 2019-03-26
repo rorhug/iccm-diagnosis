@@ -44,94 +44,52 @@ const section_names = {
     [Sections.fever]: 'Fever',
     [Sections.cough]: 'Cough',
     [Sections.diarrhoea]: 'Diarrhoea',
-  }
+}
 
 export class ResultsScreen extends React.Component {
 
-<<<<<<< HEAD
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    let results = this.props.sectionResults;
-    let components = this.props.sectionComponents
-    console.log(results)
-
-    return (
-        <View style={{ flex: 1 }}>
-            <Header>Results</Header>
-            <ScrollView style={{ paddingLeft: 20, paddingRight: 20 }}>
-                
-                <View>
-                    {Object.keys(results).map(function(key) {
-                    let endingId = results[key]
-                    return <View key={key}>
-                        <SubHeading>{section_names[key]}</SubHeading>
-                        <ResultAnswerText>{components[key].questions[endingId].text}</ResultAnswerText>
-                    </View>
-                    })}
-                </View>
-                
-                {/* This view is just to create space between components. */}
-                <View style={{ marginTop: 15 }}></View>
-
-                <AnswerButton onPress={() => this.props.reset()}>
-                    <BackTextView><BackText>Back to Start</BackText></BackTextView>
-                </AnswerButton>
-
-                {/* This view is just to create space between components. */}
-                <View style={{ marginBottom: 20 }}></View>
-
-            </ScrollView>
-        </View>
-    );
-  }
-=======
     constructor(props) {
         super(props)
-        console.log(this.props)
-    }
-
-    renderAnswerText = (text) => {
-        return <AnswerTextView>
-            <AnswerText>{text}</AnswerText>
-        </AnswerTextView>
     }
 
     render() {
         let results = this.props.sectionResults;
-        let components = this.props.sectionComponents;
+        let components = this.props.sectionComponents
+        console.log(results)
+
         return (
             <View style={{ flex: 1 }}>
                 <Header>Results</Header>
-                <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
+                <ScrollView style={{ paddingLeft: 20, paddingRight: 20 }}>
 
                     <View>
                         {Object.keys(results).map((key) => {
                             let endingId = results[key]
                             let question = components[key].questions[endingId]
                             let startId = question.sectionEnd ? 0 : endingId
-                            let text = question.sectionEnd ? 'Retake' : 'Complete'
-                            return (
-                                <View key={key}>
-                                    <SubHeading>Section: {key}</SubHeading>
-                                    {question.sectionEnd && this.renderAnswerText(`Answer: ${question.text}`) }
-                                    <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
-                                        {this.renderAnswerText(text)}
-                                    </AnswerButton>
-                                </View>
-                            )
+                            return <View key={key}>
+                                <SubHeading>{section_names[key]}</SubHeading>
+                                {question.sectionEnd && <ResultAnswerText>{components[key].questions[endingId].text}</ResultAnswerText>}
+                                <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
+                                    <AnswerTextView><AnswerText>{question.sectionEnd ? 'Retake' : 'Complete'}</AnswerText></AnswerTextView>
+                                </AnswerButton>
+                            </View>
                         })}
                     </View>
+
+                    {/* This view is just to create space between components. */}
+                    <View style={{ marginTop: 15 }}></View>
+
                     <AnswerButton onPress={() => this.props.reset()}>
-                        <AnswerTextView><AnswerText>Back to Start</AnswerText></AnswerTextView>
+                        <BackTextView><BackText>Back to Start</BackText></BackTextView>
                     </AnswerButton>
+
+                    {/* This view is just to create space between components. */}
+                    <View style={{ marginBottom: 20 }}></View>
 
                 </ScrollView>
             </View>
         );
     }
->>>>>>> retake/complete button on result screen
 
 }
