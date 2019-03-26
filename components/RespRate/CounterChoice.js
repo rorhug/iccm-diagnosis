@@ -1,7 +1,6 @@
 import React from 'react';
 import { 
     View,
-    ScrollView,
     Image,
     TouchableOpacity
 } from 'react-native';
@@ -9,29 +8,20 @@ import styled, { css } from '@emotion/native'
 import { RrComponents } from '../../utils/constants';
 import { 
     AnswerText,
-    AnswerTextView
+    AnswerTextView,
+    QuestionBox,
+    Question,
+    Header
 } from '../../utils/styles';
 
-// Create Buttons with Images for this screen.
-const Container = styled.View`
-  flex: 1;
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
-  align-items: center;
-  justify-content: space-around;
-`
-
-const SubHeading = styled.Text`
-    font-weight: bold;
-    font-size: 24px;
-    padding-bottom: 10px;
-`
-
-const ImageButtonBox = styled.View`
-  align-self: baseline;
-  background-color: #eeeeee;
-  padding: 10px;
+const ButtonContainer = styled.View`
+    border-radius: 5px;
+    flex-direction: row;
+    align-self: baseline;
+    background-color: #eeeeee;
+    padding: 10px;
+    margin: auto;
+    marginTop: 20px;
 `
 
 export class CounterChoice extends React.Component {
@@ -40,29 +30,35 @@ export class CounterChoice extends React.Component {
   }
 
   render() {
-    return <Container>
-        <SubHeading>How would you like to count Respiratory Rate?</SubHeading>
+    return <View style={{ flex: 1 }}>
+        <Header>Respiratory Rate</Header>
+        <View style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
 
-        <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tutorial)}>
-            <ImageButtonBox>
-                <Image
-                source={require('../../assets/images/breathing-thing.jpg')}
-                style={{width: 150, height: 150}}
-                />
-                <AnswerTextView><AnswerText>RECORD</AnswerText></AnswerTextView>
-            </ImageButtonBox>
-        </TouchableOpacity>
+            <QuestionBox>
+                <Question>How would you like to count Respiratory Rate?</Question>
+            </QuestionBox>
+            <ButtonContainer>
+                <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tutorial)}>
+                    <Image
+                    source={require('../../assets/images/breathing-thing.jpg')}
+                    style={{width: 130, height: 130}}
+                    />
+                    <AnswerTextView><AnswerText>Record</AnswerText></AnswerTextView>
+                </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tapcounter)}>
-            <ImageButtonBox>
-                <Image
-                source={require('../../assets/images/tap.jpg')}
-                style={{width: 150, height: 150}}
-                />
-                <AnswerTextView><AnswerText>TAP</AnswerText></AnswerTextView>
-            </ImageButtonBox>
-        </TouchableOpacity>
-    </Container>
+                <View style={{ width: 10 }}></View>
+
+                <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tapcounter)}>
+                    <Image
+                    source={require('../../assets/images/tap.jpg')}
+                    style={{width: 130, height: 130}}
+                    />
+                    <AnswerTextView><AnswerText>Tap</AnswerText></AnswerTextView>
+                </TouchableOpacity>
+            </ButtonContainer>
+
+        </View>
+    </View>
   }
 
 }
