@@ -8,12 +8,12 @@ import LinksScreen from '../screens/LinksScreen';
 import RecordScreen from '../screens/RecordScreen';
 import InfoScreen from '../screens/InfoScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen
+const InfoStack = createStackNavigator({
+  Info: InfoScreen
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+InfoStack.navigationOptions = {
+  tabBarLabel: 'Info',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -21,6 +21,24 @@ HomeStack.navigationOptions = {
         Platform.OS === 'ios'
           ? `ios-information-circle${focused ? '' : '-outline'}`
           : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+const HomeStack = createStackNavigator({
+  Home: HomeScreen
+});
+
+HomeStack.navigationOptions = {
+  tabBarLabel: 'Questionaire',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-help-circle${focused ? '' : '-outline'}`
+          : 'md-help-circle'
       }
     />
   ),
@@ -55,7 +73,7 @@ RecordStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
+  InfoStack,
   HomeStack,
-  // LinksStack,
   RecordStack
 });
