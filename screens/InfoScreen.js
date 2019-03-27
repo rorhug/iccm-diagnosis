@@ -14,9 +14,18 @@ const Container = styled.View`
   flex: 1;
   background-color: #fff;
   padding: 10px;
-  margin-top: 10px;
-  align-items: center;
+  /*margin-top: 10px;
+  align-items: center;*/
   justify-content: flex-start;
+`
+const ImageView = styled.View`
+  flex = 1;
+  background-color: #fff;
+  padding: 5px;
+  flex-direction: 'row';
+  /*margin-top: 10px;*/
+  align-items: center;
+  /*justify-content: space-evenly;*/
 `
 
 const SubHeading = styled.Text`
@@ -41,16 +50,18 @@ export default class InfoScreen extends React.Component {
   render() {
     return (
       <Container>
-        <ScrollView style={{ paddingLeft: 10, paddingRight: 20 }}>
-          <Image
-          source={require('../assets/images/DD.png')}
-          style={{width: 100, height: 100}}
-          />
+        <ScrollView style={{ paddingLeft: 0, paddingRight: 0 }}>
+          <ImageView>
+            <Image
+            source={require('../assets/images/DD.png')}
+            style={{width: 310, height: 100,justifyContent: 'flex-start'}}
+            />
 
-          <Image
-          source={require('../assets/images/MSFLogo.png')}
-          style={{width: 200, height: 80}}
-          />
+            <Image
+            source={require('../assets/images/MSFsmall.png')}
+            style={{width: 80, height: 40,justifyContent: 'flex-end'}}
+            />
+          </ImageView>
 
           <SubHeading>Symptom Diagnosis</SubHeading>
 
