@@ -37,7 +37,7 @@ const Container = styled.View`
 
 const materialInputProps = { fontSize: 20, titleFontSize: 15, labelFontSize: 15 }
 
-const MyInput = compose(
+const MaterialInput = compose(
   defaultProps(materialInputProps),
   handleTextInput,
   withNextInputAutoFocusInput,
@@ -61,26 +61,12 @@ const Form = withNextInputAutoFocusForm(View);
 //     .min(2, "pretty sure this will be hacked")
 // });
 
-// <MyInput label="Email" name="email" type="email" />
-// <MyInput label="Password" name="password" type="password" />
-
-
-
 @observer
 class PatientViewScreen extends React.Component {
   static navigationOptions = {
     title: "Patient"
-  };
+  }
 
-  // static propTypes = {
-  //   navigation: PropTypes.shape({
-  //     state: PropTypes.shape({
-  //       params: PropTypes.shape({
-  //         patient: PropTypes.object.isRequired,
-  //       }).isRequired
-  //     })
-  //   })
-  // }
   constructor(props) {
     super(props)
     this.state = {
@@ -92,8 +78,8 @@ class PatientViewScreen extends React.Component {
     let submitButtonText = this.state.patientDoc ? "Save" : (Object.keys(values).length === 0 ? "Skip to Diagnosis" : "Save and Continue")
     return (
       <Form>
-        <MyInput label="First Name" name="firstName" />
-        <MyInput label="Last Name" name="lastName" />
+        <MaterialInput label="First Name" name="firstName" />
+        <MaterialInput label="Last Name" name="lastName" />
         <FocusedDatePicker label="Birthday" name="dateOfBirth" />
         <Button onPress={handleSubmit} title={submitButtonText} />
       </Form>
@@ -101,23 +87,24 @@ class PatientViewScreen extends React.Component {
   }
 
   submitForm = values => {
-    let s = this.state
+    let valuesToWrite = {
+      createdAt: new Date(), // before ...values so ignored if already present
+      ...values,
+      firstName: values.firstName.trim(),
+      lastName: values.lastName.trim(),
+    }
+
     if (this.state.patientDoc) {
-      this.state.patientDoc.update(values).then(() => {
+      this.state.patientDoc.update(valuesToWrite).then(() => {
         this.props.navigation.goBack()
       }).catch((e) => alert("Error saving.", e))
-      // let patient = this.props.patientsStore.updatePatient(this.state.patient, values)
-      // this.props.navigation.goBack()
     } else {
-      // createdAt: firestore.FieldValue.serverTimestamp()
-      store.patients.add({ ...values, createdAt: new Date() }).then((patient) => {
+      store.patients.add(valuesToWrite).then((patient) => {
         this.props.navigation.navigate('Diagnosis', { patient: patient })
       }).catch((e) => {
         alert("Error saving.")
         console.log(e)
       })
-      // let patient = this.props.patientsStore.createPatient(values)
-      // this.props.navigation.navigate('Diagnosis', { patient: patient })
     }
   }
 

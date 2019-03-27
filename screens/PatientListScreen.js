@@ -8,7 +8,8 @@ import {
 import { WebBrowser } from 'expo'
 import { Icon } from 'expo'
 import { toJS } from 'mobx'
-import { inject, observer } from 'mobx-react';
+import { observer, Observer } from 'mobx-react'
+// import { Observer } from 'mobx-react/native';
 import styled, { css } from '@emotion/native'
 
 
@@ -26,7 +27,7 @@ const SectionListHeader = styled.Text`
 
 const SectionListItem = styled.View`
   background-color: #ffffff;
-  padding: 15px 10px;
+  padding: 10px;
   border: 1px solid #eeeeee;
   border-width: 1px 0 0 0;
 `
@@ -47,16 +48,12 @@ const SectionListItemSubtitle = styled(Text)`
 const NewPatientWrap = styled(View)`
   padding: 10px;
   display: flex;
-  /*align-items: center;*/
-
 `
 
 const NewPatientButton = styled(View)`
-
   align-items: center;
   background-color: #eeeeee;
   padding: 10px;
-
 `
 
 @observer
@@ -64,22 +61,16 @@ export default class PatientListScreen extends React.Component {
   static navigationOptions = {
     title: "DyanmoDiagnoser",
     headerBackTitle: "Patients"
-  };
-
-  constructor(props) {
-    super(props)
   }
 
-  renderItem = ({ item, index, section }) => {
-    let patient = item.data
-    let title = `${patient.firstName} ${patient.lastName}` || item.id
-    return <TouchableOpacity onPress={() => this.navigateToPatient(item)}>
+  renderItem = ({ item, index, section }) => <Observer>
+    {() => <TouchableOpacity onPress={() => this.navigateToPatient(item)}>
       <SectionListItem>
-        <SectionListItemTitle>Name: {title}</SectionListItemTitle>
+        <SectionListItemTitle>{item.fullName}</SectionListItemTitle>
         <SectionListItemSubtitle>{item.id}</SectionListItemSubtitle>
       </SectionListItem>
-    </TouchableOpacity>
-  }
+    </TouchableOpacity>}
+  </Observer>
 
   renderSectionHeader = ({section: {title}}) => (
     <SectionListHeader style={{fontWeight: 'bold'}}>{title}</SectionListHeader>
@@ -97,25 +88,13 @@ export default class PatientListScreen extends React.Component {
     </TouchableOpacity>
   </NewPatientWrap>
 
-  // newPatientButtonPressed = () => this.props.navigation.navigate(
-  //   'PatientView',
-  //   { patient: { first_name: "Markov", last_name: "Kollektiv" } }
-  // )
-
   navigateToPatient = (patientDoc) => this.props.navigation.navigate('PatientView', { patientDoc: patientDoc })
 
   render() {
-    if (store.patients.isLoading && store.patients.length) {
+    const { docs, query } = store.patients
+    if (store.patients.isLoading || !docs.length) {
       return <Text>LOADING</Text>
     }
-
-    console.log("render")
-
-    const { docs, query } = store.patients
-
-    // let patients = docs.map(({ id, data }) => { return { id, data } })
-    let patients = toJS(docs)
-    // debugger
 
     return <SectionList
       renderItem={this.renderItem}
@@ -126,10 +105,9 @@ export default class PatientListScreen extends React.Component {
           data: [{ id: "_" }],
           renderItem: this.renderNewPatientButtons
         },
-        { title: 'In Progress', data: patients },
+        { title: 'In Progress', data: docs.slice() },
       ]}
       keyExtractor={ (item, index) => item.id + index }
     />
   }
-
 }
