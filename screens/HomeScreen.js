@@ -6,15 +6,15 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import { WaitingScreen} from '../components/WaitingScreen';
 import { Cough } from '../components/Sections/Cough';
 import { DangerSigns } from '../components/Sections/DangerSigns';
 import { Diarrhoea } from '../components/Sections/Diarrhoea';
 import { Fever } from '../components/Sections/Fever';
 import { PatientDetails } from '../components/Sections/PatientDetails';
-import { Sections } from '../utils/constants';
+import { Sections, QuestionText } from '../utils/constants';
 
 import { ResultsScreen } from './ResultsScreen';
-import { Container } from '../utils/styles';
 
 const End = <View>End of Survey</View>
 
@@ -29,8 +29,14 @@ const sections = {
 const initialState = () => {
   return {
     sections: {
+      startQuestion: 0,
       current: Sections.patient_details,
-      next: [Sections.dangersigns, Sections.fever, Sections.cough, Sections.diarrhoea],
+      next: [
+        Sections.dangersigns,
+        Sections.fever,
+        Sections.cough,
+        Sections.diarrhoea
+      ],
       waiting: [],
       completed: []
     },
@@ -46,18 +52,15 @@ export default class HomeScreen extends React.Component {
     this.state = initialState()
   }
 
-  currentSection = () => this.state.sections.current;
-
-  moveToNextSection = (endingQuestionId) => {
-    var sections = this.state.sections;
-    console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
-
-    this.saveResult(endingQuestionId)
-    sections.completed.push(sections.current);
-    sections.current = sections.next.shift();
-
-    this.setState(sections);
+  static navigationOptions = {
+    header: null,
   };
+
+  resetState = () => {
+    this.setState(initialState())
+  }
+
+  currentSection = () => this.state.sections.current;
 
   saveResult = (id) => {
     this.setState({
@@ -65,17 +68,58 @@ export default class HomeScreen extends React.Component {
     })
   }
 
-  resetState = () => {
-    this.setState(initialState())
-  }
+  moveToNextSection = (endingQuestionId, skip = false) => {
+    var sections = this.state.sections;
+    console.log(`Ending question in ${sections.current} Id ${endingQuestionId}`)
+    this.saveResult(endingQuestionId)
+    sections.waitScreen = sections.waiting.length > 0
 
-  static navigationOptions = {
-    header: null,
+    if (skip) {
+      sections.waiting.push(sections.current);
+    } else {
+      sections.completed.push(sections.current);
+    }
+    sections.current = sections.next.shift();
+    sections.startQuestion = 0;
+
+    this.setState(sections);
+  };
+
+  continueSection = (section, id) => {
+    console.log('new')
+    console.log(section)
+    var sections = this.state.sections;
+    sections.next.push(sections.current);
+    sections.current = section;
+    index = sections.waiting.indexOf(section)
+    if (index > -1){ 
+       sections.waiting.splice(index, 1);
+    }
+    sections.startQuestion = id;
+    sections.waitScreen = false;
+    this.setState(sections)
+  };
+
+  skipWaitScreen = () => {
+    let sections = this.state.sections;
+    sections.waitScreen = false;
+    this.setState(sections);
   };
 
   render() {
     let currentSection = this.state.sections.current;
-    if (currentSection) {
+    if (this.state.sections.waitScreen) {
+      return (
+        <WaitingScreen
+          waiting={this.state.sections.waiting}
+          current={currentSection}
+          sectionResults={this.state.sectionResults}
+          continueSection={this.continueSection}
+          skipWaitScreen={this.skipWaitScreen}
+          components={sections}
+        />
+      );
+    } else if (currentSection) {
       let CurrentSectionComponent = sections[currentSection]
       let age_id = this.state.sectionResults[Sections.patient_details]
       return (
@@ -86,6 +130,7 @@ export default class HomeScreen extends React.Component {
             patientAge={PatientDetails.patientAge(age_id)}
             patientAgeOne={PatientDetails.patientAgeOne(age_id)}
             onCompletion={this.moveToNextSection}
+            startQuestion={this.state.sections.startQuestion}
           />
         </View>
       );
@@ -93,11 +138,12 @@ export default class HomeScreen extends React.Component {
       return (
         /* Do not change the styling on this View. */
         <View style={{ flex: 1 }}>
-            <ResultsScreen
-                reset={this.resetState} 
-                sectionResults={this.state.sectionResults} 
-                sectionComponents={sections}
-            />
+          <ResultsScreen
+            reset={this.resetState}
+            sectionResults={this.state.sectionResults}
+            sectionComponents={sections}
+            continueSection={this.continueSection}
+          />
         </View>
       );
     }

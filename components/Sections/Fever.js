@@ -30,7 +30,9 @@ export class Fever extends React.Component {
       text: "Perform malaria pan PLDH RDT.\n(Wait screen.)",
       answers: [
         { text: "Positive", goto: "3" },
-        { text: "Negative", goto: "100" }, // Refer
+        { text: "Negative", goto: "100" },
+        { text: "Continue to next section", skip: true },
+         // Refer
       ]
     },
     3: { // Has malaria.

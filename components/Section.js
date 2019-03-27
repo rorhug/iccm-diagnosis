@@ -20,15 +20,11 @@ import {
     LineBreak
 } from '../utils/styles';
 
-const initialState = {
-  currentQuestionId: "0"
-}
-
 export class Section extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ...initialState,
+      currentQuestionId: this.props.startQuestion,
       ...this.props.initialState
     };
   }
@@ -38,7 +34,6 @@ export class Section extends React.Component {
   moveToQuestion = (id) => {
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
-      console.log(`ID: ${id}`);
     }
 
     this.setState({ currentQuestionId: id })
@@ -88,8 +83,8 @@ export class Section extends React.Component {
         <AnswerRow key={index}>
           <AnswerButton
             accessibilityLabel={answer.text}
-            onPress={() => question.sectionEnd ?
-              this.props.onCompletion(index) :
+            onPress={() => answer.goto===undefined ?
+              this.props.onCompletion(index, skip=answer.skip) :
               this.moveToQuestion(answer.goto)}
           >
             <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
@@ -138,7 +133,6 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
-
     if (question.specialScreen) {
       return this.renderSpecialScreen(question);
     } else {

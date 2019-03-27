@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  View,
-  ScrollView
+    View,
+    ScrollView
 } from 'react-native';
 import {
     Header,
     AnswerText,
     AnswerButton,
-    AnswerTextView
+    AnswerTextView,
 } from '../utils/styles';
 import styled, { css } from '@emotion/native'
 import { Sections } from '../utils/constants';
@@ -44,47 +44,52 @@ const section_names = {
     [Sections.fever]: 'Fever',
     [Sections.cough]: 'Cough',
     [Sections.diarrhoea]: 'Diarrhoea',
-  }
+}
 
 export class ResultsScreen extends React.Component {
 
-  constructor(props) {
-    super(props)
-  }
+    constructor(props) {
+        super(props)
+    }
 
-  render() {
-    let results = this.props.sectionResults;
-    let components = this.props.sectionComponents
-    console.log(results)
+    render() {
+        let results = this.props.sectionResults;
+        let components = this.props.sectionComponents
+        console.log(results)
 
-    return (
-        <View style={{ flex: 1 }}>
-            <Header>Results</Header>
-            <ScrollView style={{ paddingLeft: 20, paddingRight: 20 }}>
-                
-                <View>
-                    {Object.keys(results).map(function(key) {
-                    let endingId = results[key]
-                    return <View key={key}>
-                        <SubHeading>{section_names[key]}</SubHeading>
-                        <ResultAnswerText>{components[key].questions[endingId].text}</ResultAnswerText>
+        return (
+            <View style={{ flex: 1 }}>
+                <Header>Results</Header>
+                <ScrollView style={{ paddingLeft: 20, paddingRight: 20 }}>
+
+                    <View>
+                        {Object.keys(results).map((key) => {
+                            let endingId = results[key]
+                            let question = components[key].questions[endingId]
+                            let startId = question.sectionEnd ? 0 : endingId
+                            return <View key={key}>
+                                <SubHeading>{section_names[key]}</SubHeading>
+                                {question.sectionEnd && <ResultAnswerText>{components[key].questions[endingId].text}</ResultAnswerText>}
+                                <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
+                                    <AnswerTextView><AnswerText>{question.sectionEnd ? 'Retake' : 'Complete'}</AnswerText></AnswerTextView>
+                                </AnswerButton>
+                            </View>
+                        })}
                     </View>
-                    })}
-                </View>
-                
-                {/* This view is just to create space between components. */}
-                <View style={{ marginTop: 15 }}></View>
 
-                <AnswerButton onPress={() => this.props.reset()}>
-                    <BackTextView><BackText>Back to Start</BackText></BackTextView>
-                </AnswerButton>
+                    {/* This view is just to create space between components. */}
+                    <View style={{ marginTop: 15 }}></View>
 
-                {/* This view is just to create space between components. */}
-                <View style={{ marginBottom: 20 }}></View>
+                    <AnswerButton onPress={() => this.props.reset()}>
+                        <BackTextView><BackText>Back to Start</BackText></BackTextView>
+                    </AnswerButton>
 
-            </ScrollView>
-        </View>
-    );
-  }
+                    {/* This view is just to create space between components. */}
+                    <View style={{ marginBottom: 20 }}></View>
+
+                </ScrollView>
+            </View>
+        );
+    }
 
 }
