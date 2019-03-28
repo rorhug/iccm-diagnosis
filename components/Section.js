@@ -33,7 +33,7 @@ export class Section extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ...initialState,
+      currentQuestionId: this.props.startQuestion,
       ...this.props.initialState
     };
   }
@@ -93,8 +93,8 @@ export class Section extends React.Component {
         <AnswerRow key={index}>
           <AnswerButton
             accessibilityLabel={answer.text}
-            onPress={() => question.sectionEnd ?
-              this.props.onCompletion(index) :
+            onPress={() => answer.goto===undefined ?
+              this.props.onCompletion(index, skip=answer.skip) :
               this.moveToQuestion(answer.goto)}
           >
             <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
