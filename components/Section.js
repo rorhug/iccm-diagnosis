@@ -21,14 +21,6 @@ import {
     LineBreak
 } from '../utils/styles';
 
-import styled, { css } from '@emotion/native'
-
-const info_width = (Dimensions.get('window').width / 100) * 80;
-
-const initialState = {
-  currentQuestionId: "0"
-}
-
 export class Section extends React.Component {
   constructor(props) {
     super(props)
@@ -43,7 +35,6 @@ export class Section extends React.Component {
   moveToQuestion = (id) => {
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
-      console.log(`ID: ${id}`);
     }
 
     this.setState({ currentQuestionId: id })
