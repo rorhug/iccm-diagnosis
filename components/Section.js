@@ -4,6 +4,7 @@ import { ScrollView, Text, View, Dimensions, Image } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
 import RespiratoryRate from './RespRate/RespiratoryRate';
+import { Ionicons } from '@expo/vector-icons';
 
 import { 
     Header,
@@ -57,7 +58,7 @@ export class Section extends React.Component {
     return (
       <>
         <InfoButton onPress={() => this._toggleSection(key)}>
-          <AnswerTextView><AnswerText>help</AnswerText></AnswerTextView>
+          <AnswerTextView><Ionicons name="md-information-circle" size={25} color="#FFB732"/></AnswerTextView>
         </InfoButton>
 
         <LineBreak />
@@ -133,6 +134,7 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
+
     if (question.specialScreen) {
       return this.renderSpecialScreen(question);
     } else {
