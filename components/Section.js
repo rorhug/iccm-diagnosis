@@ -4,6 +4,7 @@ import { ScrollView, Text, View, Dimensions, Image } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { Sections } from '../utils/constants';
 import RespiratoryRate from './RespRate/RespiratoryRate';
+import { Ionicons } from '@expo/vector-icons';
 
 import { 
     Header,
@@ -20,11 +21,19 @@ import {
     LineBreak
 } from '../utils/styles';
 
+import styled, { css } from '@emotion/native'
+
+const info_width = (Dimensions.get('window').width / 100) * 80;
+
+const initialState = {
+  currentQuestionId: "0"
+}
+
 export class Section extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentQuestionId: this.props.startQuestion,
+      ...initialState,
       ...this.props.initialState
     };
   }
@@ -34,6 +43,7 @@ export class Section extends React.Component {
   moveToQuestion = (id) => {
     if (this.props.questions[id].containsFunction) {
       id = this.props.questions[id].function(this.props.patientAge);
+      console.log(`ID: ${id}`);
     }
 
     this.setState({ currentQuestionId: id })
@@ -57,7 +67,7 @@ export class Section extends React.Component {
     return (
       <>
         <InfoButton onPress={() => this._toggleSection(key)}>
-          <AnswerTextView><AnswerText>help</AnswerText></AnswerTextView>
+          <AnswerTextView><Ionicons name="md-information-circle" size={25} color="#FFB732"/></AnswerTextView>
         </InfoButton>
 
         <LineBreak />
@@ -83,8 +93,8 @@ export class Section extends React.Component {
         <AnswerRow key={index}>
           <AnswerButton
             accessibilityLabel={answer.text}
-            onPress={() => answer.goto===undefined ?
-              this.props.onCompletion(index, skip=answer.skip) :
+            onPress={() => question.sectionEnd ?
+              this.props.onCompletion(index) :
               this.moveToQuestion(answer.goto)}
           >
             <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
@@ -133,6 +143,7 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
+
     if (question.specialScreen) {
       return this.renderSpecialScreen(question);
     } else {
