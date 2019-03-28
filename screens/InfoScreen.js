@@ -58,8 +58,8 @@ export default class InfoScreen extends React.Component {
             />
 
             <Image
-            source={require('../assets/images/MSFsmall.png')}
-            style={{width: 80, height: 40,justifyContent: 'flex-end'}}
+            source={require('../assets/images/MSFLogo.png')}
+            style={{width: 213, height: 80,justifyContent: 'flex-end'}}
             />
           </ImageView>
 
@@ -68,8 +68,6 @@ export default class InfoScreen extends React.Component {
           <Paragraph>This is a simple testing application for providing quick and decisive medical diagnosis.
            By following each section
           of the survey, a number of referrals may be provided to you based off your symptoms.</Paragraph>
-          <Paragraph>By following the referral(s) provided to you, we hope that illness can be
-          recognised and helped before it reaches a crucial stage. </Paragraph>
 
         </ScrollView>
 
