@@ -5,6 +5,7 @@ import {
   Text,
   View,
 } from 'react-native'
+<<<<<<< HEAD
 import {
     AnswerButton,
     AnswerTextView,
@@ -12,12 +13,30 @@ import {
 } from '../../utils/styles';
 import styled from '@emotion/native';
 
+=======
+import { 
+  Header,
+  InfoText,
+  QuestionBox,
+  ButtonsBox,
+  Question,
+  AnswerButton,
+  InfoButton,
+  InfoImage,
+  AnswerText,
+  AnswerTextView,
+  AnswerRow,
+  LineBreak
+} from '../../utils/styles';
+>>>>>>> reset button on tap screen
 import TimerCircle from './TimerCircle'
+import { QuestionText } from '../../utils/constants';
 
 const finished = 'finished'
 const tapping = 'tapping'
 const start = 'start'
 
+<<<<<<< HEAD
 /* Styling */
 const Container = styled.View`
   flex: 1;
@@ -26,44 +45,54 @@ const Container = styled.View`
   background-color: #fff;
   padding: 20px;
 `
+=======
+initialState = {
+  time: 0,
+  current: start,
+  count: 0,
+}
+>>>>>>> reset button on tap screen
 
 export class TapCounter extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      time: 1,
-      current: start
-    };
-    this.time = 0;
-    this.count = 0;
+    this.state = initialState;
   }
 
   startTapping = () => {
     this.setTick();
     this.setState({
-      current: tapping
+      current: tapping,
     })
   }
 
   onCompletion = () => {
     clearInterval(this.interval);
-    this.setState({ current: finished, bpm: this.count });
+    console.log(this.state.time)
+    this.setState({ current: finished, bpm: this.state.count });
+  }
+
+  reset = () => {
+    clearInterval(this.interval);
+    this.setState(initialState);
   }
 
   setTick() {
     this.interval = setInterval(() => {
-      this.time += 1
-      console.log(this.time)
+      time = this.state.time +1
+      this.setState({time:time});
+      //console.log(this.state.time)
     }, 1000);
   }
 
   onPress = () => {
-    this.count += 1;
+    this.state.count += 1;
   }
 
   render() {
     switch (this.state.current) {
       case start:
+<<<<<<< HEAD
         return (
           <Container>
             <AnswerButton
@@ -76,12 +105,15 @@ export class TapCounter extends Component {
           </Container>
         )
 
+=======
+>>>>>>> reset button on tap screen
       case tapping:
         return (
           <View style={styles.container}>
 
             <TimerCircle
               seconds={59}
+              secondsElapsed={this.state.time}
               radius={80}
               borderWidth={20}
               color='#f00'
@@ -92,28 +124,35 @@ export class TapCounter extends Component {
               style={{ margin: 10 }}
             />
 
-            <TouchableHighlight
-              style={styles.tapbutton}
-              onPress={this.onPress}
+            <AnswerButton
+              style={{height:100}}
+              onPress={this.state.current===start? this.startTapping : this.onPress}
             >
-              <Text>Tap at every inhalation</Text>
-            </TouchableHighlight>
+              <AnswerTextView style={{height:100}}
+              ><AnswerText>{this.state.current===start? 'Tap to Start' : 'Tap at every inhalation'}</AnswerText></AnswerTextView>
+            </AnswerButton>
+            <AnswerButton
+              onPress={this.reset}
+            >
+              <AnswerTextView
+              ><AnswerText>Reset</AnswerText></AnswerTextView>
+            </AnswerButton>
+            
           </View>
         )
       case finished:
         return (
           <View style={styles.container}>
-            <View style={[styles.countContainer]}>
-              <Text style={[styles.countText]}>
+            <View>
+              <QuestionText>
                 Inhalations per minute: {this.state.bpm}
-              </Text>
+              </QuestionText>
             </View>
-            <TouchableHighlight
-              style={styles.calbutton}
+            <AnswerButton
               onPress={() => this.props.respRate(this.state.bpm)}
             >
-              <Text> Continue </Text>
-            </TouchableHighlight>
+              <AnswerTextView><AnswerText> Continue </AnswerText></AnswerTextView>
+            </AnswerButton>
           </View>
         )
     }
@@ -126,6 +165,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around',
+<<<<<<< HEAD
     paddingHorizontal: 10
   },
   startbutton: {
@@ -154,5 +194,9 @@ const styles = StyleSheet.create({
   },
   countText: {
     color: '#FF00FF'
+=======
+    paddingHorizontal: 10,
+    paddingTop: 50
+>>>>>>> reset button on tap screen
   }
 })

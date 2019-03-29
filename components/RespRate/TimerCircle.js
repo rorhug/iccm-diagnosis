@@ -68,17 +68,17 @@ function calcInterpolationValuesForHalfCircle2(
     return { rotate, backgroundColor };
 }
 
-function getInitialState(props) {
+function getInitialState(props, cp) {
     return {
-        circleProgress,
-        secondsElapsed: 0,
-        text: props.updateText(0, props.seconds),
+        circleProgress: cp,
+        secondsElapsed: props.secondsElapsed,
+        text: props.updateText(-1, props.seconds),
         interpolationValuesHalfCircle1: calcInterpolationValuesForHalfCircle1(
-            circleProgress,
+            cp,
             props
         ),
         interpolationValuesHalfCircle2: calcInterpolationValuesForHalfCircle2(
-            circleProgress,
+            cp,
             props
         )
     };
@@ -88,6 +88,7 @@ const circleProgress = new Animated.Value(0);
 export default class TimerCircle extends React.PureComponent {
     static propTypes = {
         seconds: PropTypes.number.isRequired,
+        secondsElapsed: PropTypes.number,
         radius: PropTypes.number.isRequired,
         color: PropTypes.string,
         shadowColor: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
@@ -105,6 +106,7 @@ export default class TimerCircle extends React.PureComponent {
         bgColor: "#e9e9ef",
         borderWidth: 2,
         seconds: 10,
+        secondsElapsed: 0,
         children: null,
         containerStyle: null,
         textStyle: null,
@@ -115,39 +117,40 @@ export default class TimerCircle extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
-        this.state = getInitialState(props);
-        this.restartAnimation();
+        console.log('start2')
+        console.log(props)
+        this.state = getInitialState(props, circleProgress);
+        //   this.restartAnimation();
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.seconds !== nextProps.seconds) {
-            this.setState(getInitialState(nextProps));
+        if (this.props.secondsElapsed < nextProps.secondsElapsed) {
+            console.log('update')
+            const callback =
+                this.props.secondsElapsed < this.props.seconds
+                    ? this.restartAnimation
+                    : (this.props.secondsElapsed > 0 ?
+                        this.props.onTimeElapsed : undefined);
+            const updatedText = this.props.updateText(
+                this.props.secondsElapsed,
+                this.props.seconds
+            );
+            this.setState(
+                {
+                    ...getInitialState(this.props, circleProgress),
+                    text: updatedText
+                },
+                callback
+            );
+
+        } else if (this.props.secondsElapsed > nextProps.secondsElapsed) {
+            this.state.circleProgress.stopAnimation();
+            let cp = new Animated.Value(0);
+            this.setState({
+                ...getInitialState(this.props, cp)
+            });
         }
     }
-
-    onCircleAnimated = ({ finished }) => {
-        // if animation was interrupted by stopAnimation don't restart it.
-        if (!finished) return;
-
-        const secondsElapsed = this.state.secondsElapsed + 1;
-        const callback =
-            secondsElapsed < this.props.seconds
-                ? this.restartAnimation
-                : this.props.onTimeElapsed;
-        const updatedText = this.props.updateText(
-            secondsElapsed,
-            this.props.seconds
-        );
-        this.setState(
-            {
-                ...getInitialState(this.props),
-                secondsElapsed,
-                text: updatedText
-            },
-            callback
-        );
-    };
 
     restartAnimation = () => {
         Animated.timing(this.state.circleProgress, {
@@ -156,7 +159,7 @@ export default class TimerCircle extends React.PureComponent {
                 100 / this.props.seconds,
             duration: 1000,
             easing: Easing.linear
-        }).start(this.onCircleAnimated);
+        }).start()
     };
 
     renderHalfCircle({ rotate, backgroundColor }) {
