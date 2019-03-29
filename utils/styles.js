@@ -16,6 +16,12 @@ const info_width = (Dimensions.get('window').width / 100) * 80;
 
 */
 
+/*  button & question container */
+let contentContainerColor = `#F8F8F8`;
+let buttonsColor = `#E8E8E8`;
+let buttonsTextColor = `#05668d`
+
+
 exports.Container = styled.View`
   flex: 1;
   background-color: #fff;
@@ -30,7 +36,7 @@ exports.ScrollContainer = styled.ScrollView`
 
 exports.QuestionBox = styled.View`
     display: flex;
-    background-color: #FFB732;
+    background-color: ${contentContainerColor};
     padding: 5px;
     border-radius: 10px;
     border-width: 1px; 
@@ -40,7 +46,7 @@ exports.QuestionBox = styled.View`
 exports.ButtonsBox = styled.View`
   display: flex;
   margin: 20px 0 20px 0;
-  background-color: #F5F5F5;
+  background-color: ${contentContainerColor};
   padding-top: 5px;
   padding-bottom: 15px;
   border-radius: 10px;
@@ -48,7 +54,18 @@ exports.ButtonsBox = styled.View`
   border-color: #fff;
 `
 
-var paddingbottom = Platform.OS === 'ios' ? `30px` : `15px`;
+/* This is only used on Counter Choice screen. */
+exports.ImageButtonsContainer = styled.View`
+    border-radius: 5px;
+    flex-direction: row;
+    align-self: baseline;
+    background-color: ${contentContainerColor};
+    padding: 10px;
+    margin: auto;
+    marginTop: 20px;
+`
+
+let paddingbottom = Platform.OS === 'ios' ? `30px` : `15px`;
 exports.Header = styled.Text`
   font-weight: bold;
   font-size: 40px;
@@ -68,11 +85,11 @@ exports.Question = styled.Text`
 
 exports.AnswerText = styled.Text`
   font-size: 20px;
-  color: #fff;
+  color: ${buttonsTextColor};
 `
 
 exports.AnswerTextView = styled.View`
-  background-color: #05668d;
+  background-color: ${buttonsColor};
   padding: 10px;
   margin: 10px 10px 0 10px;
   border-radius: 10px;

@@ -1,17 +1,31 @@
 import React, { Component } from 'react'
 import {
-  Animated,
   StyleSheet,
   TouchableHighlight,
   Text,
   View,
 } from 'react-native'
-import { styled } from '@emotion/native'
+import {
+    AnswerButton,
+    AnswerTextView,
+    AnswerText
+} from '../../utils/styles';
+import styled from '@emotion/native';
+
 import TimerCircle from './TimerCircle'
 
 const finished = 'finished'
 const tapping = 'tapping'
 const start = 'start'
+
+/* Styling */
+const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 20px;
+`
 
 export class TapCounter extends Component {
   constructor(props) {
@@ -51,14 +65,15 @@ export class TapCounter extends Component {
     switch (this.state.current) {
       case start:
         return (
-          <View style={styles.container}>
-            <TouchableHighlight
-              style={styles.startbutton}
+          <Container>
+            <AnswerButton
               onPress={this.startTapping}
             >
-              <Text> First Press Start </Text>
-            </TouchableHighlight>
-          </View>
+                <AnswerTextView>
+                    <AnswerText> First Press Start </AnswerText>
+                </AnswerTextView>
+            </AnswerButton>
+          </Container>
         )
 
       case tapping:
@@ -116,7 +131,7 @@ const styles = StyleSheet.create({
   startbutton: {
     alignItems: 'center',
     backgroundColor: '#0ace0a',
-    padding: 20
+    padding: 20,
   },
   tapbutton: {
     alignItems: 'center',
