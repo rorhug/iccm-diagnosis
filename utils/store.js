@@ -4,6 +4,8 @@ import { initFirestorter, Collection, Document, isTimestamp } from 'firestorter'
 import { struct } from 'superstruct'
 import { configure, computed } from 'mobx'
 
+import { PatientDetails } from '../components/Sections/PatientDetails';
+
 configure({
   enforceActions: 'always'
 })
@@ -22,7 +24,11 @@ const firestore = firebase.firestore()
 
 initFirestorter({ firebase: firebase })
 
-const isOptionalTimestamp = (val) => isTimestamp(val) || val === undefined
+const PATIENT_AGE_ESTIMATES = PatientDetails.ageEstimateAnswers.map((answer) => answer.text)
+const MONTH_IN_MS = (365.25 / 12) * 86400000
+
+const isOptionalAgeEstimate = (val) => val === undefined || PATIENT_AGE_ESTIMATES.includes(val)
+const isOptionalTimestamp =   (val) => val === undefined || isTimestamp(val)
 
 class Patient extends Document {
   constructor(source, options) {
@@ -32,6 +38,7 @@ class Patient extends Document {
         firstName: 'string',
         lastName: 'string',
         dateOfBirth: isOptionalTimestamp,
+        givenAgeEstimate: isOptionalAgeEstimate,
         createdAt: isTimestamp,
         diagnosedAt: isOptionalTimestamp,
       })
@@ -41,6 +48,21 @@ class Patient extends Document {
   @computed get fullName() {
     return [this.data.firstName, this.data.lastName].join(' ') || "unnamed patient"
   }
+
+//   @computed get ageInMonths() {
+//     // if (this.data.dateOfBirth) {
+//       let months = Math.abs((new Date) - this.data.dateOfBirth.toDate()) / monthInMs
+//     // } else {
+// 
+//     // }
+//   }
+
+  @computed get ageInMonths() {
+    return this.data.dateOfBirth && Math.abs((new Date) - this.data.dateOfBirth.toDate()) / MONTH_IN_MS
+  }
+  @computed get ageEstimateText() {
+    return this.data.dateOfBirth ? PatientDetails.ageEstimateText(this.ageInMonths) : this.data.givenAgeEstimate
+  }
 }
 
 const patients = new Collection('patients', {
@@ -48,4 +70,7 @@ const patients = new Collection('patients', {
   createDocument: (source, options) => new Patient(source, options)
 })
 
-export default { patients }
+export default {
+  patients,
+  PATIENT_AGE_ESTIMATES
+}

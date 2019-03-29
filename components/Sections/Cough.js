@@ -2,6 +2,8 @@ import React from 'react';
 import { Section } from '../Section';
 import { QuestionText, Age } from '../../utils/constants'
 
+import { PatientDetails } from './PatientDetails'
+
 // import console = require('console');
 
 // TODO respitory rate reader
@@ -19,38 +21,40 @@ class Cough extends React.Component {
         2: { // Cough too long?
             text: "Cough/rapid breathing and/or fever lasting (in weeks):",
             answers: [
-                { text: "Less than 3w", goto: "3" },
+                { text: "Less than 3w", goto: (patient) => PatientDetails.ageWithinInnerRange(patient) ? "6" : "100" },
                 { text: "More than 3w", goto: "100" },
             ]
         },
-        3: { // Automatically check age of child.
-            containsFunction: true,
-            function: (age) => {
-                switch (age) {
-                    case Age.less2m:
-                    case Age.over5:
-                        return "100"
-                    case Age.less1y:
-                    case Age.oneto5:
-                        return "6"
-                }
-                return "100"
-                // if age < 2 months or > 5 years -> return 100 (Refer)
-                // else age okay return 7
-            }
-        },
+        // 3: { // Automatically check age of child.
+        //     containsFunction: true,
+        //     function: 
+        //     // function: (patient) => {
+        //     //     switch (age) {
+        //     //         case Age.less2m:
+        //     //         case Age.over5:
+        //     //             return "100"
+        //     //         case Age.less1y:
+        //     //         case Age.oneto5:
+        //     //             return "6"
+        //     //     }
+        //     //     return "100"
+        //     //     // if age < 2 months or > 5 years -> return 100 (Refer)
+        //     //     // else age okay return 7
+        //     // }
+        // },
         6: {
             specialScreen: true,
             screenTitle: "RespiratoryRate",
-            resultToGoto: (age, restRate) => {
-                console.log(`Cough.js quesiton[7]. Age: ${age}, Resp: ${restRate}`)
+            resultToGoto: (patient, respRate) => {
+                let lessThanAYearOld = PatientDetails.lessThanAYearOld(patient)
+                console.log(`Cough.js quesiton[7]. Age: ${patient.lessThanAYearOld}, Resp: ${respRate}`)
 
-                if ((age === Age.less1y && restRate < 50) ||
-                    (age === Age.over1y && restRate < 40)) {
+                if ((lessThanAYearOld && respRate < 50) ||
+                    (!lessThanAYearOld && respRate < 40)) {
                     return "102"
                 } else if (
-                    (age === Age.less1y && restRate >= 50) ||
-                    (age === Age.over1y && restRate >= 40)) {
+                    (lessThanAYearOld && respRate >= 50) ||
+                    (!lessThanAYearOld && respRate >= 40)) {
                     return "8"
                 }
             }

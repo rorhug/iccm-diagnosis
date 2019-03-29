@@ -29,23 +29,6 @@ const sections = {
   [Sections.diarrhoea]: Diarrhoea,
 }
 
-const initialState = () => {
-  return {
-    sections: {
-      startQuestion: 0,
-      current: Sections.patient_details,
-      next: [
-        Sections.dangersigns,
-        Sections.fever,
-        Sections.cough,
-        Sections.diarrhoea
-      ],
-      waiting: [],
-      completed: []
-    },
-    sectionResults: {}
-  }
-}
 
 
 export default class DiagnosisScreen extends React.Component {
@@ -60,9 +43,33 @@ export default class DiagnosisScreen extends React.Component {
     })
   }
 
+  initialState = () => {
+    let sections = [
+      Sections.dangersigns,
+      Sections.fever,
+      Sections.cough,
+      Sections.diarrhoea
+    ]
+
+    let patient = this.props.navigation.getParam('patient')
+    if (patient && !patient.ageEstimateText) { sections.unshift(Sections.patient_details) }
+
+    return {
+      sections: {
+        startQuestion: 0,
+        current: sections.shift(),
+        next: sections,
+        waiting: [],
+        completed: []
+      },
+      sectionResults: {}
+    }
+  }
+
   constructor(props) {
     super(props)
-    this.state = initialState()
+    this.state = this.initialState()
+    console.log(this.state)
   }
 
   static navigationOptions = {
@@ -70,7 +77,7 @@ export default class DiagnosisScreen extends React.Component {
   };
 
   resetState = () => {
-    this.setState(initialState())
+    this.setState(this.initialState())
   }
 
   currentSection = () => this.state.sections.current;
@@ -80,6 +87,8 @@ export default class DiagnosisScreen extends React.Component {
       sectionResults: { ...this.state.sectionResults, [this.state.sections.current]: id }
     })
   }
+
+  // savePatientInformation(values) = 
 
   moveToNextSection = (endingQuestionId, skip = false) => {
     var sections = this.state.sections;
@@ -135,12 +144,14 @@ export default class DiagnosisScreen extends React.Component {
     } else if (currentSection) {
       let CurrentSectionComponent = sections[currentSection]
       let age_id = this.state.sectionResults[Sections.patient_details]
+      let patient = this.props.navigation.getParam('patient')
       return (
         <Container>
           <CurrentSectionComponent
             navigation={this.props.navigation}
-            patientAge={PatientDetails.patientAge(age_id)}
-            patientAgeOne={PatientDetails.patientAgeOne(age_id)}
+            patient={patient}
+            // patientAge={PatientDetails.patientAge(age_id)}
+            // patientAgeOne={PatientDetails.patientAgeOne(age_id)}
             onCompletion={this.moveToNextSection}
             startQuestion={this.state.sections.startQuestion}
           />

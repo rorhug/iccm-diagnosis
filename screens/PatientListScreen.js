@@ -67,7 +67,7 @@ export default class PatientListScreen extends React.Component {
     {() => <TouchableOpacity onPress={() => this.navigateToPatient(item)}>
       <SectionListItem>
         <SectionListItemTitle>{item.fullName}</SectionListItemTitle>
-        <SectionListItemSubtitle>{item.id}</SectionListItemSubtitle>
+        <SectionListItemSubtitle>{item.ageEstimateText}</SectionListItemSubtitle>
       </SectionListItem>
     </TouchableOpacity>}
   </Observer>
@@ -88,11 +88,13 @@ export default class PatientListScreen extends React.Component {
     </TouchableOpacity>
   </NewPatientWrap>
 
-  navigateToPatient = (patientDoc) => this.props.navigation.navigate('PatientView', { patientDoc: patientDoc })
+  navigateToPatient = (patient) => this.props.navigation.navigate('PatientView', { patient: patient })
 
   render() {
     const { docs, query } = store.patients
-    if (store.patients.isLoading || !docs.length) {
+
+    let ss = store.patients
+    if (store.patients.isLoading) {
       return <Text>LOADING</Text>
     }
 
@@ -105,7 +107,7 @@ export default class PatientListScreen extends React.Component {
           data: [{ id: "_" }],
           renderItem: this.renderNewPatientButtons
         },
-        { title: 'In Progress', data: docs.slice() },
+        { title: 'In Progress', data: docs.length ? docs.slice() : [] },
       ]}
       keyExtractor={ (item, index) => item.id + index }
     />

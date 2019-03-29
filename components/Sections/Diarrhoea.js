@@ -1,6 +1,7 @@
 import React from 'react';
 import { Section } from '../Section';
 import { Age } from '../../utils/constants'
+import { PatientDetails } from './PatientDetails'
 
 /*
     TO-DO: Questions are structured weirdly on the sheet,
@@ -18,26 +19,26 @@ export class Diarrhoea extends React.Component {
 \n\
 Is all the above TRUE?",
       answers: [
-        { text: "yes", goto: "1" },
+        { text: "yes", goto: (patient) => PatientDetails.ageWithinInnerRange(patient) ? "2" : "100" },
         { text: "no", goto: "3" },
       ]
     },
-    1: { // Automatically check age of child.
-        containsFunction: true,
-        function: (age) => {
-            switch (age) {
-                // Outside of age group
-                case Age.less2m:
-                case Age.over5:
-                    return "100"
-                // Inside the age group
-                case Age.less1y:
-                case Age.oneto5:
-                    return "2"
-            }
-            return "100"
-        }
-    },
+    // 1: { // Automatically check age of child.
+    //     containsFunction: true,
+    //     function: (age) => {
+    //         switch (age) {
+    //             // Outside of age group
+    //             case Age.less2m:
+    //             case Age.over5:
+    //                 return "100"
+    //             // Inside the age group
+    //             case Age.less1y:
+    //             case Age.oneto5:
+    //                 return "2"
+    //         }
+    //         return "100"
+    //     }
+    // },
     2: { // Danger signs
         text: "Signs of severe dehydration?\n\
         - Sunken eyes\n\
@@ -52,24 +53,8 @@ Is all the above TRUE?",
         text: "Less than 3 stools in 24 hrs?",
         answers: [
             { text: "yes", goto: "102" },
-            { text: "other problem", goto: "4" }
+            { text: "other problem", goto: (patient) => PatientDetails.ageWithinInnerRange(patient) ? "5" : "100" }
         ]
-    },
-    4: { // Automatically check age of child.
-        containsFunction: true,
-        function: (age) => {
-            switch (age) {
-                // Outside of age group
-                case Age.less2m:
-                case Age.over5:
-                    return "100"
-                // Inside the age group
-                case Age.less1y:
-                case Age.oneto5:
-                    return "5"
-            }
-            return "100"
-        }
     },
     5: {
       text: "Longer than 3 week history?",

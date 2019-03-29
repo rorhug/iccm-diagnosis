@@ -26,32 +26,37 @@ export class Section extends React.Component {
     super(props)
     this.state = {
       currentQuestionId: this.props.startQuestion,
-      ...this.props.initialState
-    };
+      activeCollapibles: []
+    }
   }
 
   currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
-  moveToQuestion = (id) => {
-    if (this.props.questions[id].containsFunction) {
-      id = this.props.questions[id].function(this.props.patientAge);
+  gotoQuestion = (goto) => {
+    if (typeof goto === 'function') {
+      this.setState({ currentQuestionId: goto(this.props.patient) })
+    } else {
+      this.setState({ currentQuestionId: goto })
     }
+    // if (this.props.questions[id].containsFunction) {
+    //   id = this.props.questions[id].function(this.props.patientAge);
+    // }
 
-    this.setState({ currentQuestionId: id })
+    // this.setState({ currentQuestionId: id })
   }
 
   _toggleSection(answer) {
-    const activeSections = this.state.activeSections
+    const activeCollapibles = this.state.activeCollapibles
     let updatedSections = [];
 
-    if (activeSections.includes(answer)) {
-      updatedSections = activeSections.filter(a => a !== answer);
+    if (activeCollapibles.includes(answer)) {
+      updatedSections = activeCollapibles.filter(a => a !== answer);
     } else if (this.props.expandMultiple) {
-      updatedSections = [...activeSections, answer];
+      updatedSections = [...activeCollapibles, answer];
     } else {
       updatedSections = [answer];
     }
-    this.setState({ activeSections: updatedSections });
+    this.setState({ activeCollapibles: updatedSections });
   }
 
   infoCollapsable = (answer, key) => {
@@ -64,7 +69,7 @@ export class Section extends React.Component {
         <LineBreak />
 
         <Collapsible
-          collapsed={!this.state.activeSections.includes(key)}
+          collapsed={!this.state.activeCollapibles.includes(key)}
         >
           <InfoText>{answer.info}</InfoText>
           {answer.img && <InfoImage source={answer.img}/>}
@@ -84,9 +89,9 @@ export class Section extends React.Component {
         <AnswerRow key={index}>
           <AnswerButton
             accessibilityLabel={answer.text}
-            onPress={() => answer.goto===undefined ?
-              this.props.onCompletion(index, skip=answer.skip) :
-              this.moveToQuestion(answer.goto)}
+            onPress={() => answer.goto === undefined ?
+              this.props.onCompletion(index) :
+              this.gotoQuestion(answer.goto)}
           >
             <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
           </AnswerButton>
@@ -119,9 +124,9 @@ export class Section extends React.Component {
   // TODO move the following to functions out of Section
   respRateDecision = (question) => {
     return function (respRate) {
-      questionId = question.resultToGoto(this.props.patientAgeOne, respRate)
+      // questionId = question.resultToGoto(this.props.patientAgeOne, respRate)
       console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
-      this.moveToQuestion(questionId)
+      this.gotoQuestion(question.resultToGoto(patient, respiratoryRate))
     }.bind(this)
   }
 

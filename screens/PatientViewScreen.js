@@ -22,6 +22,7 @@ import {
   withFormikControl
 } from "react-native-formik"
 import { TextField } from "react-native-material-textfield";
+import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { firestore } from 'firebase'
 
@@ -70,20 +71,27 @@ class PatientViewScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      patientDoc: props.navigation.state.params.patientDoc,
+      patient: props.navigation.state.params.patient,
+      isSaving: false
     }
   }
 
   renderForm = ({ handleSubmit, values }) => {
-    let submitButtonText = this.state.patientDoc ? "Save" : (Object.keys(values).length === 0 ? "Skip to Diagnosis" : "Save and Continue")
+    let submitButtonText = this.state.patient ? "Save" : (Object.keys(values).length === 0 ? "Skip to Diagnosis" : "Save and Start Diagnosis")
     return (
       <Form>
-        <MaterialInput label="First Name" name="firstName" />
-        <MaterialInput label="Last Name" name="lastName" />
-        <FocusedDatePicker label="Birthday" name="dateOfBirth" />
-        <Button onPress={handleSubmit} title={submitButtonText} />
+        <MaterialInput label="First Name" name="firstName" disabled={this.state.isSaving} />
+        <MaterialInput label="Last Name" name="lastName" disabled={this.state.isSaving} />
+        <FocusedDatePicker label="Birthday" name="dateOfBirth" disabled={this.state.isSaving}  maximumDate={new Date()} title="Leave blank if not certain" />
+        <Button onPress={handleSubmit} title={submitButtonText} disabled={this.state.isSaving} />
       </Form>
-    );
+    )
+  }
+
+  handleSaveError = (e) => {
+    this.setState({ isSaving: false })
+    alert("Error saving.")
+    console.log(e)
   }
 
   submitForm = values => {
@@ -94,28 +102,35 @@ class PatientViewScreen extends React.Component {
       lastName: values.lastName.trim(),
     }
 
-    if (this.state.patientDoc) {
-      this.state.patientDoc.update(valuesToWrite).then(() => {
+    this.setState({ isSaving: true })
+
+    if (this.state.patient) {
+      this.state.patient.update(valuesToWrite).then(() => {
+        this.setState({ isSaving: false })
         this.props.navigation.goBack()
-      }).catch((e) => alert("Error saving.", e))
+      }).catch(this.handleSaveError)
     } else {
       store.patients.add(valuesToWrite).then((patient) => {
-        this.props.navigation.navigate('Diagnosis', { patient: patient })
-      }).catch((e) => {
-        alert("Error saving.")
-        console.log(e)
-      })
+        this.setState({ isSaving: false })
+        this.navigateToDiagnosis(patient)
+      }).catch(this.handleSaveError)
     }
   }
 
+  navigateToDiagnosis = (patient) => this.props.navigation.navigate('Diagnosis', { patient: patient })
+
   render() {
+    let initialValues = this.state.patient && toJS(this.state.patient.data)
+    debugger;
     return <Container>
       <Formik
         onSubmit={this.submitForm}
-        initialValues={this.state.patientDoc && this.state.patientDoc.data}
+        initialValues={initialValues}
         // validationSchema={validationSchema}
         render={this.renderForm}
       />
+
+      {this.state.patient && <Button title="Continue Diagnosis" onPress={() => this.navigateToDiagnosis(this.state.patient)} />}
     </Container>
   }
 }

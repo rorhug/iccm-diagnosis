@@ -3,9 +3,6 @@ import { Text } from 'react-native';
 import { Section } from '../Section';
 
 export class DangerSigns extends React.Component {
-
-state = { activeSections: [] }
-
   static questions = {
   0: {
     text: "Does the child have any of the following danger signs?",
@@ -55,12 +52,10 @@ state = { activeSections: [] }
 
   render() {
     return <Section 
-    title="DangerSigns" 
-    initialState={this.state}
-    questions={DangerSigns.questions} 
-    activeSections={[]}
-    expandMultiple={true}
-    {...this.props}
+      title="DangerSigns" 
+      questions={DangerSigns.questions} 
+      expandMultiple={true}
+      {...this.props}
     />
   }
 
