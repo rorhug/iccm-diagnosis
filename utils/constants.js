@@ -48,7 +48,7 @@ const Age = {
 
 const QuestionText = {
   age: {
-    less2m : { text: Age.less2m, sectionEnd:true },
+    less2m : { text: Age.less2m, sectionEnd: true },
     less1y : { 
       text: Age.less1y,
       info: 'cannot walk',
