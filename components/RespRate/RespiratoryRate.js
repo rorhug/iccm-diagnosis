@@ -1,10 +1,4 @@
 import React from 'react';
-import { 
-    View,
-    ScrollView,
-    Text
-} from 'react-native';
-import styled, { css } from '@emotion/native'
 
 import { CounterChoice } from './CounterChoice'
 import { Tutorial } from './Tutorial'

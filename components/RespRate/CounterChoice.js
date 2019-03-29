@@ -4,25 +4,16 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native';
-import styled, { css } from '@emotion/native'
 import { RrComponents } from '../../utils/constants';
 import { 
     AnswerText,
     AnswerTextView,
     QuestionBox,
     Question,
-    Header
+    Header,
+    ImageButtonsContainer
 } from '../../utils/styles';
 
-const ButtonContainer = styled.View`
-    border-radius: 5px;
-    flex-direction: row;
-    align-self: baseline;
-    background-color: #eeeeee;
-    padding: 10px;
-    margin: auto;
-    marginTop: 20px;
-`
 
 export class CounterChoice extends React.Component {
   constructor(props) {
@@ -37,7 +28,7 @@ export class CounterChoice extends React.Component {
             <QuestionBox>
                 <Question>How would you like to count Respiratory Rate?</Question>
             </QuestionBox>
-            <ButtonContainer>
+            <ImageButtonsContainer>
                 <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tutorial)}>
                     <Image
                     source={require('../../assets/images/breathing-thing.jpg')}
@@ -55,7 +46,7 @@ export class CounterChoice extends React.Component {
                     />
                     <AnswerTextView><AnswerText>Tap</AnswerText></AnswerTextView>
                 </TouchableOpacity>
-            </ButtonContainer>
+            </ImageButtonsContainer>
 
         </View>
     </View>
