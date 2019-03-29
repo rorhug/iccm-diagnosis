@@ -134,7 +134,7 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
-
+    
     if (question.specialScreen) {
       return this.renderSpecialScreen(question);
     } else {
