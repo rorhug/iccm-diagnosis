@@ -63,7 +63,7 @@ export default class InfoScreen extends React.Component {
             />
           </ImageView>
 
-          <SubHeading>Symptom Diagnosis</SubHeading>
+          <SubHeading>Child Diagnosis</SubHeading>
 
           <Paragraph>This is a simple testing application for providing quick and decisive medical diagnosis.
            By following each section
