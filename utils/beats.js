@@ -1,8 +1,15 @@
-var AudioContext = require('web-audio-api').AudioContext
-context = new AudioContext
-var fs = require('fs')
-var exec = require('child_process').exec;
-var _ = require('underscore');
+// var AudioContext = require('web-audio-api').AudioContext
+
+import { FileSystem } from "expo"
+// context = new AudioContext
+// var fs = require('fs')
+// var exec = require('child_process').exec;
+// var _ = require('underscore');
+
+
+var decode = require('audio-decode')
+var aac = require('aac')
+
 //var length = 0;
 
 var pcmdata = [];
@@ -22,20 +29,68 @@ decodeSoundFile(soundfile, (bpm) => console.log(bpm));
  * [decodeSoundFile Use web-audio-api to convert audio file to a buffer of pcm data]
  * @return {[type]} [description]
  */
+// function decodeSoundFile(soundfile, done){
+//   console.log("decoding mp3 file ", soundfile, " ..... ")
+//   fs.readFile(soundfile, function(err, buf) {
+//     if (err) throw err
+//     context.decodeAudioData(buf, function(audioBuffer) {
+//       console.log(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate, audioBuffer.duration);
+//       pcmdata = (audioBuffer.getChannelData(0)) ;
+//       samplerate = audioBuffer.sampleRate;
+//       maxvals = [] ; max = 0 ;
+// 
+//       findPeaks(pcmdata, samplerate, done);
+// 
+//     }, function(err) { throw err })
+//   })
+//   return;
+// }
+
+// function decodeAudioData (buffer, done) {
+//   var asset = AV.Asset.fromBuffer(buffer)
+// 
+//   asset.on('error', function(err) {
+//     done(err)
+//   })
+// 
+//   asset.decodeToBuffer(function(decoded) {
+//     var deinterleaved = []
+//       , numberOfChannels = asset.format.channelsPerFrame
+//       , length = Math.floor(decoded.length / numberOfChannels)
+//       , ch, chArray, i
+// 
+//     for (ch = 0; ch < numberOfChannels; ch++)
+//       deinterleaved.push(new Float32Array(length))
+// 
+//     for (ch = 0; ch < numberOfChannels; ch++) {
+//       chArray = deinterleaved[ch]
+//       for (i = 0; i < length; i++)
+//         chArray[i] = decoded[ch + i * numberOfChannels]
+//     }
+// 
+//     done(null, AudioBuffer.fromArray(deinterleaved, asset.format.sampleRate))
+//   })
+// }
+
+
 function decodeSoundFile(soundfile, done){
   console.log("decoding mp3 file ", soundfile, " ..... ")
-  fs.readFile(soundfile, function(err, buf) {
-    if (err) throw err
-    context.decodeAudioData(buf, function(audioBuffer) {
-      console.log(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate, audioBuffer.duration);
-      pcmdata = (audioBuffer.getChannelData(0)) ;
-      samplerate = audioBuffer.sampleRate;
-      maxvals = [] ; max = 0 ;
+  let buf = FileSystem.readAsStringAsync(soundfile)
 
-      findPeaks(pcmdata, samplerate, done);
+  decode(buf).then(audioBuffer => {
+    debugger;
+    console.log(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate, audioBuffer.duration);
+    pcmdata = (audioBuffer.getChannelData(0)) ;
+    samplerate = audioBuffer.sampleRate;
+    maxvals = [] ; max = 0 ;
 
-    }, function(err) { throw err })
+    findPeaks(pcmdata, samplerate, done);
   })
+
+//   decodeAudioData(buf, function(audioBuffer) {
+// 
+//   }, function(err) { throw err })
+
   return;
 }
 
@@ -89,14 +144,14 @@ function getbars(val){
 function playsound(soundfile){
   // linux or raspi
   // var create_audio = exec('aplay'+soundfile, {maxBuffer: 1024 * 500}, function (error, stdout, stderr) {
-  var create_audio = exec('ffplay -autoexit '+soundfile, {maxBuffer: 1024 * 500}, function (error, stdout, stderr) {
-    if (error !== null) {
-      console.log('exec error: ' + error);
-    }else {
-      //console.log(" finished ");
-      //micInstance.resume();
-    }
-  });
+  // var create_audio = exec('ffplay -autoexit '+soundfile, {maxBuffer: 1024 * 500}, function (error, stdout, stderr) {
+  //   if (error !== null) {
+  //     console.log('exec error: ' + error);
+  //   }else {
+  //     //console.log(" finished ");
+  //     //micInstance.resume();
+  //   }
+  // });
 }
 
 /**
@@ -293,4 +348,4 @@ function loopThrough(pcmdata,samplerate,done){
     return;
 }
 
-  // export default decodeSoundFile;
+export default decodeSoundFile

@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
 
+import decodeSoundFile from '../utils/beats'
+
 class Icon {
   constructor(module, width, height) {
     this.module = module;
@@ -174,7 +176,17 @@ export class Recorder extends React.Component {
     } catch (error) {
       // Do nothing -- we are already unloaded.
     }
-    const info = await FileSystem.getInfoAsync(this.recording.getURI());
+    let uri = this.recording.getURI()
+    const info = await FileSystem.getInfoAsync(uri);
+
+    if (info.exists) {
+      debugger;
+      decodeSoundFile(uri, (bpm) => {
+        debugger;
+      })
+
+    }
+
     console.log(`FILE INFO: ${JSON.stringify(info)}`);
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
