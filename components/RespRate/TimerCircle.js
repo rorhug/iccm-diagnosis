@@ -68,25 +68,26 @@ function calcInterpolationValuesForHalfCircle2(
     return { rotate, backgroundColor };
 }
 
-function getInitialState(props, cp) {
+function getInitialState(props) {
     return {
-        circleProgress: cp,
-        secondsElapsed: props.secondsElapsed,
-        text: props.updateText(-1, props.seconds),
+        circleProgress,
+        secondsElapsed: 0,
+        text: props.updateText(0, props.seconds),
         interpolationValuesHalfCircle1: calcInterpolationValuesForHalfCircle1(
-            cp,
+            circleProgress,
             props
         ),
         interpolationValuesHalfCircle2: calcInterpolationValuesForHalfCircle2(
-            cp,
+            circleProgress,
             props
         )
     };
 }
-const circleProgress = new Animated.Value(0);
+let circleProgress = new Animated.Value(0);
 
 export default class TimerCircle extends React.PureComponent {
     static propTypes = {
+        start: PropTypes.bool.isRequired,
         seconds: PropTypes.number.isRequired,
         secondsElapsed: PropTypes.number,
         radius: PropTypes.number.isRequired,
@@ -101,6 +102,7 @@ export default class TimerCircle extends React.PureComponent {
     };
 
     static defaultProps = {
+        start: true,
         color: "#f00",
         shadowColor: "#999",
         bgColor: "#e9e9ef",
@@ -117,49 +119,55 @@ export default class TimerCircle extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        console.log('start2')
-        console.log(props)
-        this.state = getInitialState(props, circleProgress);
-        //   this.restartAnimation();
+        this.state = getInitialState(props);
+        if (this.props.start) this.runAnimation();
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.secondsElapsed < nextProps.secondsElapsed) {
-            console.log('update')
-            const callback =
-                this.props.secondsElapsed < this.props.seconds
-                    ? this.restartAnimation
-                    : (this.props.secondsElapsed > 0 ?
-                        this.props.onTimeElapsed : undefined);
-            const updatedText = this.props.updateText(
-                this.props.secondsElapsed,
-                this.props.seconds
-            );
-            this.setState(
-                {
-                    ...getInitialState(this.props, circleProgress),
-                    text: updatedText
-                },
-                callback
-            );
-
-        } else if (this.props.secondsElapsed > nextProps.secondsElapsed) {
-            this.state.circleProgress.stopAnimation();
-            let cp = new Animated.Value(0);
-            this.setState({
-                ...getInitialState(this.props, cp)
-            });
+        if (this.props.start !== nextProps.start) {
+            // Stop animation
+            if (!nextProps.start) {
+                Animated.timing(this.state.circleProgress).stop();
+                circleProgress = new Animated.Value(0);
+            // start animation
+            } else if (nextProps.start) {
+                this.runAnimation();
+            }
+            this.setState(getInitialState(nextProps));
         }
     }
 
-    restartAnimation = () => {
+
+    onCircleAnimated = ({ finished }) => {
+        // if animation was interrupted by stopAnimation don't restart it.
+        if (!finished) return;
+
+        const secondsElapsed = this.state.secondsElapsed + 1;
+        const callback =
+            secondsElapsed < this.props.seconds
+                ? this.runAnimation
+                : this.props.onTimeElapsed
+        const updatedText = this.props.updateText(
+            secondsElapsed,
+            this.props.seconds
+        );
+        this.setState(
+            {
+                ...getInitialState(this.props),
+                secondsElapsed,
+                text: updatedText
+            },
+            callback
+        );
+    };
+
+    runAnimation = () => {
+        val = parseFloat(JSON.stringify(this.state.circleProgress)) + 100 / this.props.seconds
         Animated.timing(this.state.circleProgress, {
-            toValue:
-                parseFloat(JSON.stringify(this.state.circleProgress)) +
-                100 / this.props.seconds,
+            toValue: val,
             duration: 1000,
             easing: Easing.linear
-        }).start()
+        }).start(this.onCircleAnimated)
     };
 
     renderHalfCircle({ rotate, backgroundColor }) {

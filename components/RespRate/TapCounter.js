@@ -5,15 +5,6 @@ import {
   Text,
   View,
 } from 'react-native'
-<<<<<<< HEAD
-import {
-    AnswerButton,
-    AnswerTextView,
-    AnswerText
-} from '../../utils/styles';
-import styled from '@emotion/native';
-
-=======
 import { 
   Header,
   InfoText,
@@ -28,7 +19,6 @@ import {
   AnswerRow,
   LineBreak
 } from '../../utils/styles';
->>>>>>> reset button on tap screen
 import TimerCircle from './TimerCircle'
 import { QuestionText } from '../../utils/constants';
 
@@ -36,22 +26,11 @@ const finished = 'finished'
 const tapping = 'tapping'
 const start = 'start'
 
-<<<<<<< HEAD
-/* Styling */
-const Container = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  padding: 20px;
-`
-=======
 initialState = {
   time: 0,
   current: start,
   count: 0,
 }
->>>>>>> reset button on tap screen
 
 export class TapCounter extends Component {
   constructor(props) {
@@ -92,21 +71,6 @@ export class TapCounter extends Component {
   render() {
     switch (this.state.current) {
       case start:
-<<<<<<< HEAD
-        return (
-          <Container>
-            <AnswerButton
-              onPress={this.startTapping}
-            >
-                <AnswerTextView>
-                    <AnswerText> First Press Start </AnswerText>
-                </AnswerTextView>
-            </AnswerButton>
-          </Container>
-        )
-
-=======
->>>>>>> reset button on tap screen
       case tapping:
         return (
           <View style={styles.container}>
@@ -165,38 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around',
-<<<<<<< HEAD
-    paddingHorizontal: 10
-  },
-  startbutton: {
-    alignItems: 'center',
-    backgroundColor: '#0ace0a',
-    padding: 20,
-  },
-  tapbutton: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 80
-  },
-  stopbutton: {
-    alignItems: 'center',
-    backgroundColor: '#ce0a0a',
-    padding: 20
-  },
-  calbutton: {
-    alignItems: 'center',
-    backgroundColor: '#f9f9f9',
-    padding: 10
-  },
-  countContainer: {
-    alignItems: 'center',
-    padding: 10
-  },
-  countText: {
-    color: '#FF00FF'
-=======
     paddingHorizontal: 10,
     paddingTop: 50
->>>>>>> reset button on tap screen
   }
 })
