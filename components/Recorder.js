@@ -66,8 +66,10 @@ export class Recorder extends React.Component {
     };
 
     let recordingOptions = Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY
-    recordingOptions.ios.outputFormat = Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_LINEARPCM
-    recordingOptions.ios.extension = ".wav"
+    // recordingOptions.ios.outputFormat = Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_LINEARPCM
+    // recordingOptions.ios.extension = ".wav"
+    recordingOptions.ios.outputFormat = Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC
+    recordingOptions.ios.extension = ".aac"
     console.log(JSON.stringify(recordingOptions.ios))
 
     this.recordingSettings = recordingOptions
