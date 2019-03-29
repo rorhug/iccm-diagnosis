@@ -17,8 +17,8 @@ const info_width = (Dimensions.get('window').width / 100) * 80;
 */
 
 /*  button & question container */
-let contentContainerColor = `#F8F8F8`;
-let buttonsColor = `#E8E8E8`;
+let contentContainerColor = `#F5F5F5`;
+let buttonsColor = `#fff`;
 let buttonsTextColor = `#05668d`
 
 
@@ -36,7 +36,7 @@ exports.ScrollContainer = styled.ScrollView`
 
 exports.QuestionBox = styled.View`
     display: flex;
-    background-color: ${contentContainerColor};
+    background-color: #eaf2ff;
     padding: 5px;
     border-radius: 10px;
     border-width: 1px; 
