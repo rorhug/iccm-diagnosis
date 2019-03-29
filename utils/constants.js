@@ -6,7 +6,7 @@ const tintColor = '#2f95dc';
 
 const Images = {
   ageLess5year : require('../assets/images/age-info-less5y.png'),
-  ageOver5year : require('../assets/images/age-info-over5y.png')
+  ageOver5year : require('../assets/images/age-info-over5y.png'),
 };
 
 const Colors = {
@@ -48,20 +48,23 @@ const Age = {
 
 const QuestionText = {
   age: {
-    less2m : { text: Age.less2m },
+    less2m : { text: Age.less2m, sectionEnd:true },
     less1y : { 
       text: Age.less1y,
       info: 'cannot walk',
+      sectionEnd: true
     },
     oneto5 : {
       text: Age.oneto5,
       info: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
-      img: Images.ageLess5year
+      img: Images.ageLess5year,
+      sectionEnd: true
     },
     over5  : {
       text: Age.over5,
       info: 'can touch the ear as shown in image',
-      img: Images.ageOver5year
+      img: Images.ageOver5year,
+      sectionEnd: true
     },
   }
 }
