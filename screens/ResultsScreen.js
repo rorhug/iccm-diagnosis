@@ -1,9 +1,8 @@
 import React from 'react';
+import {View} from 'react-native';
 import {
-    View,
-    ScrollView
-} from 'react-native';
-import {
+    Container,
+    ScrollContainer,
     Header,
     AnswerText,
     AnswerButton,
@@ -58,9 +57,9 @@ export class ResultsScreen extends React.Component {
         console.log(results)
 
         return (
-            <View style={{ flex: 1 }}>
+            <Container>
                 <Header>Results</Header>
-                <ScrollView style={{ paddingLeft: 20, paddingRight: 20 }}>
+                <ScrollContainer>
 
                     <View>
                         {Object.keys(results).map((key) => {
@@ -86,10 +85,10 @@ export class ResultsScreen extends React.Component {
                     </AnswerButton>
 
                     {/* This view is just to create space between components. */}
-                    <View style={{ marginBottom: 20 }}></View>
+                    {/* <View style={{ marginBottom: 20 }}></View> */}
 
-                </ScrollView>
-            </View>
+                </ScrollContainer>
+            </Container>
         );
     }
 

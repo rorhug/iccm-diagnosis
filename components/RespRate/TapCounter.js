@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+<<<<<<< HEAD
   StyleSheet,
   TouchableHighlight,
   Text,
@@ -8,6 +9,12 @@ import {
 import { 
   Header,
   InfoText,
+=======
+  Container,
+  ScrollContainer,
+  ButtonsBox,
+  Header,
+>>>>>>> updated styled component usage
   QuestionBox,
   ButtonsBox,
   Question,
@@ -20,7 +27,10 @@ import {
   LineBreak
 } from '../../utils/styles';
 import TimerCircle from './TimerCircle'
+<<<<<<< HEAD
 import { QuestionText } from '../../utils/constants';
+=======
+>>>>>>> updated styled component usage
 
 const finished = 'finished'
 const tapping = 'tapping'
@@ -73,6 +83,7 @@ export class TapCounter extends Component {
       case start:
       case tapping:
         return (
+<<<<<<< HEAD
           <View style={styles.container}>
 
             <TimerCircle
@@ -118,10 +129,71 @@ export class TapCounter extends Component {
               <AnswerTextView><AnswerText> Continue </AnswerText></AnswerTextView>
             </AnswerButton>
           </View>
+=======
+          <Container>
+            <Header>BPM Counter</Header>
+            <ScrollContainer >
+              <TimerCircle
+                start={this.state.current === tapping}
+                onTimeElapsed={this.onCompletion}
+                seconds={3}
+                radius={80}
+                borderWidth={20}
+                color='#f00'
+                bgColor="#fff"
+                shadowColor='#999'
+                textStyle={{ fontSize: 20 }}
+                style={{ margin: 10, alignSelf:'center' }}
+              />
+              <QuestionBox><Question>
+                Press Start then tap the button at every inhalation
+            </Question></QuestionBox>
+              <ButtonsBox>
+                <AnswerButton
+                  onPress={this.state.current === start ? this.startTapping : this.onPress}
+                >
+                  <AnswerTextView
+                  ><AnswerText>{this.state.current === start ? 'Start' : 'Tap at every inhalation'}</AnswerText></AnswerTextView>
+                </AnswerButton>
+                <AnswerButton
+                  onPress={() => this.setState(initialState)}
+                >
+                  <AnswerTextView
+                  ><AnswerText>Reset</AnswerText></AnswerTextView>
+                </AnswerButton>
+              </ButtonsBox>
+
+            </ScrollContainer>
+          </Container>
+        )
+      case finished:
+        return (
+          <Container>
+            <Header>BPM Counter</Header>
+            <ScrollContainer >
+              <QuestionBox><Question>
+                Inhalations per minute: {this.state.bpm}
+              </Question></QuestionBox>
+              <ButtonsBox>
+                <AnswerButton
+                  onPress={() => this.props.respRate(this.state.bpm)}
+                >
+                  <AnswerTextView><AnswerText> Continue </AnswerText></AnswerTextView>
+                </AnswerButton>
+                <AnswerButton
+                  onPress={() => this.setState(initialState)}
+                >
+                  <AnswerTextView><AnswerText>Redo</AnswerText></AnswerTextView>
+                </AnswerButton>
+              </ButtonsBox>
+            </ScrollContainer>
+          </Container>
+>>>>>>> updated styled component usage
         )
     }
   }
 }
+<<<<<<< HEAD
 
 const styles = StyleSheet.create({
   container: {
@@ -133,3 +205,5 @@ const styles = StyleSheet.create({
     paddingTop: 50
   }
 })
+=======
+>>>>>>> updated styled component usage

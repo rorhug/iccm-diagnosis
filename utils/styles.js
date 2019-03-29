@@ -25,13 +25,11 @@ let buttonsTextColor = `#05668d`
 exports.Container = styled.View`
   flex: 1;
   background-color: #fff;
-  padding: 20px;
 `
 
 exports.ScrollContainer = styled.ScrollView`
     flex: 1;
-    padding-left: 20px;
-    padding-right: 20px;
+    margin: 20px;
 `
 
 exports.QuestionBox = styled.View`
