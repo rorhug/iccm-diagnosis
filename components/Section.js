@@ -124,9 +124,9 @@ export class Section extends React.Component {
   // TODO move the following to functions out of Section
   respRateDecision = (question) => {
     return function (respRate) {
-      // questionId = question.resultToGoto(this.props.patientAgeOne, respRate)
+      const questionId = question.resultToGoto(this.props.patient, respRate)
       console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
-      this.gotoQuestion(question.resultToGoto(patient, respiratoryRate))
+      this.gotoQuestion(questionId)
     }.bind(this)
   }
 

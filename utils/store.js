@@ -19,7 +19,7 @@ firebase.initializeApp({
   messagingSenderId: "255332830249"
 })
 
-const firestore = firebase.firestore()
+// const firestore = firebase.firestore()
 // firestore.settings({ timestampsInSnapshots: true })
 
 initFirestorter({ firebase: firebase })
@@ -39,7 +39,7 @@ class Patient extends Document {
         firstName: 'string',
         lastName: 'string',
         notes: 'string?',
-        sectionResults: 'object?',
+        sectionResults: 'object',
         dateOfBirth: isOptionalTimestamp,
         givenAgeEstimate: isOptionalAgeEstimate,
         createdAt: isTimestamp,
@@ -50,9 +50,8 @@ class Patient extends Document {
 
   @computed get displayName() {
     let fullName = [this.data.firstName, this.data.lastName].join(' ').trim()
-    return fullName === '' ?  `unnamed ${this.id}` : fullName
+    return fullName === '' ?  'unnamed' : fullName
   }
-
   @computed get ageInDays() {
     return this.data.dateOfBirth && Math.abs((new Date) - this.data.dateOfBirth.toDate()) / DAY_IN_MS
   }
@@ -62,11 +61,14 @@ class Patient extends Document {
   @computed get ageEstimateText() {
     return this.data.dateOfBirth ? PatientDetails.ageEstimateText(this.ageInMonths) : this.data.givenAgeEstimate
   }
+
+  removeDiagnosis = () => this.update({ diagnosedAt: firebase.firestore.FieldValue.delete(), sectionResults: {} })
 }
 
 const patients = new Collection('patients', {
   mode: 'auto',
-  createDocument: (source, options) => new Patient(source, options)
+  createDocument: (source, options) => new Patient(source, options),
+  query: (ref) => ref.limit(20).orderBy('createdAt', 'desc')
 })
 
 export default {

@@ -28,8 +28,8 @@ export class PatientDetails extends React.Component {
       _monthRange: [60, undefined]
     },
   ]
-  static ageWithinInnerRange = (patient) => [PatientDetails.ageEstimateAnswers[1], PatientDetails.ageEstimateAnswers[2]].includes(patient.ageEstimateText)
-  static lessThanAYearOld    = (patient) => [PatientDetails.ageEstimateAnswers[0], PatientDetails.ageEstimateAnswers[1]].includes(patient.ageEstimateText)
+  static ageWithinInnerRange = (patient) => [PatientDetails.ageEstimateAnswers[1].text, PatientDetails.ageEstimateAnswers[2].text].includes(patient.ageEstimateText)
+  static lessThanAYearOld    = (patient) => [PatientDetails.ageEstimateAnswers[0].text, PatientDetails.ageEstimateAnswers[1].text].includes(patient.ageEstimateText)
 
   static questions = {
     0: {
@@ -43,10 +43,7 @@ export class PatientDetails extends React.Component {
     ageInMonths >= answer._monthRange[0] && (!answer._monthRange[1] || ageInMonths < answer._monthRange[1])
   ).text
 
-  state = { isSaving: true }
-
   onCompletion = (index) => {
-    this.setState({ isSaving: true })
     this.props.patient.update({
       givenAgeEstimate: PatientDetails.ageEstimateAnswers[index].text
     }).then(

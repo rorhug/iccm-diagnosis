@@ -29,10 +29,9 @@ class DatePicker extends React.PureComponent {
     })
   }
 
-
   handleDatePicked = value => {
     this.setValueAndClose(firestore.Timestamp.fromDate(value))
-    if (this.props.onSubmitEditing) this.props.onSubmitEditing()
+    // if (this.props.onSubmitEditing) this.props.onSubmitEditing()
   };
 
   render() {

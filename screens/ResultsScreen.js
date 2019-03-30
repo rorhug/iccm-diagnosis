@@ -69,7 +69,7 @@ export class ResultsScreen extends React.Component {
                             let startId = question.sectionEnd ? 0 : endingId
                             return <View key={key}>
                                 <SubHeading>{section_names[key]}</SubHeading>
-                                {question.sectionEnd && <ResultAnswerText>{components[key].questions[endingId].text}</ResultAnswerText>}
+                                {question.sectionEnd && <ResultAnswerText>{question.text}</ResultAnswerText>}
                                 {!question.sectionEnd && key !== Sections.patient_details &&
                                     <ButtonsBox>
                                         <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
@@ -84,8 +84,8 @@ export class ResultsScreen extends React.Component {
                     {/* This view is just to create space between components. */}
                     <View style={{ marginTop: 15 }}></View>
 
-                    <AnswerButton onPress={() => this.props.reset()}>
-                        <BackTextView><BackText>Back to Start</BackText></BackTextView>
+                    <AnswerButton onPress={this.props.restartDiagnosis}>
+                        <BackTextView><BackText>Restart Diagnosis</BackText></BackTextView>
                     </AnswerButton>
 
                     <AnswerButton onPress={() => this.props.navigation.goBack()}>

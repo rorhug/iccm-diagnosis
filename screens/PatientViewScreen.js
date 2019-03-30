@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
   Button,
-  // TextInput
+  Alert
 } from 'react-native'
 import { WebBrowser } from 'expo'
 import { Icon } from 'expo'
@@ -28,11 +28,12 @@ import { firestore } from 'firebase'
 
 import DatePicker from "../components/DatePicker";
 import store from '../utils/store'
+import DiagnosisScreen from './DiagnosisScreen'
 
 const Container = styled.View`
   flex: 1;
   background-color: #fff;
-  padding: 20px;
+  padding: 0 20px;
   /*margin-top: 15px;*/
 `
 
@@ -52,7 +53,6 @@ const FocusedDatePicker = compose(
 
 const Form = withNextInputAutoFocusForm(View);
 
-
 // const validationSchema = Yup.object().shape({
 //   email: Yup.string()
 //     .required("please! email?")
@@ -71,7 +71,7 @@ class PatientViewScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      patient: props.navigation.state.params.patient,
+      patient: props.navigation.getParam('patient'),
       isSaving: false,
     }
   }
@@ -80,30 +80,7 @@ class PatientViewScreen extends React.Component {
     if (this.props.navigation.state.params.startQuestionnaire) { this.submitForm({}) }
   }
 
-  renderForm = ({ handleSubmit, values }) => {
-    let submitButtonText = this.state.patient ? "Save" : (Object.keys(values).length === 0 ? "Skip to Diagnosis" : "Save and Start Diagnosis")
-    return (
-      <Form>
-        <MaterialInput label="First Name" name="firstName" disabled={this.state.isSaving} />
-        <MaterialInput label="Last Name" name="lastName" disabled={this.state.isSaving} />
-        <FocusedDatePicker
-          label="Birthday"
-          name="dateOfBirth"
-          disabled={this.state.isSaving}
-          maximumDate={new Date()}
-          title="Leave blank if not certain"
-        />
-        <MaterialInput label="Notes..." name="notes" disabled={this.state.isSaving} multiline={true} />
-        <Button onPress={handleSubmit} title={submitButtonText} disabled={this.state.isSaving} />
-      </Form>
-    )
-  }
-
-  handleSaveError = (e) => {
-    this.setState({ isSaving: false })
-    alert("Error saving.")
-    console.log(e)
-  }
+  navigateToDiagnosis = (patient) => this.props.navigation.navigate('Diagnosis', { patient: patient })
 
   submitForm = values => {
     let valuesToWrite = {
@@ -111,6 +88,7 @@ class PatientViewScreen extends React.Component {
       ...values,
       firstName: values.firstName ? values.firstName.trim() : "",
       lastName:  values.lastName ? values.lastName.trim() : "",
+      sectionResults: {},
     }
 
     this.setState({ isSaving: true })
@@ -122,17 +100,79 @@ class PatientViewScreen extends React.Component {
       }).catch(this.handleSaveError)
     } else {
       store.patients.add(valuesToWrite).then((patient) => {
-        this.setState({ isSaving: false })
+        this.setState({ isSaving: false, patient })
         this.navigateToDiagnosis(patient)
       }).catch(this.handleSaveError)
     }
   }
 
-  navigateToDiagnosis = (patient) => this.props.navigation.navigate('Diagnosis', { patient: patient })
+  handleSaveError = (e) => {
+    this.setState({ isSaving: false })
+    alert("Error saving.")
+    console.log(e)
+  }
+
+  submitButtonText = (formValues) => {
+    if (this.state.isSaving) {
+      return "Saving..."
+    } else if (this.state.patient) {
+      return "Save"
+    } else if (Object.keys(formValues).length === 0) {
+      return "Skip to Diagnosis"
+    } else {
+      return "Save and Start Diagnosis"
+    }
+  }
+
+  renderForm = ({ handleSubmit, values }) => <Form>
+    <MaterialInput label="First Name" name="firstName" disabled={this.state.isSaving} />
+    <MaterialInput label="Last Name" name="lastName" disabled={this.state.isSaving} />
+    <FocusedDatePicker
+      label="Birthday"
+      name="dateOfBirth"
+      disabled={this.state.isSaving}
+      maximumDate={new Date()}
+      title="Leave blank if not certain"
+    />
+    <MaterialInput label="Notes..." name="notes" disabled={this.state.isSaving} multiline={true} />
+    <Button onPress={handleSubmit} title={this.submitButtonText(values)} disabled={this.state.isSaving} />
+  </Form>
+
+  deletePatient = () => Alert.alert(
+    'Delete Patient',
+    'Are you sure?',
+    [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          this.setState({ isSaving: true })
+          this.state.patient.delete().then(
+            () => this.props.navigation.popToTop()
+          ).catch(
+            () => alert("Error deleting patient.")
+          )
+        }
+      },
+    ],
+    { cancelable: true },
+  )
+
+  savedPatientButtons = () => {
+    let diagnosisInitialState = DiagnosisScreen.initialState(this.state.patient)
+    return <>
+      <Button
+        title={diagnosisInitialState.sections.current ? "Continue Diagnosis" : "Diagnosis Results"}
+        onPress={() => this.navigateToDiagnosis(this.state.patient)}
+      />
+      <Button title="Delete Patient" color="#ff0000" onPress={this.deletePatient} />
+    </>
+  }
 
   render() {
     let initialValues = this.state.patient && toJS(this.state.patient.data)
-    // debugger;
+
     return <Container>
       <Formik
         onSubmit={this.submitForm}
@@ -141,7 +181,7 @@ class PatientViewScreen extends React.Component {
         render={this.renderForm}
       />
 
-      {this.state.patient && <Button title="Continue Diagnosis" onPress={() => this.navigateToDiagnosis(this.state.patient)} />}
+      {this.state.patient && this.savedPatientButtons()}
     </Container>
   }
 }

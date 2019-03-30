@@ -121,18 +121,24 @@ export default class PatientListScreen extends React.Component {
           size={40}
           color={"#05668d"}
         />
-        <ButtonText>Start Questionnaire</ButtonText>
+        <ButtonText>Start Diagnosis</ButtonText>
       </NewPatientButton>
     </TouchableOpacity>
   </NewPatientWrap>
 
   render() {
-    const { docs, query } = store.patients
-
-    let ss = store.patients
     if (store.patients.isLoading) {
       return <Text>LOADING</Text>
     }
+
+    const { docs, query } = store.patients
+    let patients = docs.slice()
+
+    let sections = [
+      { title: "In Progress", data: [] },
+      { title: "Completed", data: [] },
+    ]
+    patients.forEach((doc) => sections[doc.data.diagnosedAt ? 1 : 0].data.push(doc))
 
     return <SectionList
       renderItem={this.renderItem}
@@ -143,7 +149,7 @@ export default class PatientListScreen extends React.Component {
           data: [{ id: "_" }],
           renderItem: this.renderNewPatientButtons
         },
-        { title: 'In Progress', data: docs.length ? docs.slice() : [] },
+        ...sections.filter(section => section.data.length !== 0)
       ]}
       keyExtractor={ (item, index) => item.id + index }
     />
