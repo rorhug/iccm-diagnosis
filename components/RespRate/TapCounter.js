@@ -1,22 +1,10 @@
 import React, { Component } from 'react'
 import {
-<<<<<<< HEAD
-  StyleSheet,
-  TouchableHighlight,
-  Text,
-  View,
-} from 'react-native'
-import { 
-  Header,
-  InfoText,
-=======
   Container,
   ScrollContainer,
   ButtonsBox,
   Header,
->>>>>>> updated styled component usage
   QuestionBox,
-  ButtonsBox,
   Question,
   AnswerButton,
   InfoButton,
@@ -27,10 +15,6 @@ import {
   LineBreak
 } from '../../utils/styles';
 import TimerCircle from './TimerCircle'
-<<<<<<< HEAD
-import { QuestionText } from '../../utils/constants';
-=======
->>>>>>> updated styled component usage
 
 const finished = 'finished'
 const tapping = 'tapping'
@@ -83,60 +67,13 @@ export class TapCounter extends Component {
       case start:
       case tapping:
         return (
-<<<<<<< HEAD
-          <View style={styles.container}>
-
-            <TimerCircle
-              seconds={59}
-              secondsElapsed={this.state.time}
-              radius={80}
-              borderWidth={20}
-              color='#f00'
-              bgColor="#fff"
-              shadowColor='#999'
-              textStyle={{ fontSize: 20 }}
-              onTimeElapsed={this.onCompletion}
-              style={{ margin: 10 }}
-            />
-
-            <AnswerButton
-              style={{height:100}}
-              onPress={this.state.current===start? this.startTapping : this.onPress}
-            >
-              <AnswerTextView style={{height:100}}
-              ><AnswerText>{this.state.current===start? 'Tap to Start' : 'Tap at every inhalation'}</AnswerText></AnswerTextView>
-            </AnswerButton>
-            <AnswerButton
-              onPress={this.reset}
-            >
-              <AnswerTextView
-              ><AnswerText>Reset</AnswerText></AnswerTextView>
-            </AnswerButton>
-            
-          </View>
-        )
-      case finished:
-        return (
-          <View style={styles.container}>
-            <View>
-              <QuestionText>
-                Inhalations per minute: {this.state.bpm}
-              </QuestionText>
-            </View>
-            <AnswerButton
-              onPress={() => this.props.respRate(this.state.bpm)}
-            >
-              <AnswerTextView><AnswerText> Continue </AnswerText></AnswerTextView>
-            </AnswerButton>
-          </View>
-=======
           <Container>
             <Header>BPM Counter</Header>
             <ScrollContainer >
               <TimerCircle
                 start={this.state.current === tapping}
                 onTimeElapsed={this.onCompletion}
-                seconds={60}
+                seconds={3}
                 radius={80}
                 borderWidth={20}
                 color='#f00'
@@ -172,11 +109,11 @@ export class TapCounter extends Component {
             <Header>BPM Counter</Header>
             <ScrollContainer >
               <QuestionBox><Question>
-                Inhalations per minute: {this.state.count}
+                Inhalations per minute: {this.state.bpm}
               </Question></QuestionBox>
               <ButtonsBox>
                 <AnswerButton
-                  onPress={() => this.props.respRate(this.state.count)}
+                  onPress={() => this.props.respRate(this.state.bpm)}
                 >
                   <AnswerTextView><AnswerText> Continue </AnswerText></AnswerTextView>
                 </AnswerButton>
@@ -188,22 +125,7 @@ export class TapCounter extends Component {
               </ButtonsBox>
             </ScrollContainer>
           </Container>
->>>>>>> updated styled component usage
         )
     }
   }
 }
-<<<<<<< HEAD
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingHorizontal: 10,
-    paddingTop: 50
-  }
-})
-=======
->>>>>>> updated styled component usage
