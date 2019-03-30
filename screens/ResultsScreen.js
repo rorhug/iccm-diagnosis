@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import {
     Container,
     ScrollContainer,
@@ -7,6 +7,7 @@ import {
     AnswerText,
     AnswerButton,
     AnswerTextView,
+    ButtonsBox,
 } from '../utils/styles';
 import styled, { css } from '@emotion/native'
 import { Sections } from '../utils/constants';
@@ -70,9 +71,12 @@ export class ResultsScreen extends React.Component {
                                 <SubHeading>{section_names[key]}</SubHeading>
                                 {question.sectionEnd && <ResultAnswerText>{components[key].questions[endingId].text}</ResultAnswerText>}
                                 {!question.sectionEnd && key !== Sections.patient_details &&
-                                    <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
-                                    <AnswerTextView><AnswerText>{question.sectionEnd ? 'Retake' : 'Complete'}</AnswerText></AnswerTextView>
-                                </AnswerButton>}
+                                    <ButtonsBox>
+                                        <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
+                                            <AnswerTextView><AnswerText>{question.sectionEnd ? 'Retake' : 'Complete'}</AnswerText></AnswerTextView>
+                                        </AnswerButton>
+                                    </ButtonsBox>
+                                }
                             </View>
                         })}
                     </View>
@@ -83,9 +87,6 @@ export class ResultsScreen extends React.Component {
                     <AnswerButton onPress={() => this.props.reset()}>
                         <BackTextView><BackText>Back to Start</BackText></BackTextView>
                     </AnswerButton>
-
-                    {/* This view is just to create space between components. */}
-                    {/* <View style={{ marginBottom: 20 }}></View> */}
 
                 </ScrollContainer>
             </Container>
