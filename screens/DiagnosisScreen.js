@@ -1,5 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types'
+import {
+  ScrollView,
+  View
+} from 'react-native';
 import { WebBrowser } from 'expo';
+import { toJS } from 'mobx'
 
 import { MonoText } from '../components/StyledText';
 import { WaitingScreen } from '../components/WaitingScreen';
@@ -16,7 +22,7 @@ import { ResultsScreen } from './ResultsScreen';
 
 const End = <Container>End of Survey</Container>
 
-const sections = {
+const sectionComponents = {
   [Sections.patient_details]: PatientDetails,
   [Sections.dangersigns]: DangerSigns,
   [Sections.fever]: Fever,
@@ -24,45 +30,72 @@ const sections = {
   [Sections.diarrhoea]: Diarrhoea,
 }
 
-const initialState = () => {
-  return {
-    sections: {
-      startQuestion: 0,
-      current: Sections.patient_details,
-      next: [
-        Sections.dangersigns,
-        Sections.fever,
-        Sections.cough,
-        Sections.diarrhoea
-      ],
-      waiting: [],
-      completed: []
-    },
-    sectionResults: {}
-  }
+const initialSectionsForPatient = patient => {
+  let sections = [
+    Sections.dangersigns,
+    Sections.fever,
+    Sections.cough,
+    Sections.diarrhoea
+  ]
+  if (!patient.ageEstimateText) { sections.unshift(Sections.patient_details) }
+  return sections
 }
 
+export default class DiagnosisScreen extends React.Component {
 
-export default class HomeScreen extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      state: PropTypes.shape({
+        params: PropTypes.shape({
+          patient: PropTypes.object.isRequired,
+        }).isRequired
+      })
+    })
+  }
+
+  static initialState = (patient) => {
+    let { sectionResults } = patient.data
+    let sections = initialSectionsForPatient(patient)
+    let completedSections = Object.keys(sectionResults)
+    let remainingSections = sections.filter(section => !completedSections.includes(section))
+
+    return {
+      sections: {
+        startQuestion: 0,
+        current: remainingSections.shift(),
+        next: remainingSections,
+        waiting: [],
+        completed: completedSections
+      },
+      sectionResults: toJS(sectionResults)
+    }
+  }
 
   constructor(props) {
     super(props)
-    this.state = initialState()
+    this.state = DiagnosisScreen.initialState(this.patient())
   }
 
   static navigationOptions = {
     header: null,
   };
 
-  resetState = () => {
-    this.setState(initialState())
-  }
+  patient = () => this.props.navigation.getParam('patient')
 
-  currentSection = () => this.state.sections.current;
+  restartDiagnosis = () => this.patient().removeDiagnosis().then(() => this.setState(DiagnosisScreen.initialState(this.patient())))
+
+  currentSection = () => this.state.sections.current
 
   saveResult = (id) => {
+    let sectionResults = { ...this.state.sectionResults, [this.state.sections.current]: id }
     this.setState({
-      sectionResults: { ...this.state.sectionResults, [this.state.sections.current]: id }
+      sectionResults
+    })
+
+    let isComplete = this.state.sections.next.length === 0
+    this.patient().update({
+      sectionResults,
+      ...(isComplete && { diagnosedAt: new Date })
     })
   }
 
@@ -80,7 +113,7 @@ export default class HomeScreen extends React.Component {
     sections.current = sections.next.shift();
     sections.startQuestion = 0;
 
-    this.setState(sections);
+    this.setState({ sections })
   };
 
   continueSection = (section, id) => {
@@ -95,22 +128,22 @@ export default class HomeScreen extends React.Component {
     }
     sections.startQuestion = id;
     sections.waitScreen = false;
-    this.setState(sections)
+    this.setState({ sections })
   };
 
   skipWaitScreen = () => {
-    let sections = this.state.sections;
-    sections.waitScreen = false;
-    this.setState(sections);
+    let sections = this.state.sections
+    sections.waitScreen = false
+    this.setState({ sections })
   };
 
   render() {
+    console.log(this.state)
     let currentSection = this.state.sections.current;
     if (this.state.sections.waitScreen) {
       return (
         <WaitingScreen
           waiting={this.state.sections.waiting}
-          current={currentSection}
           sectionResults={this.state.sectionResults}
           continueSection={this.continueSection}
           skipWaitScreen={this.skipWaitScreen}
@@ -118,14 +151,12 @@ export default class HomeScreen extends React.Component {
         />
       );
     } else if (currentSection) {
-      let CurrentSectionComponent = sections[currentSection]
-      let age_id = this.state.sectionResults[Sections.patient_details]
+      let CurrentSectionComponent = sectionComponents[currentSection]
       return (
         <Container>
           <CurrentSectionComponent
             navigation={this.props.navigation}
-            patientAge={PatientDetails.patientAge(age_id)}
-            patientAgeOne={PatientDetails.patientAgeOne(age_id)}
+            patient={this.patient()}
             onCompletion={this.moveToNextSection}
             startQuestion={this.state.sections.startQuestion}
           />
@@ -136,10 +167,11 @@ export default class HomeScreen extends React.Component {
         /* Do not change the styling on this Container. */
         <Container style={{ flex: 1 }}>
           <ResultsScreen
-            reset={this.resetState}
+            restartDiagnosis={this.restartDiagnosis}
             sectionResults={this.state.sectionResults}
-            sectionComponents={sections}
+            sectionComponents={sectionComponents}
             continueSection={this.continueSection}
+            navigation={this.props.navigation}
           />
         </Container>
       );

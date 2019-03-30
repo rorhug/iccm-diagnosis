@@ -3,10 +3,12 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
+import DiagnosisScreen from '../screens/DiagnosisScreen';
 import LinksScreen from '../screens/LinksScreen';
 import RecordScreen from '../screens/RecordScreen';
 import InfoScreen from '../screens/InfoScreen';
+import PatientListScreen from '../screens/PatientListScreen';
+import PatientViewScreen from '../screens/PatientViewScreen';
 
 const InfoStack = createStackNavigator({
   Info: InfoScreen
@@ -26,12 +28,14 @@ InfoStack.navigationOptions = {
   ),
 };
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen
+const PatientListScreenStack = createStackNavigator({
+  PatientList: PatientListScreen,
+  PatientView: PatientViewScreen,
+  Diagnosis: DiagnosisScreen,
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Questionaire',
+PatientListScreenStack.navigationOptions = {
+  tabBarLabel: 'Patients',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -44,19 +48,6 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
-});
-
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
 
 const RecordStack = createStackNavigator({
   Record: RecordScreen,
@@ -74,6 +65,9 @@ RecordStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   InfoStack,
-  HomeStack,
+  PatientListScreenStack,
+  // HomeStack,
   RecordStack
+}, {
+  initialRouteName: "PatientListScreenStack"
 });

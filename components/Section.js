@@ -26,32 +26,28 @@ export class Section extends React.Component {
     super(props)
     this.state = {
       currentQuestionId: this.props.startQuestion,
-      ...this.props.initialState
-    };
+      activeCollapsibles: []
+    }
   }
 
   currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
-  moveToQuestion = (id) => {
-    if (this.props.questions[id].containsFunction) {
-      id = this.props.questions[id].function(this.props.patientAge);
-    }
-
-    this.setState({ currentQuestionId: id })
-  }
+  gotoQuestion = (goto) => this.setState({
+    currentQuestionId: typeof goto === 'function' ? goto(this.props.patient) : goto
+  })
 
   _toggleSection(answer) {
-    const activeSections = this.state.activeSections
+    const activeCollapsibles = this.state.activeCollapsibles
     let updatedSections = [];
 
-    if (activeSections.includes(answer)) {
-      updatedSections = activeSections.filter(a => a !== answer);
+    if (activeCollapsibles.includes(answer)) {
+      updatedSections = activeCollapsibles.filter(a => a !== answer);
     } else if (this.props.expandMultiple) {
-      updatedSections = [...activeSections, answer];
+      updatedSections = [...activeCollapsibles, answer];
     } else {
       updatedSections = [answer];
     }
-    this.setState({ activeSections: updatedSections });
+    this.setState({ activeCollapsibles: updatedSections });
   }
 
   infoCollapsable = (answer, key) => {
@@ -64,7 +60,7 @@ export class Section extends React.Component {
         <LineBreak />
 
         <Collapsible
-          collapsed={!this.state.activeSections.includes(key)}
+          collapsed={!this.state.activeCollapsibles.includes(key)}
         >
           <InfoText>{answer.info}</InfoText>
           {answer.img && <InfoImage source={answer.img}/>}
@@ -84,9 +80,9 @@ export class Section extends React.Component {
         <AnswerRow key={index}>
           <AnswerButton
             accessibilityLabel={answer.text}
-            onPress={() => answer.goto===undefined ?
+            onPress={() => answer.goto === undefined ?
               this.props.onCompletion(index, skip=answer.skip) :
-              this.moveToQuestion(answer.goto)}
+              this.gotoQuestion(answer.goto)}
           >
             <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
           </AnswerButton>
@@ -119,9 +115,9 @@ export class Section extends React.Component {
   // TODO move the following to functions out of Section
   respRateDecision = (question) => {
     return function (respRate) {
-      questionId = question.resultToGoto(this.props.patientAgeOne, respRate)
+      const questionId = question.resultToGoto(this.props.patient, respRate)
       console.log(`Section.respRateDecision :: Next question id = ${questionId}`)
-      this.moveToQuestion(questionId)
+      this.gotoQuestion(questionId)
     }.bind(this)
   }
 

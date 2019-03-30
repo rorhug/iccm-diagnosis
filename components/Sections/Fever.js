@@ -1,6 +1,7 @@
 import React from 'react';
 import { Section } from '../Section';
 import { Age } from '../../utils/constants'
+import { PatientDetails } from './PatientDetails'
 
 // <Section questions={questions} />
 export class Fever extends React.Component {
@@ -8,23 +9,9 @@ export class Fever extends React.Component {
     0: { // First question
       text: "Child with fever of history of fever in past 48 hours?",
       answers: [
-        { text: "Yes", goto: "1" },
+        { text: "Yes", goto: (patient) => PatientDetails.ageWithinInnerRange(patient) ? "2" : "100" },
         { text: "No", goto: "101" },
       ]
-    },
-    1: { // Automatically check age of child.
-        containsFunction: true,
-        function: (age) => {
-            switch (age) {
-                case Age.less2m:
-                case Age.over5:
-                    return "100"
-                case Age.less1y:
-                case Age.oneto5:
-                    return "2"
-            }
-            return "100"
-        }
     },
     2: { // Correct age + fever. RDT
       text: "Perform malaria pan PLDH RDT.\n(Wait screen.)",
