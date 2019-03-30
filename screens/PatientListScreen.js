@@ -70,11 +70,28 @@ export default class PatientListScreen extends React.Component {
     headerBackTitle: "Patients"
   }
 
+  ageStr = (patient) => {
+    if (!patient.data.dateOfBirth) { return }
+    let years = Math.floor(patient.ageInMonths / 12)
+    let monthsOld = Math.floor(patient.ageInMonths) % 12
+    if (years === 0 && monthsOld === 0) {
+      return `${Math.floor(patient.ageInDays)}d old`
+    } else {
+      return ((years !== 0 ? `${years}y` : '') + (monthsOld !== 0 ? ` ${monthsOld}m` : '') + " old")
+    }
+  }
+
+  subtitle = (patient) => [
+    this.ageStr(patient),
+    patient.data.notes,
+    `Created: ${patient.data.createdAt.toDate().toISOString()}`
+  ].filter(s => s).join(", ").trim()
+
   renderItem = ({ item, index, section }) => <Observer>
     {() => <TouchableOpacity onPress={() => this.navigateToPatient(item)}>
       <SectionListItem>
         <SectionListItemTitle>{item.displayName}</SectionListItemTitle>
-        <SectionListItemSubtitle>{item.ageEstimateText}</SectionListItemSubtitle>
+        <SectionListItemSubtitle>{this.subtitle(item)}</SectionListItemSubtitle>
       </SectionListItem>
     </TouchableOpacity>}
   </Observer>
@@ -82,6 +99,8 @@ export default class PatientListScreen extends React.Component {
   renderSectionHeader = ({section: {title}}) => (
     <SectionListHeader style={{fontWeight: 'bold'}}>{title}</SectionListHeader>
   )
+
+  navigateToPatient = (patient) => this.props.navigation.navigate('PatientView', { patient: patient })
 
   renderNewPatientButtons = () => <NewPatientWrap>
     <TouchableOpacity onPress={() => this.navigateToPatient()}>
@@ -95,7 +114,7 @@ export default class PatientListScreen extends React.Component {
       </NewPatientButton>
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={() => this.navigateToPatient()}>
+    <TouchableOpacity onPress={() => this.props.navigation.navigate('PatientView', { startQuestionnaire: true })}>
       <NewPatientButton>
         <Icon.Ionicons
           name={"md-paper"}
@@ -106,8 +125,6 @@ export default class PatientListScreen extends React.Component {
       </NewPatientButton>
     </TouchableOpacity>
   </NewPatientWrap>
-
-  navigateToPatient = (patient) => this.props.navigation.navigate('PatientView', { patient: patient })
 
   render() {
     const { docs, query } = store.patients

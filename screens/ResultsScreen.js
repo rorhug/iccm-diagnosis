@@ -88,6 +88,9 @@ export class ResultsScreen extends React.Component {
                         <BackTextView><BackText>Back to Start</BackText></BackTextView>
                     </AnswerButton>
 
+                    <AnswerButton onPress={() => this.props.navigation.goBack()}>
+                        <BackTextView><BackText>View Patient</BackText></BackTextView>
+                    </AnswerButton>
                 </ScrollContainer>
             </Container>
         );

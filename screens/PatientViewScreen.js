@@ -76,6 +76,10 @@ class PatientViewScreen extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.navigation.state.params.startQuestionnaire) { this.submitForm({}) }
+  }
+
   renderForm = ({ handleSubmit, values }) => {
     let submitButtonText = this.state.patient ? "Save" : (Object.keys(values).length === 0 ? "Skip to Diagnosis" : "Save and Start Diagnosis")
     return (

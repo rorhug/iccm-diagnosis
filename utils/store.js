@@ -25,7 +25,8 @@ const firestore = firebase.firestore()
 initFirestorter({ firebase: firebase })
 
 const PATIENT_AGE_ESTIMATES = PatientDetails.ageEstimateAnswers.map((answer) => answer.text)
-const MONTH_IN_MS = (365.25 / 12) * 86400000
+const DAY_IN_MS = 86400000
+const MONTH_IN_MS = (365.25 / 12) * DAY_IN_MS
 
 const isOptionalAgeEstimate = (val) => val === undefined || PATIENT_AGE_ESTIMATES.includes(val)
 const isOptionalTimestamp =   (val) => val === undefined || isTimestamp(val)
@@ -38,6 +39,7 @@ class Patient extends Document {
         firstName: 'string',
         lastName: 'string',
         notes: 'string?',
+        sectionResults: 'object?',
         dateOfBirth: isOptionalTimestamp,
         givenAgeEstimate: isOptionalAgeEstimate,
         createdAt: isTimestamp,
@@ -51,14 +53,9 @@ class Patient extends Document {
     return fullName === '' ?  `unnamed ${this.id}` : fullName
   }
 
-//   @computed get ageInMonths() {
-//     // if (this.data.dateOfBirth) {
-//       let months = Math.abs((new Date) - this.data.dateOfBirth.toDate()) / monthInMs
-//     // } else {
-// 
-//     // }
-//   }
-
+  @computed get ageInDays() {
+    return this.data.dateOfBirth && Math.abs((new Date) - this.data.dateOfBirth.toDate()) / DAY_IN_MS
+  }
   @computed get ageInMonths() {
     return this.data.dateOfBirth && Math.abs((new Date) - this.data.dateOfBirth.toDate()) / MONTH_IN_MS
   }

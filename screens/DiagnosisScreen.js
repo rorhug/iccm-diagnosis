@@ -83,9 +83,19 @@ export default class DiagnosisScreen extends React.Component {
   currentSection = () => this.state.sections.current;
 
   saveResult = (id) => {
+    let sectionResults = { ...this.state.sectionResults, [this.state.sections.current]: id }
     this.setState({
-      sectionResults: { ...this.state.sectionResults, [this.state.sections.current]: id }
+      sectionResults
     })
+
+    let patient = this.props.navigation.getParam('patient')
+    if (patient) {
+      let isComplete = this.state.sections.next.length === 0
+      patient.update({
+        sectionResults,
+        ...(isComplete && { diagnosedAt: new Date })
+      })
+    }
   }
 
   // savePatientInformation(values) = 
@@ -150,8 +160,6 @@ export default class DiagnosisScreen extends React.Component {
           <CurrentSectionComponent
             navigation={this.props.navigation}
             patient={patient}
-            // patientAge={PatientDetails.patientAge(age_id)}
-            // patientAgeOne={PatientDetails.patientAgeOne(age_id)}
             onCompletion={this.moveToNextSection}
             startQuestion={this.state.sections.startQuestion}
           />
@@ -166,6 +174,7 @@ export default class DiagnosisScreen extends React.Component {
             sectionResults={this.state.sectionResults}
             sectionComponents={sections}
             continueSection={this.continueSection}
+            navigation={this.props.navigation}
           />
         </Container>
       );

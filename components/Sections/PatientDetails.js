@@ -42,25 +42,6 @@ export class PatientDetails extends React.Component {
   static ageEstimateText = ageInMonths => PatientDetails.ageEstimateAnswers.find(answer =>
     ageInMonths >= answer._monthRange[0] && (!answer._monthRange[1] || ageInMonths < answer._monthRange[1])
   ).text
-  // static ageEstimateForText = ageEstimateText => this.ageEstimateAnswers.find(answer => ageInMonths > answer._monthRange[0] && ageInMonths <= answer._monthRange[1])
-
-//   static patientAge = (age_id) => {
-//     if (PatientDetails.questions[age_id]) {
-//       return PatientDetails.questions[age_id].text
-//     }
-//   }
-//
-//   static patientAgeOne = (age_id) => {
-//     age_text = PatientDetails.patientAge(age_id);
-//     switch (age_text) {
-//       case Age.less2m:
-//       case Age.less1y:
-//         return Age.less1y
-//       case Age.oneto5:
-//       case Age.over5:
-//         return Age.over1y
-//     }
-//   }
 
   state = { isSaving: true }
 
