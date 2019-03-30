@@ -12,7 +12,6 @@ import { observer, Observer } from 'mobx-react'
 // import { Observer } from 'mobx-react/native';
 import styled, { css } from '@emotion/native'
 
-
 import store from '../utils/store'
 
 // const SectionListRow = styled.Text`
@@ -46,14 +45,22 @@ const SectionListItemSubtitle = styled(Text)`
 `
 
 const NewPatientWrap = styled(View)`
-  padding: 10px;
+  padding: 10px 10px 0 10px;
   display: flex;
 `
 
 const NewPatientButton = styled(View)`
   align-items: center;
-  background-color: #eeeeee;
+  /*background-color: #eeeeee;*/
   padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 2px solid #05668d;
+`
+
+const ButtonText = styled(Text)`
+  font-size: 20px;
+  color: #05668d;
 `
 
 @observer
@@ -66,7 +73,7 @@ export default class PatientListScreen extends React.Component {
   renderItem = ({ item, index, section }) => <Observer>
     {() => <TouchableOpacity onPress={() => this.navigateToPatient(item)}>
       <SectionListItem>
-        <SectionListItemTitle>{item.fullName}</SectionListItemTitle>
+        <SectionListItemTitle>{item.displayName}</SectionListItemTitle>
         <SectionListItemSubtitle>{item.ageEstimateText}</SectionListItemSubtitle>
       </SectionListItem>
     </TouchableOpacity>}
@@ -82,8 +89,20 @@ export default class PatientListScreen extends React.Component {
         <Icon.Ionicons
           name={"md-person-add"}
           size={40}
+          color={"#05668d"}
         />
-        <Text>New Patient</Text>
+        <ButtonText>New Patient</ButtonText>
+      </NewPatientButton>
+    </TouchableOpacity>
+
+    <TouchableOpacity onPress={() => this.navigateToPatient()}>
+      <NewPatientButton>
+        <Icon.Ionicons
+          name={"md-paper"}
+          size={40}
+          color={"#05668d"}
+        />
+        <ButtonText>Start Questionnaire</ButtonText>
       </NewPatientButton>
     </TouchableOpacity>
   </NewPatientWrap>

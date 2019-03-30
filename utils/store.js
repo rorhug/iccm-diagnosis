@@ -37,6 +37,7 @@ class Patient extends Document {
       schema: struct({
         firstName: 'string',
         lastName: 'string',
+        notes: 'string?',
         dateOfBirth: isOptionalTimestamp,
         givenAgeEstimate: isOptionalAgeEstimate,
         createdAt: isTimestamp,
@@ -45,8 +46,9 @@ class Patient extends Document {
     })
   }
 
-  @computed get fullName() {
-    return [this.data.firstName, this.data.lastName].join(' ') || "unnamed patient"
+  @computed get displayName() {
+    let fullName = [this.data.firstName, this.data.lastName].join(' ').trim()
+    return fullName === '' ?  `unnamed ${this.id}` : fullName
   }
 
 //   @computed get ageInMonths() {

@@ -33,7 +33,7 @@ const Container = styled.View`
   flex: 1;
   background-color: #fff;
   padding: 20px;
-  margin-top: 15px;
+  /*margin-top: 15px;*/
 `
 
 const materialInputProps = { fontSize: 20, titleFontSize: 15, labelFontSize: 15 }
@@ -72,7 +72,7 @@ class PatientViewScreen extends React.Component {
     super(props)
     this.state = {
       patient: props.navigation.state.params.patient,
-      isSaving: false
+      isSaving: false,
     }
   }
 
@@ -82,7 +82,14 @@ class PatientViewScreen extends React.Component {
       <Form>
         <MaterialInput label="First Name" name="firstName" disabled={this.state.isSaving} />
         <MaterialInput label="Last Name" name="lastName" disabled={this.state.isSaving} />
-        <FocusedDatePicker label="Birthday" name="dateOfBirth" disabled={this.state.isSaving}  maximumDate={new Date()} title="Leave blank if not certain" />
+        <FocusedDatePicker
+          label="Birthday"
+          name="dateOfBirth"
+          disabled={this.state.isSaving}
+          maximumDate={new Date()}
+          title="Leave blank if not certain"
+        />
+        <MaterialInput label="Notes..." name="notes" disabled={this.state.isSaving} multiline={true} />
         <Button onPress={handleSubmit} title={submitButtonText} disabled={this.state.isSaving} />
       </Form>
     )
@@ -98,8 +105,8 @@ class PatientViewScreen extends React.Component {
     let valuesToWrite = {
       createdAt: new Date(), // before ...values so ignored if already present
       ...values,
-      firstName: values.firstName.trim(),
-      lastName: values.lastName.trim(),
+      firstName: values.firstName ? values.firstName.trim() : "",
+      lastName:  values.lastName ? values.lastName.trim() : "",
     }
 
     this.setState({ isSaving: true })
@@ -121,7 +128,7 @@ class PatientViewScreen extends React.Component {
 
   render() {
     let initialValues = this.state.patient && toJS(this.state.patient.data)
-    debugger;
+    // debugger;
     return <Container>
       <Formik
         onSubmit={this.submitForm}

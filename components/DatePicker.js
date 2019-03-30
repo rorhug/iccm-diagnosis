@@ -25,7 +25,7 @@ class DatePicker extends React.PureComponent {
 
     this.props.setFieldValue(value)
     this.setState({ pickerOpened: false }, () => {
-      // this.props.setFieldTouched()
+      this.props.setFieldTouched()
     })
   }
 
@@ -45,10 +45,10 @@ class DatePicker extends React.PureComponent {
         <DateTimePicker
           isVisible={this.state.pickerOpened}
           onConfirm={this.handleDatePicked}
-          onCancel={this.setValueAndClose}
+          onCancel={() => this.setValueAndClose(undefined)}
           {...this.props}
           date={dateObject}
-          cancelTextIOS="Clear"
+          cancelTextIOS="Cancel"
         />
       </React.Fragment>
     );

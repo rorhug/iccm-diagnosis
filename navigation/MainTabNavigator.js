@@ -86,4 +86,6 @@ export default createBottomTabNavigator({
   PatientListScreenStack,
   // HomeStack,
   RecordStack
+}, {
+  initialRouteName: "PatientListScreenStack"
 });
