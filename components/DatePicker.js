@@ -20,9 +20,6 @@ class DatePicker extends React.PureComponent {
   };
 
   setValueAndClose = (value) => {
-    let p = this.props.value
-    // debugger;
-
     this.props.setFieldValue(value)
     this.setState({ pickerOpened: false }, () => {
       this.props.setFieldTouched()

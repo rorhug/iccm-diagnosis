@@ -13,20 +13,6 @@ export class Fever extends React.Component {
         { text: "No", goto: "101" },
       ]
     },
-    // 1: { // Automatically check age of child.
-    //     containsFunction: true,
-    //     function: (age) => {
-    //         switch (age) {
-    //             case Age.less2m:
-    //             case Age.over5:
-    //                 return "100"
-    //             case Age.less1y:
-    //             case Age.oneto5:
-    //                 return "2"
-    //         }
-    //         return "100"
-    //     }
-    // },
     2: { // Correct age + fever. RDT
       text: "Perform malaria pan PLDH RDT.\n(Wait screen.)",
       allowSkip: true,

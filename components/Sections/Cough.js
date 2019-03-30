@@ -25,23 +25,6 @@ class Cough extends React.Component {
                 { text: "More than 3w", goto: "100" },
             ]
         },
-        // 3: { // Automatically check age of child.
-        //     containsFunction: true,
-        //     function: 
-        //     // function: (patient) => {
-        //     //     switch (age) {
-        //     //         case Age.less2m:
-        //     //         case Age.over5:
-        //     //             return "100"
-        //     //         case Age.less1y:
-        //     //         case Age.oneto5:
-        //     //             return "6"
-        //     //     }
-        //     //     return "100"
-        //     //     // if age < 2 months or > 5 years -> return 100 (Refer)
-        //     //     // else age okay return 7
-        //     // }
-        // },
         6: {
             specialScreen: true,
             screenTitle: "RespiratoryRate",

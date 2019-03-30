@@ -23,22 +23,6 @@ Is all the above TRUE?",
         { text: "no", goto: "3" },
       ]
     },
-    // 1: { // Automatically check age of child.
-    //     containsFunction: true,
-    //     function: (age) => {
-    //         switch (age) {
-    //             // Outside of age group
-    //             case Age.less2m:
-    //             case Age.over5:
-    //                 return "100"
-    //             // Inside the age group
-    //             case Age.less1y:
-    //             case Age.oneto5:
-    //                 return "2"
-    //         }
-    //         return "100"
-    //     }
-    // },
     2: { // Danger signs
         text: "Signs of severe dehydration?\n\
         - Sunken eyes\n\

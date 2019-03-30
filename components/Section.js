@@ -32,18 +32,9 @@ export class Section extends React.Component {
 
   currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
-  gotoQuestion = (goto) => {
-    if (typeof goto === 'function') {
-      this.setState({ currentQuestionId: goto(this.props.patient) })
-    } else {
-      this.setState({ currentQuestionId: goto })
-    }
-    // if (this.props.questions[id].containsFunction) {
-    //   id = this.props.questions[id].function(this.props.patientAge);
-    // }
-
-    // this.setState({ currentQuestionId: id })
-  }
+  gotoQuestion = (goto) => this.setState({
+    currentQuestionId: typeof goto === 'function' ? goto(this.props.patient) : goto
+  })
 
   _toggleSection(answer) {
     const activeCollapibles = this.state.activeCollapibles
