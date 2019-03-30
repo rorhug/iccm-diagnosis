@@ -1,22 +1,20 @@
 import React from 'react';
-import {
-  ScrollView,
-  View
-} from 'react-native';
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
-import { WaitingScreen} from '../components/WaitingScreen';
+import { WaitingScreen } from '../components/WaitingScreen';
 import { Cough } from '../components/Sections/Cough';
 import { DangerSigns } from '../components/Sections/DangerSigns';
 import { Diarrhoea } from '../components/Sections/Diarrhoea';
 import { Fever } from '../components/Sections/Fever';
 import { PatientDetails } from '../components/Sections/PatientDetails';
 import { Sections, QuestionText } from '../utils/constants';
+import { Container } from '../utils/styles';
+
 
 import { ResultsScreen } from './ResultsScreen';
 
-const End = <View>End of Survey</View>
+const End = <Container>End of Survey</Container>
 
 const sections = {
   [Sections.patient_details]: PatientDetails,
@@ -92,8 +90,8 @@ export default class HomeScreen extends React.Component {
     sections.next.push(sections.current);
     sections.current = section;
     index = sections.waiting.indexOf(section)
-    if (index > -1){ 
-       sections.waiting.splice(index, 1);
+    if (index > -1) {
+      sections.waiting.splice(index, 1);
     }
     sections.startQuestion = id;
     sections.waitScreen = false;
@@ -123,8 +121,7 @@ export default class HomeScreen extends React.Component {
       let CurrentSectionComponent = sections[currentSection]
       let age_id = this.state.sectionResults[Sections.patient_details]
       return (
-        /* Do not change the styling on this View. */
-        <View style={{ flex: 1 }}>
+        <Container>
           <CurrentSectionComponent
             navigation={this.props.navigation}
             patientAge={PatientDetails.patientAge(age_id)}
@@ -132,19 +129,19 @@ export default class HomeScreen extends React.Component {
             onCompletion={this.moveToNextSection}
             startQuestion={this.state.sections.startQuestion}
           />
-        </View>
+        </Container>
       );
     } else {
       return (
-        /* Do not change the styling on this View. */
-        <View style={{ flex: 1 }}>
+        /* Do not change the styling on this Container. */
+        <Container style={{ flex: 1 }}>
           <ResultsScreen
             reset={this.resetState}
             sectionResults={this.state.sectionResults}
             sectionComponents={sections}
             continueSection={this.continueSection}
           />
-        </View>
+        </Container>
       );
     }
   }

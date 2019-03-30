@@ -1,13 +1,13 @@
 import React from 'react';
+import { View } from 'react-native';
 import {
-    View,
-    ScrollView
-} from 'react-native';
-import {
+    Container,
+    ScrollContainer,
     Header,
     AnswerText,
     AnswerButton,
     AnswerTextView,
+    ButtonsBox,
 } from '../utils/styles';
 import styled, { css } from '@emotion/native'
 import { Sections } from '../utils/constants';
@@ -58,9 +58,9 @@ export class ResultsScreen extends React.Component {
         console.log(results)
 
         return (
-            <View style={{ flex: 1 }}>
+            <Container>
                 <Header>Results</Header>
-                <ScrollView style={{ paddingLeft: 20, paddingRight: 20 }}>
+                <ScrollContainer>
 
                     <View>
                         {Object.keys(results).map((key) => {
@@ -71,9 +71,12 @@ export class ResultsScreen extends React.Component {
                                 <SubHeading>{section_names[key]}</SubHeading>
                                 {question.sectionEnd && <ResultAnswerText>{components[key].questions[endingId].text}</ResultAnswerText>}
                                 {!question.sectionEnd && key !== Sections.patient_details &&
-                                    <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
-                                    <AnswerTextView><AnswerText>{question.sectionEnd ? 'Retake' : 'Complete'}</AnswerText></AnswerTextView>
-                                </AnswerButton>}
+                                    <ButtonsBox>
+                                        <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
+                                            <AnswerTextView><AnswerText>{question.sectionEnd ? 'Retake' : 'Complete'}</AnswerText></AnswerTextView>
+                                        </AnswerButton>
+                                    </ButtonsBox>
+                                }
                             </View>
                         })}
                     </View>
@@ -85,11 +88,8 @@ export class ResultsScreen extends React.Component {
                         <BackTextView><BackText>Back to Start</BackText></BackTextView>
                     </AnswerButton>
 
-                    {/* This view is just to create space between components. */}
-                    <View style={{ marginBottom: 20 }}></View>
-
-                </ScrollView>
-            </View>
+                </ScrollContainer>
+            </Container>
         );
     }
 

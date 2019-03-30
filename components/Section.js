@@ -1,12 +1,12 @@
 import React from 'react';
 import { Icon } from 'expo';
-import { ScrollView, Text, View, Dimensions, Image } from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import { Sections } from '../utils/constants';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 import { Ionicons } from '@expo/vector-icons';
 
 import { 
+    Container, 
+    ScrollContainer,
     Header,
     InfoText,
     QuestionBox,
@@ -94,15 +94,15 @@ export class Section extends React.Component {
         </AnswerRow>)
     }
     else {
-      return <Text>Invalid Question (no answers or sectionEnd)</Text>
+      return <AnswerTextView><AnswerText>Invalid Question (no answers or sectionEnd)</AnswerText></AnswerTextView>
     }
   }
 
   renderQuestion = (question) => {
     /* Do not change the styling on first View. */
-    return <View style={{ flex: 1 }}>
+    return <Container>
         <Header>{this.props.title}</Header>
-        <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
+        <ScrollContainer>
 
             <QuestionBox>
                 <Question>{question.text}</Question>
@@ -112,8 +112,8 @@ export class Section extends React.Component {
                 {this.answerButtons(question)}
             </ButtonsBox>
 
-        </ScrollView>
-    </View>
+        </ScrollContainer>
+    </Container>
   }
 
   // TODO move the following to functions out of Section
