@@ -14,7 +14,7 @@ import styled, { css } from '@emotion/native'
 
 import { compose, defaultProps } from "recompose"
 import { Formik } from "formik"
-import * as Yup from "yup"
+// import * as Yup from "yup"
 import {
   handleTextInput,
   withNextInputAutoFocusForm,
