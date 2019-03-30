@@ -81,7 +81,7 @@ export class Section extends React.Component {
           <AnswerButton
             accessibilityLabel={answer.text}
             onPress={() => answer.goto === undefined ?
-              this.props.onCompletion(index) :
+              this.props.onCompletion(index, skip=answer.skip) :
               this.gotoQuestion(answer.goto)}
           >
             <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>

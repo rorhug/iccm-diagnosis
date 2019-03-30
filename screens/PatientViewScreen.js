@@ -26,16 +26,22 @@ import { toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { firestore } from 'firebase'
 
+
+import {
+  Container,
+  ScrollContainer,
+  BlueButton
+} from '../utils/styles'
 import DatePicker from "../components/DatePicker";
 import store from '../utils/store'
 import DiagnosisScreen from './DiagnosisScreen'
-
-const Container = styled.View`
-  flex: 1;
-  background-color: #fff;
-  padding: 0 20px;
-  /*margin-top: 15px;*/
-`
+// 
+// const Container = styled.View`
+//   flex: 1;
+//   background-color: #fff;
+//   padding: 0 20px;
+//   /*margin-top: 15px;*/
+// `
 
 const materialInputProps = { fontSize: 20, titleFontSize: 15, labelFontSize: 15 }
 
@@ -135,7 +141,7 @@ class PatientViewScreen extends React.Component {
       title="Leave blank if not certain"
     />
     <MaterialInput label="Notes..." name="notes" disabled={this.state.isSaving} multiline={true} />
-    <Button onPress={handleSubmit} title={this.submitButtonText(values)} disabled={this.state.isSaving} />
+    <BlueButton onPress={handleSubmit} title={this.submitButtonText(values)} disabled={this.state.isSaving} />
   </Form>
 
   deletePatient = () => Alert.alert(
@@ -162,11 +168,11 @@ class PatientViewScreen extends React.Component {
   savedPatientButtons = () => {
     let diagnosisInitialState = DiagnosisScreen.initialState(this.state.patient)
     return <>
-      <Button
+      <BlueButton
         title={diagnosisInitialState.sections.current ? "Continue Diagnosis" : "Diagnosis Results"}
         onPress={() => this.navigateToDiagnosis(this.state.patient)}
       />
-      <Button title="Delete Patient" color="#ff0000" onPress={this.deletePatient} />
+      <BlueButton title="Delete Patient" color="#ff0000" onPress={this.deletePatient} />
     </>
   }
 
@@ -174,14 +180,15 @@ class PatientViewScreen extends React.Component {
     let initialValues = this.state.patient && toJS(this.state.patient.data)
 
     return <Container>
-      <Formik
-        onSubmit={this.submitForm}
-        initialValues={initialValues}
-        // validationSchema={validationSchema}
-        render={this.renderForm}
-      />
-
-      {this.state.patient && this.savedPatientButtons()}
+      <ScrollContainer>
+        <Formik
+          onSubmit={this.submitForm}
+          initialValues={initialValues}
+          // validationSchema={validationSchema}
+          render={this.renderForm}
+        />
+        {this.state.patient && this.savedPatientButtons()}
+      </ScrollContainer>
     </Container>
   }
 }

@@ -15,10 +15,10 @@ export class Fever extends React.Component {
     },
     2: { // Correct age + fever. RDT
       text: "Perform malaria pan PLDH RDT.\n(Wait screen.)",
-      allowSkip: true,
       answers: [
         { text: "Positive", goto: "3" },
         { text: "Negative", goto: "100" },
+        { text: "Continue to next section", skip: true },
          // Refer
       ]
     },
