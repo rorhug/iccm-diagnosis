@@ -33,33 +33,18 @@ export class TapCounter extends Component {
   }
 
   startTapping = () => {
-    this.setTick();
     this.setState({
       current: tapping,
     })
   }
 
   onCompletion = () => {
-    clearInterval(this.interval);
     console.log(this.state.time)
-    this.setState({ current: finished, bpm: this.state.count });
-  }
-
-  reset = () => {
-    clearInterval(this.interval);
-    this.setState(initialState);
-  }
-
-  setTick() {
-    this.interval = setInterval(() => {
-      time = this.state.time +1
-      this.setState({time:time});
-      //console.log(this.state.time)
-    }, 1000);
+    this.setState({ current: finished});
   }
 
   onPress = () => {
-    this.state.count += 1;
+    this.setState({count: this.state.count + 1});
   }
 
   render() {
@@ -73,7 +58,7 @@ export class TapCounter extends Component {
               <TimerCircle
                 start={this.state.current === tapping}
                 onTimeElapsed={this.onCompletion}
-                seconds={3}
+                seconds={60}
                 radius={80}
                 borderWidth={20}
                 color='#f00'
@@ -109,11 +94,11 @@ export class TapCounter extends Component {
             <Header>BPM Counter</Header>
             <ScrollContainer >
               <QuestionBox><Question>
-                Inhalations per minute: {this.state.bpm}
+                Inhalations per minute: {this.state.count}
               </Question></QuestionBox>
               <ButtonsBox>
                 <AnswerButton
-                  onPress={() => this.props.respRate(this.state.bpm)}
+                  onPress={() => this.props.respRate(this.state.count)}
                 >
                   <AnswerTextView><AnswerText> Continue </AnswerText></AnswerTextView>
                 </AnswerButton>

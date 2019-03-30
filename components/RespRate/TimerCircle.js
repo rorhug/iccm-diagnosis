@@ -119,6 +119,7 @@ export default class TimerCircle extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        circleProgress = new Animated.Value(0);
         this.state = getInitialState(props);
         if (this.props.start) this.runAnimation();
     }
