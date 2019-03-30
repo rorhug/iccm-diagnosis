@@ -26,7 +26,7 @@ export class Section extends React.Component {
     super(props)
     this.state = {
       currentQuestionId: this.props.startQuestion,
-      activeCollapibles: []
+      activeCollapsibles: []
     }
   }
 
@@ -37,17 +37,17 @@ export class Section extends React.Component {
   })
 
   _toggleSection(answer) {
-    const activeCollapibles = this.state.activeCollapibles
+    const activeCollapsibles = this.state.activeCollapsibles
     let updatedSections = [];
 
-    if (activeCollapibles.includes(answer)) {
-      updatedSections = activeCollapibles.filter(a => a !== answer);
+    if (activeCollapsibles.includes(answer)) {
+      updatedSections = activeCollapsibles.filter(a => a !== answer);
     } else if (this.props.expandMultiple) {
-      updatedSections = [...activeCollapibles, answer];
+      updatedSections = [...activeCollapsibles, answer];
     } else {
       updatedSections = [answer];
     }
-    this.setState({ activeCollapibles: updatedSections });
+    this.setState({ activeCollapsibles: updatedSections });
   }
 
   infoCollapsable = (answer, key) => {
@@ -60,7 +60,7 @@ export class Section extends React.Component {
         <LineBreak />
 
         <Collapsible
-          collapsed={!this.state.activeCollapibles.includes(key)}
+          collapsed={!this.state.activeCollapsibles.includes(key)}
         >
           <InfoText>{answer.info}</InfoText>
           {answer.img && <InfoImage source={answer.img}/>}

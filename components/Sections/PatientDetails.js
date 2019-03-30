@@ -13,7 +13,6 @@ export class PatientDetails extends React.Component {
       text: '< 1 year',
       info: 'cannot walk',
       _monthRange: [2, 12]
-      // _monthRange: m => m > 2 && m <= 12
     },
     {
       text: '1-5 year',

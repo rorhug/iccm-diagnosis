@@ -28,24 +28,6 @@ InfoStack.navigationOptions = {
   ),
 };
 
-// const HomeStack = createStackNavigator({
-//   Home: DiagnosisScreen
-// });
-// 
-// HomeStack.navigationOptions = {
-//   tabBarLabel: 'Home',
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={
-//         Platform.OS === 'ios'
-//           ? `ios-information-circle${focused ? '' : '-outline'}`
-//           : 'md-information-circle'
-//       }
-//     />
-//   ),
-// };
-
 const PatientListScreenStack = createStackNavigator({
   PatientList: PatientListScreen,
   PatientView: PatientViewScreen,
