@@ -40,11 +40,11 @@ export class TapCounter extends Component {
 
   onCompletion = () => {
     console.log(this.state.time)
-    this.setState({ current: finished});
+    this.setState({ current: finished });
   }
 
   onPress = () => {
-    this.setState({count: this.state.count + 1});
+    this.setState({ count: this.state.count + 1 });
   }
 
   render() {
@@ -65,23 +65,26 @@ export class TapCounter extends Component {
                 bgColor="#fff"
                 shadowColor='#999'
                 textStyle={{ fontSize: 20 }}
-                style={{ margin: 10, alignSelf:'center' }}
+                style={{ margin: 10, alignSelf: 'center' }}
               />
               <QuestionBox><Question>
                 Press Start then tap the button at every inhalation
             </Question></QuestionBox>
               <ButtonsBox>
                 <AnswerButton
+                  style={{ height: 100 }}
                   onPress={this.state.current === start ? this.startTapping : this.onPress}
                 >
-                  <AnswerTextView
-                  ><AnswerText>{this.state.current === start ? 'Start' : 'Tap at every inhalation'}</AnswerText></AnswerTextView>
+                  <AnswerTextView style={{ height: 100}}>
+                  <AnswerText style={{ alignSelf: 'center'}}
+                    >{this.state.current === start ? 'Start' : 'Tap at every inhalation'}</AnswerText></AnswerTextView>
                 </AnswerButton>
+                <LineBreak style={{ height: 40 }} />
                 <AnswerButton
                   onPress={() => this.setState(initialState)}
                 >
-                  <AnswerTextView
-                  ><AnswerText>Reset</AnswerText></AnswerTextView>
+                  <AnswerTextView>
+                    <AnswerText style={{ alignSelf: 'center'}}>Reset</AnswerText></AnswerTextView>
                 </AnswerButton>
               </ButtonsBox>
 
