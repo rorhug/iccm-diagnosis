@@ -1,5 +1,7 @@
 import { Dimensions, Platform } from 'react-native';
 import styled, { css } from '@emotion/native';
+import React from 'react'
+import { Text } from 'react-native'
 
 const info_width = (Dimensions.get('window').width / 100) * 80;
 
@@ -25,13 +27,11 @@ let buttonsTextColor = `#05668d`
 exports.Container = styled.View`
   flex: 1;
   background-color: #fff;
-  padding: 20px;
 `
 
 exports.ScrollContainer = styled.ScrollView`
     flex: 1;
-    padding-left: 20px;
-    padding-right: 20px;
+    margin: 20px;
 `
 
 exports.QuestionBox = styled.View`
@@ -106,6 +106,28 @@ exports.AnswerButton = styled.TouchableOpacity`
 
 exports.InfoButton = styled.TouchableOpacity`
 `
+
+const BlueButton = styled.TouchableOpacity`
+  flex: 2 2;
+  background-color: #05668d;
+  margin: 10px 10px 0 10px;
+  border-radius: 10px;
+`
+
+const ButtonText = styled.Text`
+  font-size: 20px;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  
+`
+
+exports.BlueButton = (props) => <BlueButton {...props}>
+  <ButtonText>{props.title}</ButtonText>
+</BlueButton>
+
+
+
 
 exports.InfoImage = styled.Image`
   align-self: center;

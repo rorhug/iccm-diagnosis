@@ -83,11 +83,13 @@ function getInitialState(props) {
         )
     };
 }
-const circleProgress = new Animated.Value(0);
+let circleProgress = new Animated.Value(0);
 
 export default class TimerCircle extends React.PureComponent {
     static propTypes = {
+        start: PropTypes.bool.isRequired,
         seconds: PropTypes.number.isRequired,
+        secondsElapsed: PropTypes.number,
         radius: PropTypes.number.isRequired,
         color: PropTypes.string,
         shadowColor: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
@@ -100,11 +102,13 @@ export default class TimerCircle extends React.PureComponent {
     };
 
     static defaultProps = {
+        start: true,
         color: "#f00",
         shadowColor: "#999",
         bgColor: "#e9e9ef",
         borderWidth: 2,
         seconds: 10,
+        secondsElapsed: 0,
         children: null,
         containerStyle: null,
         textStyle: null,
@@ -115,16 +119,25 @@ export default class TimerCircle extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
+        circleProgress = new Animated.Value(0);
         this.state = getInitialState(props);
-        this.restartAnimation();
+        if (this.props.start) this.runAnimation();
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.seconds !== nextProps.seconds) {
+        if (this.props.start !== nextProps.start) {
+            // Stop animation
+            if (!nextProps.start) {
+                Animated.timing(this.state.circleProgress).stop();
+                circleProgress = new Animated.Value(0);
+            // start animation
+            } else if (nextProps.start) {
+                this.runAnimation();
+            }
             this.setState(getInitialState(nextProps));
         }
     }
+
 
     onCircleAnimated = ({ finished }) => {
         // if animation was interrupted by stopAnimation don't restart it.
@@ -133,8 +146,8 @@ export default class TimerCircle extends React.PureComponent {
         const secondsElapsed = this.state.secondsElapsed + 1;
         const callback =
             secondsElapsed < this.props.seconds
-                ? this.restartAnimation
-                : this.props.onTimeElapsed;
+                ? this.runAnimation
+                : this.props.onTimeElapsed
         const updatedText = this.props.updateText(
             secondsElapsed,
             this.props.seconds
@@ -149,14 +162,13 @@ export default class TimerCircle extends React.PureComponent {
         );
     };
 
-    restartAnimation = () => {
+    runAnimation = () => {
+        val = parseFloat(JSON.stringify(this.state.circleProgress)) + 100 / this.props.seconds
         Animated.timing(this.state.circleProgress, {
-            toValue:
-                parseFloat(JSON.stringify(this.state.circleProgress)) +
-                100 / this.props.seconds,
+            toValue: val,
             duration: 1000,
             easing: Easing.linear
-        }).start(this.onCircleAnimated);
+        }).start(this.onCircleAnimated)
     };
 
     renderHalfCircle({ rotate, backgroundColor }) {

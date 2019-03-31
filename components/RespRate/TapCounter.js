@@ -1,158 +1,119 @@
 import React, { Component } from 'react'
 import {
-  StyleSheet,
-  TouchableHighlight,
-  Text,
-  View,
-} from 'react-native'
-import {
-    AnswerButton,
-    AnswerTextView,
-    AnswerText
+  Container,
+  ScrollContainer,
+  ButtonsBox,
+  Header,
+  QuestionBox,
+  Question,
+  AnswerButton,
+  InfoButton,
+  InfoImage,
+  AnswerText,
+  AnswerTextView,
+  AnswerRow,
+  LineBreak
 } from '../../utils/styles';
-import styled from '@emotion/native';
-
 import TimerCircle from './TimerCircle'
 
 const finished = 'finished'
 const tapping = 'tapping'
 const start = 'start'
 
-/* Styling */
-const Container = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  padding: 20px;
-`
+initialState = {
+  time: 0,
+  current: start,
+  count: 0,
+}
 
 export class TapCounter extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      time: 1,
-      current: start
-    };
-    this.time = 0;
-    this.count = 0;
+    this.state = initialState;
   }
 
   startTapping = () => {
-    this.setTick();
     this.setState({
-      current: tapping
+      current: tapping,
     })
   }
 
   onCompletion = () => {
-    clearInterval(this.interval);
-    this.setState({ current: finished, bpm: this.count });
-  }
-
-  setTick() {
-    this.interval = setInterval(() => {
-      this.time += 1
-      console.log(this.time)
-    }, 1000);
+    console.log(this.state.time)
+    this.setState({ current: finished });
   }
 
   onPress = () => {
-    this.count += 1;
+    this.setState({ count: this.state.count + 1 });
   }
 
   render() {
     switch (this.state.current) {
       case start:
-        return (
-          <Container>
-            <AnswerButton
-              onPress={this.startTapping}
-            >
-                <AnswerTextView>
-                    <AnswerText> First Press Start </AnswerText>
-                </AnswerTextView>
-            </AnswerButton>
-          </Container>
-        )
-
       case tapping:
         return (
-          <View style={styles.container}>
+          <Container>
+            <Header>BPM Counter</Header>
+            <ScrollContainer >
+              <TimerCircle
+                start={this.state.current === tapping}
+                onTimeElapsed={this.onCompletion}
+                seconds={60}
+                radius={80}
+                borderWidth={20}
+                color='#f00'
+                bgColor="#fff"
+                shadowColor='#999'
+                textStyle={{ fontSize: 20 }}
+                style={{ margin: 10, alignSelf: 'center' }}
+              />
+              <QuestionBox><Question>
+                Press Start then tap the button at every inhalation
+            </Question></QuestionBox>
+              <ButtonsBox>
+                <AnswerButton
+                  style={{ height: 100 }}
+                  onPress={this.state.current === start ? this.startTapping : this.onPress}
+                >
+                  <AnswerTextView style={{ height: 100}}>
+                  <AnswerText style={{ alignSelf: 'center'}}
+                    >{this.state.current === start ? 'Start' : 'Tap at every inhalation'}</AnswerText></AnswerTextView>
+                </AnswerButton>
+                <LineBreak style={{ height: 40 }} />
+                <AnswerButton
+                  onPress={() => this.setState(initialState)}
+                >
+                  <AnswerTextView>
+                    <AnswerText style={{ alignSelf: 'center'}}>Reset</AnswerText></AnswerTextView>
+                </AnswerButton>
+              </ButtonsBox>
 
-            <TimerCircle
-              seconds={59}
-              radius={80}
-              borderWidth={20}
-              color='#f00'
-              bgColor="#fff"
-              shadowColor='#999'
-              textStyle={{ fontSize: 20 }}
-              onTimeElapsed={this.onCompletion}
-              style={{ margin: 10 }}
-            />
-
-            <TouchableHighlight
-              style={styles.tapbutton}
-              onPress={this.onPress}
-            >
-              <Text>Tap at every inhalation</Text>
-            </TouchableHighlight>
-          </View>
+            </ScrollContainer>
+          </Container>
         )
       case finished:
         return (
-          <View style={styles.container}>
-            <View style={[styles.countContainer]}>
-              <Text style={[styles.countText]}>
-                Inhalations per minute: {this.state.bpm}
-              </Text>
-            </View>
-            <TouchableHighlight
-              style={styles.calbutton}
-              onPress={() => this.props.respRate(this.state.bpm)}
-            >
-              <Text> Continue </Text>
-            </TouchableHighlight>
-          </View>
+          <Container>
+            <Header>BPM Counter</Header>
+            <ScrollContainer >
+              <QuestionBox><Question>
+                Inhalations per minute: {this.state.count}
+              </Question></QuestionBox>
+              <ButtonsBox>
+                <AnswerButton
+                  onPress={() => this.props.respRate(this.state.count)}
+                >
+                  <AnswerTextView><AnswerText> Continue </AnswerText></AnswerTextView>
+                </AnswerButton>
+                <AnswerButton
+                  onPress={() => this.setState(initialState)}
+                >
+                  <AnswerTextView><AnswerText>Redo</AnswerText></AnswerTextView>
+                </AnswerButton>
+              </ButtonsBox>
+            </ScrollContainer>
+          </Container>
         )
     }
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingHorizontal: 10
-  },
-  startbutton: {
-    alignItems: 'center',
-    backgroundColor: '#0ace0a',
-    padding: 20,
-  },
-  tapbutton: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 80
-  },
-  stopbutton: {
-    alignItems: 'center',
-    backgroundColor: '#ce0a0a',
-    padding: 20
-  },
-  calbutton: {
-    alignItems: 'center',
-    backgroundColor: '#f9f9f9',
-    padding: 10
-  },
-  countContainer: {
-    alignItems: 'center',
-    padding: 10
-  },
-  countText: {
-    color: '#FF00FF'
-  }
-})
