@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { CounterChoice } from './CounterChoice'
-import { Tutorial } from './Tutorial'
-import { TapCounter } from './TapCounter';
+import  Tutorial  from './Tutorial'
+import  {TapCounter}  from './TapCounter';
 import { RrComponents } from '../../utils/constants';
 
 // This holds all existing Components on this screen.

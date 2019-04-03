@@ -105,7 +105,7 @@ export class TapCounter extends Component {
                 <AnswerButton
                   onPress={() => this.props.respRate(this.state.count)}
                 >
-                  <AnswerTextView><AnswerText> Continue </AnswerText></AnswerTextView>
+                  <AnswerTextView><AnswerText> {this.props.endButton || 'Continue'} </AnswerText></AnswerTextView>
                 </AnswerButton>
                 <AnswerButton
                   onPress={() => this.setState(initialState)}
