@@ -22,7 +22,6 @@ const ImageView = styled.View`
   flex = 1;
   background-color: #fff;
   padding: 5px;
-  flex-direction: 'row';
   /*margin-top: 10px;*/
   align-items: center;
   /*justify-content: space-evenly;*/
@@ -54,12 +53,12 @@ export default class InfoScreen extends React.Component {
           <ImageView>
             <Image
             source={require('../assets/images/DD.png')}
-            style={{width: 310, height: 100,justifyContent: 'flex-start'}}
+            style={{width: 320, height: 120, resizeMode: 'contain'}}
             />
 
             <Image
             source={require('../assets/images/MSFLogo.png')}
-            style={{width: 213, height: 80,justifyContent: 'flex-end'}}
+            style={{width: 170, height: 90,resizeMode: 'contain' }}
             />
           </ImageView>
 
