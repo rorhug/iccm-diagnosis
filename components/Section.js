@@ -116,9 +116,11 @@ export class Section extends React.Component {
         <InfoButton
           style={{ backgroundColor: 'green', margin:30, marginTop: 35, mariginBottom: 15 }}
           onPress={this.goBack}>
-          <Ionicons style={{ margin: 'auto' }}
+          <Ionicons style={{ 
+            margin: 'auto', 
+          }}
             name={Platform.OS === 'ios' ? 'ios-arrow-back': 'md-arrow-back'}
-            size={40} color="#fff" />
+            size={40} color={this.state.stack.length > 0 ? '#fff': 'transparent'}/>
         </InfoButton>
 
         <Header>{this.props.title}</Header>
