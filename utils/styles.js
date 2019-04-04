@@ -3,6 +3,8 @@ import styled, { css } from '@emotion/native';
 import React from 'react'
 import { Text } from 'react-native'
 import { exp } from 'react-native/Libraries/Animated/src/Easing';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const info_width = (Dimensions.get('window').width / 100) * 80;
 
@@ -67,8 +69,7 @@ exports.ImageButtonsContainer = styled.View`
 `
 
 let paddingbottom = Platform.OS === 'ios' ? `30px` : `15px`;
-exports.Header = styled.Text`
-  margin: auto;
+const Header = styled.Text`
   align-self: center;
   font-weight: bold;
   font-size: 40px;
@@ -79,11 +80,30 @@ exports.Header = styled.Text`
   background-color: red;
 `//05668d
 
-exports.HeaderView = styled.View`
+const HeaderView = styled.View`
   background-color: #05668d;
   flex-direction: row;
-  justifi-content: center;
+  justify-content: center;
 `
+
+const BackButton = styled.TouchableOpacity`
+  background-color: green;
+  margin: 30px;
+  marginTop: 35px;
+  mariginBottom: ${paddingbottom};
+`
+
+exports.Header = (props) => <HeaderView {...props}>
+  <BackButton
+    onPress={props.onPress}>
+    <Ionicons style={{padding: props.visible ? 0 : 20}}
+      name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
+      size={40} color={props.visible ? '#fff' : 'transparent'} />
+  </BackButton>
+
+  <Header>{props.title}</Header>
+  <BackButton style={{padding: 20}}/>
+</HeaderView>
 
 exports.Question = styled.Text`
   font-size: 24px;

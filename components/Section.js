@@ -38,7 +38,7 @@ export class Section extends React.Component {
   gotoQuestion = (goto) => {
 
     this.setState({
-      stack : [this.state.currentQuestionId, ...this.state.stack],
+      stack: [this.state.currentQuestionId, ...this.state.stack],
       currentQuestionId: typeof goto === 'function' ? goto(this.props.patient) : goto
     })
   }
@@ -46,7 +46,7 @@ export class Section extends React.Component {
   goBack = () => {
     let prev = this.state.stack.pop()
     this.setState({
-      stack : this.state.stack,
+      stack: this.state.stack,
       currentQuestionId: prev || this.props.startQuestion,
     })
   }
@@ -112,23 +112,9 @@ export class Section extends React.Component {
   renderQuestion = (question) => {
     /* Do not change the styling on first View. */
     return <Container>
-      <HeaderView>
-        <InfoButton
-          style={{ backgroundColor: 'green', margin:30, marginTop: 35, mariginBottom: 15 }}
-          onPress={this.goBack}>
-          <Ionicons style={{ 
-            margin: 'auto', 
-          }}
-            name={Platform.OS === 'ios' ? 'ios-arrow-back': 'md-arrow-back'}
-            size={40} color={this.state.stack.length > 0 ? '#fff': 'transparent'}/>
-        </InfoButton>
-
-        <Header>{this.props.title}</Header>
-        <InfoButton
-          style={{ backgroundColor: 'green', margin: 30, padding: 20 }}
-          onPress={() => null}>
-        </InfoButton>
-      </HeaderView>
+      <Header title={this.props.title} 
+        onPress={this.goBack} visible={this.state.stack.length>0}
+      />
       <ScrollContainer>
         <QuestionBox>
           <Question>{question.text}</Question>
