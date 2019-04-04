@@ -52,13 +52,12 @@ export default class InfoScreen extends React.Component {
         <ScrollView style={{ paddingLeft: 0, paddingRight: 0 }}>
           <ImageView>
             <Image
-            source={require('../assets/images/DD.png')}
-            style={{width: 320, height: 120, resizeMode: 'contain'}}
-            />
-
-            <Image
             source={require('../assets/images/MSFLogo.png')}
-            style={{width: 170, height: 90,resizeMode: 'contain' }}
+            style={{width: 170, height: 90, resizeMode: 'contain' }}
+            />
+            <Image
+            source={require('../assets/images/DD.png')}
+            style={{width: 320, height: 140, resizeMode: 'contain'}}
             />
           </ImageView>
 
