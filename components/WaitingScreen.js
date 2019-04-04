@@ -7,8 +7,6 @@ import {
   ButtonsBox,
   Question,
   AnswerButton,
-  AnswerText,
-  AnswerTextView,
 } from '../utils/styles';
 
 export class WaitingScreen extends React.Component {
@@ -21,19 +19,18 @@ export class WaitingScreen extends React.Component {
     let text = this.props.components[section].questions[id].text
     return (
       <AnswerButton
+        title={text}
         key={index}
-        onPress={() => this.props.continueSection(section, id)}>
-        <AnswerTextView><AnswerText>{text}</AnswerText></AnswerTextView>
-      </AnswerButton>
-    )
+        onPress={() => this.props.continueSection(section, id)}
+      />
+      )
   }
 
   renderNextSection = () => {
-    return (<AnswerButton onPress={() => this.props.skipWaitScreen()}>
-      <AnswerTextView>
-        <AnswerText>No - continue</AnswerText>
-      </AnswerTextView>
-    </AnswerButton>);
+    return (<AnswerButton
+      title="No - continue"
+      onPress={() => this.props.skipWaitScreen()}/>
+    );
   }
 
   render() {

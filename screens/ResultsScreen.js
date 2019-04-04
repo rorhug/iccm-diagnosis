@@ -59,11 +59,10 @@ export class ResultsScreen extends React.Component {
                                 <SubHeading>{section_names[key]}</SubHeading>
                                 {question.sectionEnd && <ResultAnswerText>{question.text}</ResultAnswerText>}
                                 {!question.sectionEnd && key !== Sections.patient_details &&
-                                    <ButtonsBox>
-                                        <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
-                                            <AnswerTextView><AnswerText>{question.sectionEnd ? 'Retake' : 'Complete'}</AnswerText></AnswerTextView>
-                                        </AnswerButton>
-                                    </ButtonsBox>
+                                    <BlueButton 
+                                        title={question.sectionEnd ? 'Retake' : 'Complete'}
+                                        onPress={() => this.props.continueSection(key, startId)}
+                                    />
                                 }
                             </View>
                         })}

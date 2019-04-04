@@ -111,26 +111,32 @@ exports.Question = styled.Text`
   color: #05668d;
 `
 
-exports.AnswerText = styled.Text`
+const AnswerText = styled.Text`
   font-size: 20px;
   color: ${buttonsTextColor};
 `
-
-exports.AnswerTextView = styled.View`
+const AnswerTextView = styled.View`
   background-color: ${buttonsColor};
   padding: 10px;
   margin: 10px 10px 0 10px;
   border-radius: 10px;
 `
+exports.AnswerTextView = AnswerTextView
 
 exports.InfoText = styled.Text({
   padding: 20,
   width: info_width
 })
 
-exports.AnswerButton = styled.TouchableOpacity`
+const AnswerButton = styled.TouchableOpacity`
   flex: 2 2;
 `
+
+exports.AnswerButton = (props) => <AnswerButton {...props}>
+  <AnswerTextView>
+    <AnswerText>{props.title}</AnswerText>
+  </AnswerTextView>
+</AnswerButton>
 
 exports.InfoButton = styled.TouchableOpacity`
 `
@@ -140,22 +146,22 @@ const BlueButton = styled.TouchableOpacity`
   background-color: #05668d;
   margin: 10px 10px 0 10px;
   border-radius: 10px;
+  justify-content: center;
+  align-items: center;
 `
 
 const ButtonText = styled.Text`
   font-size: 20px;
   color: #fff;
   text-align: center;
+  text-align-vertical: center;
   padding: 10px;
-  
+  flex-direction: column;
 `
 
 exports.BlueButton = (props) => <BlueButton {...props}>
   <ButtonText>{props.title}</ButtonText>
 </BlueButton>
-
-
-
 
 exports.InfoImage = styled.Image`
   align-self: center;

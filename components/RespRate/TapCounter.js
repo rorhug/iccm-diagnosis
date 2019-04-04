@@ -76,18 +76,13 @@ export class TapCounter extends Component {
                 <AnswerButton
                   style={{ height: 100 }}
                   onPress={this.state.current === start ? this.startTapping : this.onPress}
-                >
-                  <AnswerTextView style={{ height: 100}}>
-                  <AnswerText style={{ alignSelf: 'center'}}
-                    >{this.state.current === start ? 'Start' : 'Tap at every inhalation'}</AnswerText></AnswerTextView>
-                </AnswerButton>
+                  title={this.state.current === start ? 'Start' : 'Tap at every inhalation'}
+                />
                 <LineBreak style={{ height: 40 }} />
                 <AnswerButton
                   onPress={() => this.setState(initialState)}
-                >
-                  <AnswerTextView>
-                    <AnswerText style={{ alignSelf: 'center'}}>Reset</AnswerText></AnswerTextView>
-                </AnswerButton>
+                  title="Reset"
+                />
               </ButtonsBox>
 
             </ScrollContainer>
@@ -104,14 +99,12 @@ export class TapCounter extends Component {
               <ButtonsBox>
                 <AnswerButton
                   onPress={() => this.props.respRate(this.state.count)}
-                >
-                  <AnswerTextView><AnswerText> {this.props.endButton || 'Continue'} </AnswerText></AnswerTextView>
-                </AnswerButton>
+                  title= {this.props.endButton || 'Continue'}
+                />
                 <AnswerButton
                   onPress={() => this.setState(initialState)}
-                >
-                  <AnswerTextView><AnswerText>Redo</AnswerText></AnswerTextView>
-                </AnswerButton>
+                  title="Redo"
+                />
               </ButtonsBox>
             </ScrollContainer>
           </Container>

@@ -4,22 +4,21 @@ import Collapsible from 'react-native-collapsible';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 import { Ionicons } from '@expo/vector-icons';
 
-import {
-  Container,
-  ScrollContainer,
-  Header,
-  HeaderView,
-  InfoText,
-  QuestionBox,
-  ButtonsBox,
-  Question,
-  AnswerButton,
-  InfoButton,
-  InfoImage,
-  AnswerText,
-  AnswerTextView,
-  AnswerRow,
-  LineBreak
+import { 
+    Container, 
+    ScrollContainer,
+    Header,
+    InfoText,
+    QuestionBox,
+    ButtonsBox,
+    Question,
+    AnswerButton,
+    InfoButton,
+    InfoImage,
+    AnswerText,
+    AnswerTextView,
+    AnswerRow,
+    LineBreak
 } from '../utils/styles';
 
 export class Section extends React.Component {
@@ -85,21 +84,21 @@ export class Section extends React.Component {
 
   answerButtons = (question) => {
     if (question.sectionEnd && !question.answers) {
-      return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
-        <AnswerTextView><AnswerText>Next Section</AnswerText></AnswerTextView>
-      </AnswerButton>
+      return <AnswerButton 
+        onPress={() => this.props.onCompletion(this.state.currentQuestionId)}
+        title="Next Section"
+        />
     }
     else if (question.answers.length > 0) {
       return question.answers.map((answer, index) =>
         <AnswerRow key={index}>
           <AnswerButton
+            title={answer.text}
             accessibilityLabel={answer.text}
             onPress={() => answer.goto === undefined ?
               this.props.onCompletion(index, skip = answer.skip) :
               this.gotoQuestion(answer.goto)}
-          >
-            <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
-          </AnswerButton>
+          />
           {answer.info != undefined && this.infoCollapsable(answer, index)}
         </AnswerRow>)
     }
