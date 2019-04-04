@@ -2,6 +2,7 @@ import { Dimensions, Platform } from 'react-native';
 import styled, { css } from '@emotion/native';
 import React from 'react'
 import { Text } from 'react-native'
+import { exp } from 'react-native/Libraries/Animated/src/Easing';
 
 const info_width = (Dimensions.get('window').width / 100) * 80;
 
@@ -67,13 +68,21 @@ exports.ImageButtonsContainer = styled.View`
 
 let paddingbottom = Platform.OS === 'ios' ? `30px` : `15px`;
 exports.Header = styled.Text`
+  margin: auto;
+  align-self: center;
   font-weight: bold;
   font-size: 40px;
   padding-top: 30px;
   padding-bottom: ${paddingbottom};
   text-align: center;
   color: #fff;
+  background-color: red;
+`//05668d
+
+exports.HeaderView = styled.View`
   background-color: #05668d;
+  flex-direction: row;
+  justifi-content: center;
 `
 
 exports.Question = styled.Text`
