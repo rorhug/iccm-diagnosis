@@ -153,19 +153,15 @@ export default class DiagnosisScreen extends React.Component {
     } else if (currentSection) {
       let CurrentSectionComponent = sectionComponents[currentSection]
       return (
-        <Container>
           <CurrentSectionComponent
             navigation={this.props.navigation}
             patient={this.patient()}
             onCompletion={this.moveToNextSection}
             startQuestion={this.state.sections.startQuestion}
           />
-        </Container>
       );
     } else {
       return (
-        /* Do not change the styling on this Container. */
-        <Container style={{ flex: 1 }}>
           <ResultsScreen
             restartDiagnosis={this.restartDiagnosis}
             sectionResults={this.state.sectionResults}
@@ -173,7 +169,6 @@ export default class DiagnosisScreen extends React.Component {
             continueSection={this.continueSection}
             navigation={this.props.navigation}
           />
-        </Container>
       );
     }
   }

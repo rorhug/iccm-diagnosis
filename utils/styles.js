@@ -32,8 +32,12 @@ exports.Container = styled.View`
   background-color: #fff;
 `
 
-exports.ColumnContainer = styled.View`
+exports.InnerView = styled.View`
   flex: 1;
+  margin-bottom: 40px;
+`
+
+exports.ColumnContainer = styled.View`
   background-color: #fff;
   flex-direction: column;
   justify-content: flex-start;
@@ -41,7 +45,7 @@ exports.ColumnContainer = styled.View`
 `
 
 exports.ScrollContainer = styled.ScrollView`
-    flex: 1;
+    flexGrow: 1;
     padding: 20px;
     background-color: #fff;
 `

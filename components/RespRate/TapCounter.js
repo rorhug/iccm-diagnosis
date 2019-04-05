@@ -3,6 +3,7 @@ import {
   BlueButton,
   Container,
   ScrollContainer,
+  InnerView,
   ButtonsBox,
   Header,
   QuestionBox,
@@ -52,64 +53,65 @@ export class TapCounter extends Component {
     switch (this.state.current) {
       case start:
       case tapping:
-        return (
-          <Container>
-            {!this.props.navigation &&
-              <Header title="BPM Counter" visible={true}
-                onPress={() => this.props.renderNext(RrComponents.counterchoice)} />}
-            <ScrollContainer >
-              <TimerCircle
-                start={this.state.current === tapping}
-                onTimeElapsed={this.onCompletion}
-                seconds={60}
-                radius={80}
-                borderWidth={20}
-                color='#05668d'
-                bgColor="#fff"
-                shadowColor='#999'
-                textStyle={{ fontSize: 20 }}
-                style={{ margin: 10, alignSelf: 'center' }}
-              />
-              <QuestionBox><Question>
-                Press Start then tap the button at every inhalation
+        content = (
+          <>
+            <TimerCircle
+              start={this.state.current === tapping}
+              onTimeElapsed={this.onCompletion}
+              seconds={60}
+              radius={80}
+              borderWidth={20}
+              color='#05668d'
+              bgColor="#fff"
+              shadowColor='#999'
+              textStyle={{ fontSize: 20 }}
+              style={{ margin: 10, alignSelf: 'center' }}
+            />
+            <QuestionBox><Question>
+              Press Start then tap the button at every inhalation
             </Question></QuestionBox>
-              <ButtonsBox>
-                <BlueButton
-                  style={{ height: 100 }}
-                  onPress={this.state.current === start ? this.startTapping : this.onPress}
-                  title={this.state.current === start ? 'Start' : 'Tap at every inhalation'}
-                />
-                <LineBreak style={{ height: 40 }} />
-                <AnswerButton
-                  onPress={() => this.setState(initialState)}
-                  title="Reset"
-                />
-              </ButtonsBox>
-
-            </ScrollContainer>
-          </Container>
+            <ButtonsBox>
+              <BlueButton
+                style={{ height: 100 }}
+                onPress={this.state.current === start ? this.startTapping : this.onPress}
+                title={this.state.current === start ? 'Start' : 'Tap at every inhalation'}
+              />
+              <LineBreak style={{ height: 40 }} />
+              <AnswerButton
+                onPress={() => this.setState(initialState)}
+                title="Reset"
+              />
+            </ButtonsBox>
+          </>
         )
       case finished:
-        return (
-          <Container>
-            <Header title="BPM Counter" />
-            <ScrollContainer >
-              <QuestionBox><Question>
-                Inhalations per minute: {this.state.count}
-              </Question></QuestionBox>
-              <ButtonsBox>
-                <AnswerButton
-                  onPress={() => this.props.respRate(this.state.count)}
-                  title={this.props.endButton || 'Continue'}
-                />
-                <AnswerButton
-                  onPress={() => this.setState(initialState)}
-                  title="Redo"
-                />
-              </ButtonsBox>
-            </ScrollContainer>
-          </Container>
+        content(
+          <>
+            <QuestionBox><Question>
+              Inhalations per minute: {this.state.count}
+            </Question></QuestionBox>
+            <ButtonsBox>
+              <AnswerButton
+                onPress={() => this.props.respRate(this.state.count)}
+                title={this.props.endButton || 'Continue'}
+              />
+              <AnswerButton
+                onPress={() => this.setState(initialState)}
+                title="Redo"
+              />
+            </ButtonsBox>
+          </>
         )
     }
+    return (
+      <Container>
+        {!this.props.navigation &&
+          <Header title="BPM Counter" visible={true}
+            onPress={() => this.props.renderNext(RrComponents.counterchoice)} />}
+        <ScrollContainer ><InnerView>
+        </InnerView>
+        </ScrollContainer>
+      </Container>
+    )
   }
 }

@@ -12,6 +12,7 @@ import {
   ScrollContainer,
   Header,
   ImageButton,
+  InnerView,
   Slider,
   QuestionBox,
   Question,
@@ -314,12 +315,12 @@ export class Recorder extends React.Component {
   }
 
   renderRecorder = () => (
-    <View style={{alignItems: 'center'}}>
+    <View style={{ alignItems: 'center' }}>
       <ImageButton
         onPress={this._onRecordPressed}
         disabled={this.state.isLoading}
       >
-        <Image source={ICON_RECORD_BUTTON.module}/>
+        <Image source={ICON_RECORD_BUTTON.module} />
       </ImageButton>
       <AnswerText>{this.state.isRecording ? 'Recording' : 'Press to Record'}</AnswerText>
       {/* <AnswerText>{this._getRecordingTimestamp()}</AnswerText> */}
@@ -333,7 +334,7 @@ export class Recorder extends React.Component {
         bgColor="#fff"
         shadowColor='#999'
         textStyle={{ fontSize: 20, color: '#05668d' }}
-        updateText={()=>this._getRecordingTimestamp()}
+        updateText={() => this._getRecordingTimestamp()}
         style={{ margin: 20, alignSelf: 'center' }}
       />
     </View>
@@ -352,8 +353,8 @@ export class Recorder extends React.Component {
       />
 
       <RowContainer>
-        <ImageButton 
-          style={{ width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG+0.5) }}
+        <ImageButton
+          style={{ width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG + 0.5) }}
           onPress={this._onPlayPausePressed}
           disabled={isDisabled}>
           <Image source={this.state.isPlaying ? ICON_PAUSE_BUTTON.module : ICON_PLAY_BUTTON.module}
@@ -366,19 +367,15 @@ export class Recorder extends React.Component {
         </ImageButton>
         {/* PLAY_BUTTON is used for consitent sizing */}
         <ImageButton
-          style={{width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG+0.5)}}
+          style={{ width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG + 0.5) }}
           onPress={this._onStopPressed}
           disabled={isDisabled}>
-          <Image source={ICON_STOP_BUTTON.module}
-            style={{
-              width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG+0.5),
-              height: ICON_PLAY_BUTTON.height * (UPSCALE_IMG+0.5),
-              resizeMode: 'contain'
-            }} />
+          <Image source={ICON_STOP_BUTTON.module} />
         </ImageButton>
         <RightText>{this._getPlaybackTimestamp()}</RightText>
       </RowContainer>
       {this.renderVolume(isDisabled)}
+      {this.renderButtons()}
     </View>
   )
 
@@ -389,14 +386,18 @@ export class Recorder extends React.Component {
         <ImageButton
           onPress={this._onMutePressed}
           disabled={isDisabled}>
-          <Image
-            source={this.state.muted ? ICON_MUTED_BUTTON.module : ICON_UNMUTED_BUTTON.module}
+          <Image source={this.state.muted ? ICON_MUTED_BUTTON.module : ICON_UNMUTED_BUTTON.module}
+            style={{
+              width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG - 0.5),
+              height: ICON_PLAY_BUTTON.height * (UPSCALE_IMG - 0.5),
+              resizeMode: 'contain'
+            }}
           />
         </ImageButton>
-        <Slider style={{ 
-            marginLeft: 'auto', 
-            width: DEVICE_WIDTH / 2.0 + ICON_MUTED_BUTTON.width 
-          }}
+        <Slider style={{
+          marginLeft: 'auto',
+          width: DEVICE_WIDTH / 2.0 + ICON_MUTED_BUTTON.width
+        }}
           trackImage={ICON_TRACK_1.module}
           thumbImage={ICON_THUMB_2.module}
           value={1}
@@ -407,12 +408,26 @@ export class Recorder extends React.Component {
     </View>
   )
 
+  renderButtons = () => (
+    <>
+      <BlueButton title="Breats Per Minute < 40" 
+        onPress={()=>this.props.respRate(35)}  
+      />
+      <BlueButton title="Breats Per Minute >= 40 and < 50"
+        onPress={()=>this.props.respRate(45)}  
+      />
+      <BlueButton title="Breats Per Minute >= 50"
+        onPress={()=>this.props.respRate(55)}  
+      />
+    </>
+  )
+
   renderInstructions = () => (
     <>
-    <QuestionBox><Question>
-      Press start to record the childs breath for 1 minute
+      <QuestionBox><Question>
+        Press start to record the childs breath for 1 minute
     </Question></QuestionBox>
-  </>
+    </>
   )
 
   renderNoPermission = () => (
@@ -434,15 +449,17 @@ export class Recorder extends React.Component {
             onPress={() => this.props.renderNext(RrComponents.counterchoice)} />
         }
         <ScrollContainer>
-        {!this.state.haveRecordingPermissions ?
-          this.renderNoPermission() :
-          (<>
-            {this.renderRecorder()}
-            {!playbackDisabled && this.renderPlayback(playbackDisabled)}
-            {playbackDisabled && this.renderInstructions()}
-          </>)
-        }
-      </ScrollContainer>
+          <InnerView>
+            {!this.state.haveRecordingPermissions ?
+              this.renderNoPermission() :
+              (<>
+                {this.renderRecorder()}
+                {!playbackDisabled && this.renderPlayback(playbackDisabled)}
+                {playbackDisabled && this.renderInstructions()}
+              </>)
+            }
+          </InnerView>
+        </ScrollContainer>
       </Container>
     )
   }

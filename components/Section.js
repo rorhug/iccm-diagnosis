@@ -4,20 +4,21 @@ import Collapsible from 'react-native-collapsible';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 import { Ionicons } from '@expo/vector-icons';
 
-import { 
-    Container, 
-    ScrollContainer,
-    Header,
-    InfoText,
-    QuestionBox,
-    ButtonsBox,
-    Question,
-    AnswerButton,
-    InfoButton,
-    InfoImage,
-    AnswerTextView,
-    AnswerRow,
-    LineBreak
+import {
+  Container,
+  ScrollContainer,
+  Header,
+  InfoText,
+  InnerView,
+  QuestionBox,
+  ButtonsBox,
+  Question,
+  AnswerButton,
+  InfoButton,
+  InfoImage,
+  AnswerTextView,
+  AnswerRow,
+  LineBreak
 } from '../utils/styles';
 
 export class Section extends React.Component {
@@ -83,10 +84,10 @@ export class Section extends React.Component {
 
   answerButtons = (question) => {
     if (question.sectionEnd && !question.answers) {
-      return <AnswerButton 
+      return <AnswerButton
         onPress={() => this.props.onCompletion(this.state.currentQuestionId)}
         title="Next Section"
-        />
+      />
     }
     else if (question.answers.length > 0) {
       return question.answers.map((answer, index) =>
@@ -109,17 +110,18 @@ export class Section extends React.Component {
   renderQuestion = (question) => {
     /* Do not change the styling on first View. */
     return <Container>
-      <Header title={this.props.title} 
-        onPress={this.goBack} visible={this.state.stack.length>0}
+      <Header title={this.props.title}
+        onPress={this.goBack} visible={this.state.stack.length > 0}
       />
       <ScrollContainer>
-        <QuestionBox>
-          <Question>{question.text}</Question>
-        </QuestionBox>
-        <ButtonsBox>
-          {this.answerButtons(question)}
-        </ButtonsBox>
-
+        <InnerView>
+          <QuestionBox>
+            <Question>{question.text}</Question>
+          </QuestionBox>
+          <ButtonsBox>
+            {this.answerButtons(question)}
+          </ButtonsBox>
+        </InnerView>
       </ScrollContainer>
     </Container>
   }
