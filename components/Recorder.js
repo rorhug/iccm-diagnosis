@@ -58,6 +58,7 @@ export class Recorder extends React.Component {
   };
 
   constructor(props) {
+    console.log('consturct')
     super(props);
     this.recording = null;
     this.sound = null;
@@ -79,18 +80,26 @@ export class Recorder extends React.Component {
       volume: 1.0,
       rate: 1.0,
     };
-
+   
     let recordingOptions = Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY
-    recordingOptions.ios.outputFormat = Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_LINEARPCM
-    recordingOptions.ios.extension = ".wav"
+    try{
+      recordingOptions.ios.outputFormat = Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_LINEARPCM
+      recordingOptions.ios.extension = ".wav"
+    }catch{
+      console.log('options already set')
+    }
     console.log(JSON.stringify(recordingOptions.ios))
-
     this.recordingSettings = recordingOptions
     // // UNCOMMENT THIS TO TEST maxFileSize:
     // this.recordingSettings.android['maxFileSize'] = 12000;
   }
 
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+
   componentDidMount() {
+    this._mounted = true;
     this._askForPermissions();
   }
 
@@ -102,7 +111,7 @@ export class Recorder extends React.Component {
   };
 
   _updateScreenForSoundStatus = status => {
-    if (status.isLoaded) {
+    if (status.isLoaded && this._mounted) {
       this.setState({
         soundDuration: status.durationMillis,
         soundPosition: status.positionMillis,
@@ -114,7 +123,7 @@ export class Recorder extends React.Component {
         shouldCorrectPitch: status.shouldCorrectPitch,
         isPlaybackAllowed: true,
       });
-    } else {
+    } else if (this._mounted) {
       this.setState({
         soundDuration: null,
         soundPosition: null,
@@ -152,6 +161,7 @@ export class Recorder extends React.Component {
       this.sound.setOnPlaybackStatusUpdate(null);
       this.sound = null;
     }
+    // TO DO HANDEL RECETION WITH PERMISSIONS SCREEN
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: true,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -187,6 +197,7 @@ export class Recorder extends React.Component {
     }
     const info = await FileSystem.getInfoAsync(this.recording.getURI());
     console.log(`FILE INFO: ${JSON.stringify(info)}`);
+    // TO DO HANDEL RECETION WITH PERMISSIONS SCREEN
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -370,12 +381,18 @@ export class Recorder extends React.Component {
           style={{ width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG + 0.5) }}
           onPress={this._onStopPressed}
           disabled={isDisabled}>
-          <Image source={ICON_STOP_BUTTON.module} />
+          <Image source={ICON_STOP_BUTTON.module}
+          style={{
+            width: ICON_PLAY_BUTTON.width * UPSCALE_IMG,
+            height: ICON_PLAY_BUTTON.height * UPSCALE_IMG,
+            resizeMode: 'contain'
+          }}
+          />
         </ImageButton>
         <RightText>{this._getPlaybackTimestamp()}</RightText>
       </RowContainer>
       {this.renderVolume(isDisabled)}
-      {this.renderButtons()}
+      {!this.props.navigation && this.renderButtons()}
     </View>
   )
 
@@ -386,13 +403,7 @@ export class Recorder extends React.Component {
         <ImageButton
           onPress={this._onMutePressed}
           disabled={isDisabled}>
-          <Image source={this.state.muted ? ICON_MUTED_BUTTON.module : ICON_UNMUTED_BUTTON.module}
-            style={{
-              width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG - 0.5),
-              height: ICON_PLAY_BUTTON.height * (UPSCALE_IMG - 0.5),
-              resizeMode: 'contain'
-            }}
-          />
+          <Image source={this.state.muted ? ICON_MUTED_BUTTON.module : ICON_UNMUTED_BUTTON.module}/>
         </ImageButton>
         <Slider style={{
           marginLeft: 'auto',
