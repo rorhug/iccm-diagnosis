@@ -15,6 +15,7 @@ import {
   LineBreak
 } from '../../utils/styles';
 import TimerCircle from './TimerCircle'
+import { RrComponents } from '../../utils/constants';
 
 const finished = 'finished'
 const tapping = 'tapping'
@@ -53,7 +54,8 @@ export class TapCounter extends Component {
       case tapping:
         return (
           <Container>
-            <Header title="BPM Counter"/>
+            <Header title="BPM Counter" visible={true}
+              onPress={()=>this.props.renderNext(RrComponents.counterchoice)}/>
             <ScrollContainer >
               <TimerCircle
                 start={this.state.current === tapping}
