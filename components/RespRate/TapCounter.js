@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {
+  BlueButton,
   Container,
   ScrollContainer,
   ButtonsBox,
@@ -7,11 +8,6 @@ import {
   QuestionBox,
   Question,
   AnswerButton,
-  InfoButton,
-  InfoImage,
-  AnswerText,
-  AnswerTextView,
-  AnswerRow,
   LineBreak
 } from '../../utils/styles';
 import TimerCircle from './TimerCircle'
@@ -68,7 +64,7 @@ export class TapCounter extends Component {
                 seconds={60}
                 radius={80}
                 borderWidth={20}
-                color='#f00'
+                color='#05668d'
                 bgColor="#fff"
                 shadowColor='#999'
                 textStyle={{ fontSize: 20 }}
@@ -78,7 +74,7 @@ export class TapCounter extends Component {
                 Press Start then tap the button at every inhalation
             </Question></QuestionBox>
               <ButtonsBox>
-                <AnswerButton
+                <BlueButton
                   style={{ height: 100 }}
                   onPress={this.state.current === start ? this.startTapping : this.onPress}
                   title={this.state.current === start ? 'Start' : 'Tap at every inhalation'}

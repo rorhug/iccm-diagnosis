@@ -2,14 +2,14 @@ import React from 'react';
 import {
   Dimensions,
   Image,
-  TouchableHighlight,
   View,
 } from 'react-native';
 import {
   AnswerText,
   BlueButton,
   CenteredText,
-  ColumnContainer,
+  Container,
+  ScrollContainer,
   Header,
   ImageButton,
   Slider,
@@ -18,6 +18,7 @@ import {
   RightText,
   RowContainer,
 } from '../utils/styles';
+import TimerCircle from './RespRate/TimerCircle'
 import { RrComponents } from '../utils/constants';
 import { Asset, Audio, FileSystem, Permissions } from 'expo';
 
@@ -313,25 +314,33 @@ export class Recorder extends React.Component {
   }
 
   renderRecorder = () => (
-    <View style={{ alignItems: 'center' }}>
+    <View style={{alignItems: 'center'}}>
       <ImageButton
         onPress={this._onRecordPressed}
         disabled={this.state.isLoading}
       >
-        <Image
-          source={ICON_RECORD_BUTTON.module} />
+        <Image source={ICON_RECORD_BUTTON.module}/>
       </ImageButton>
-      <AnswerText>
-        {this.state.isRecording ? 'Recording' : 'Press to Record'}
-      </AnswerText>
-      <AnswerText>
-        {this._getRecordingTimestamp()}
-      </AnswerText>
+      <AnswerText>{this.state.isRecording ? 'Recording' : 'Press to Record'}</AnswerText>
+      {/* <AnswerText>{this._getRecordingTimestamp()}</AnswerText> */}
+      <TimerCircle
+        start={this.state.isRecording}
+        onTimeElapsed={this._onRecordPressed}
+        seconds={60}
+        radius={60}
+        borderWidth={15}
+        color='#05668d'
+        bgColor="#fff"
+        shadowColor='#999'
+        textStyle={{ fontSize: 20, color: '#05668d' }}
+        updateText={()=>this._getRecordingTimestamp()}
+        style={{ margin: 20, alignSelf: 'center' }}
+      />
     </View>
   )
 
   renderPlayback = (isDisabled) => (
-    <View style={{ opacity: isDisabled ? DISABLED_OPACITY : 1.0 }}>
+    <View style={{ marginTop: 'auto', opacity: isDisabled ? DISABLED_OPACITY : 1.0 }}>
       <CenteredText>Playback</CenteredText>
       <Slider
         trackImage={ICON_TRACK_1.module}
@@ -369,6 +378,7 @@ export class Recorder extends React.Component {
         </ImageButton>
         <RightText>{this._getPlaybackTimestamp()}</RightText>
       </RowContainer>
+      {this.renderVolume(isDisabled)}
     </View>
   )
 
@@ -397,6 +407,14 @@ export class Recorder extends React.Component {
     </View>
   )
 
+  renderInstructions = () => (
+    <>
+    <QuestionBox><Question>
+      Press start to record the childs breath for 1 minute
+    </Question></QuestionBox>
+  </>
+  )
+
   renderNoPermission = () => (
     <>
       <QuestionBox><Question>
@@ -407,24 +425,25 @@ export class Recorder extends React.Component {
   )
 
   render() {
-    playbackActive = !this.state.isPlaybackAllowed || this.state.isLoading
-    console.log(playbackActive)
+    playbackDisabled = !this.state.isPlaybackAllowed || this.state.isLoading
     return (
-      <ColumnContainer>
+      <Container>
         {!this.props.navigation &&
           <Header
             title="Recorder" visible={true}
             onPress={() => this.props.renderNext(RrComponents.counterchoice)} />
         }
+        <ScrollContainer>
         {!this.state.haveRecordingPermissions ?
           this.renderNoPermission() :
           (<>
             {this.renderRecorder()}
-            {this.renderPlayback(playbackActive)}
-            {this.renderVolume(playbackActive)}
+            {!playbackDisabled && this.renderPlayback(playbackDisabled)}
+            {playbackDisabled && this.renderInstructions()}
           </>)
         }
-      </ColumnContainer>
+      </ScrollContainer>
+      </Container>
     )
   }
 }

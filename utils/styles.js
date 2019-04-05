@@ -36,7 +36,7 @@ exports.ColumnContainer = styled.View`
   flex: 1;
   background-color: #fff;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
   padding: 20px;
 `
 
@@ -212,7 +212,9 @@ exports.RowContainer = styled.View`
 `
 
 exports.Slider = styled.Slider`
-  color: ${buttonsTextColor}
+  color: ${buttonsTextColor};
+  thumbTintColor:  ${buttonsTextColor};
+  
 `
 
 exports.ImageButton = styled.TouchableOpacity`

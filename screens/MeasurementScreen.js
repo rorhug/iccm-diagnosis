@@ -1,5 +1,10 @@
 import React from 'react';
-import { BlueButton, ColumnContainer } from '../utils/styles'
+import { 
+  BlueButton, 
+  ColumnContainer,
+  Question,
+  QuestionBox,
+} from '../utils/styles'
 
 export default class MeasurementScreen extends React.Component {
   static navigationOptions = {
@@ -16,8 +21,10 @@ export default class MeasurementScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <ColumnContainer style={{justifyContent: 'space-between'}}>
-
+      <ColumnContainer>
+        <QuestionBox><Question>
+          Press start to record the childs breath for 1 minute
+        </Question></QuestionBox>
         <BlueButton 
           title="Breaths per Minute Using TapCounter" 
           onPress={()=>this.navTapCounter(navigate)}
