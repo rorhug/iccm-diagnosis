@@ -13,7 +13,7 @@ export default class MeasurementScreen extends React.Component {
 
   navTapCounter = (navigate) => {
     navigate('Counter', {
-      endButton : 'Return',
+      endButton : 'Return to Measurement Screen',
       respRate: () => { this.props.navigation.pop() }
     })
   }
@@ -30,7 +30,7 @@ export default class MeasurementScreen extends React.Component {
           onPress={()=>this.navTapCounter(navigate)}
         />
         <BlueButton 
-          title="Breaths per Minute Using SoundAnalysis"
+          title="Breaths per Minute Using Recordings"
           onPress={() => navigate('Counter1')}
         />
       </ColumnContainer>
