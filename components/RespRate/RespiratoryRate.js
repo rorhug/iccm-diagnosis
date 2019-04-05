@@ -4,10 +4,12 @@ import { CounterChoice } from './CounterChoice'
 import  Tutorial  from './Tutorial'
 import  {TapCounter}  from './TapCounter';
 import { RrComponents } from '../../utils/constants';
+import { Recorder } from '../Recorder';
 
 // This holds all existing Components on this screen.
 const COMPONENTS = {
     [RrComponents.counterchoice]: CounterChoice,
+    [RrComponents.recorder]: Recorder,
     [RrComponents.tutorial]: Tutorial,
     [RrComponents.tapcounter]: TapCounter
 }

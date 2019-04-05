@@ -29,7 +29,7 @@ export class CounterChoice extends React.Component {
                 <Question>How would you like to count Respiratory Rate?</Question>
             </QuestionBox>
             <ImageButtonsContainer>
-                <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tutorial)}>
+                <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.recorder)}>
                     <Image
                     source={require('../../assets/images/breathing-thing.jpg')}
                     style={{width: 130, height: 130}}

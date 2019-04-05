@@ -5,12 +5,23 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import DiagnosisScreen from '../screens/DiagnosisScreen';
 import LinksScreen from '../screens/LinksScreen';
-import RecordScreen from '../screens/RecordScreen';
 import InfoScreen from '../screens/InfoScreen';
 import PatientListScreen from '../screens/PatientListScreen';
 import PatientViewScreen from '../screens/PatientViewScreen';
 import MeasurementScreen from '../screens/MeasurementScreen';
-import {TapCounter}  from '../components/RespRate/TapCounter.js';
+import { TapCounter }  from '../components/RespRate/TapCounter';
+import { Recorder } from '../components/Recorder';
+
+
+const mapNavigationStateParamsToProps = (ScreenComponent) => {
+  return class extends React.Component {
+    static navigationOptions = ScreenComponent.navigationOptions
+    render() {
+      const { params } = this.props.navigation.state
+      return <ScreenComponent {...this.props} {...params} />
+    }
+  }
+}
 
 const InfoStack = createStackNavigator({
   Info: InfoScreen
@@ -49,20 +60,11 @@ PatientListScreenStack.navigationOptions = {
     />
   ),
 };
-const mapNavigationStateParamsToProps = (ScreenComponent) => {
-  return class extends React.Component {
-    static navigationOptions = ScreenComponent.navigationOptions
-    render() {
-      const { params } = this.props.navigation.state
-      return <ScreenComponent {...this.props} {...params} />
-    }
-  }
-}
 
 const MeasurementStack = createStackNavigator({
   Measurement: MeasurementScreen,
   Counter: { screen: mapNavigationStateParamsToProps(TapCounter) },
-  Counter1: RecordScreen,
+  Counter1: { screen: mapNavigationStateParamsToProps(Recorder)},
 });
 
 MeasurementStack.navigationOptions = {

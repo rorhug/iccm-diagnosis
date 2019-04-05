@@ -2,13 +2,25 @@ import React from 'react';
 import {
   Dimensions,
   Image,
-  Slider,
-  StyleSheet,
-  Text,
   TouchableHighlight,
   View,
 } from 'react-native';
-import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
+import {
+  AnswerText,
+  BlueButton,
+  CenteredText,
+  ColumnContainer,
+  Header,
+  ImageButton,
+  Slider,
+  QuestionBox,
+  Question,
+  RightText,
+  RowContainer,
+} from '../utils/styles';
+import { RrComponents } from '../utils/constants';
+import { Asset, Audio, FileSystem, Permissions } from 'expo';
+
 
 class Icon {
   constructor(module, width, height) {
@@ -27,19 +39,22 @@ const ICON_PAUSE_BUTTON = new Icon(require('../assets/images/pause_button.png'),
 const ICON_STOP_BUTTON = new Icon(require('../assets/images/stop_button.png'), 22, 22);
 
 const ICON_MUTED_BUTTON = new Icon(require('../assets/images/muted_button.png'), 56, 64);
-const ICON_UNMUTED_BUTTON = new Icon(require('../assets/images/unmuted_button.png'),64,64);
+const ICON_UNMUTED_BUTTON = new Icon(require('../assets/images/unmuted_button.png'), 64, 64);
 
 const ICON_TRACK_1 = new Icon(require('../assets/images/track_1.png'), 166, 5);
 const ICON_THUMB_1 = new Icon(require('../assets/images/thumb_1.png'), 18, 19);
 const ICON_THUMB_2 = new Icon(require('../assets/images/thumb_2.png'), 15, 19);
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get('window');
-const BACKGROUND_COLOR = '#FFF8ED';
-const LIVE_COLOR = '#FF0000';
 const DISABLED_OPACITY = 0.5;
+const UPSCALE_IMG = 1.2;
 
 
 export class Recorder extends React.Component {
+  static navigationOptions = {
+    title: 'Recorder',
+  };
+
   constructor(props) {
     super(props);
     this.recording = null;
@@ -74,12 +89,6 @@ export class Recorder extends React.Component {
   }
 
   componentDidMount() {
-    // (async () => {
-    //   await Font.loadAsync({
-    //     'SpaceMono': require('../assets/fonts/SpaceMono-Regular.ttf'),
-    //   });  
-    //   this.setState({ fontLoaded: true });
-    // })();
     this._askForPermissions();
   }
 
@@ -303,247 +312,119 @@ export class Recorder extends React.Component {
     return `${this._getMMSSFromMillis(0)}`;
   }
 
+  renderRecorder = () => (
+    <View style={{ alignItems: 'center' }}>
+      <ImageButton
+        onPress={this._onRecordPressed}
+        disabled={this.state.isLoading}
+      >
+        <Image
+          source={ICON_RECORD_BUTTON.module} />
+      </ImageButton>
+      <AnswerText>
+        {this.state.isRecording ? 'Recording' : 'Press to Record'}
+      </AnswerText>
+      <AnswerText>
+        {this._getRecordingTimestamp()}
+      </AnswerText>
+    </View>
+  )
+
+  renderPlayback = (isDisabled) => (
+    <View style={{ opacity: isDisabled ? DISABLED_OPACITY : 1.0 }}>
+      <CenteredText>Playback</CenteredText>
+      <Slider
+        trackImage={ICON_TRACK_1.module}
+        thumbImage={ICON_THUMB_1.module}
+        value={this._getSeekSliderPosition()}
+        onValueChange={this._onSeekSliderValueChange}
+        onSlidingComplete={this._onSeekSliderSlidingComplete}
+        disabled={isDisabled}
+      />
+
+      <RowContainer>
+        <ImageButton 
+          style={{ width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG+0.5) }}
+          onPress={this._onPlayPausePressed}
+          disabled={isDisabled}>
+          <Image source={this.state.isPlaying ? ICON_PAUSE_BUTTON.module : ICON_PLAY_BUTTON.module}
+            style={{
+              width: ICON_PLAY_BUTTON.width * UPSCALE_IMG,
+              height: ICON_PLAY_BUTTON.height * UPSCALE_IMG,
+              resizeMode: 'contain'
+            }}
+          />
+        </ImageButton>
+        {/* PLAY_BUTTON is used for consitent sizing */}
+        <ImageButton
+          style={{width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG+0.5)}}
+          onPress={this._onStopPressed}
+          disabled={isDisabled}>
+          <Image source={ICON_STOP_BUTTON.module}
+            style={{
+              width: ICON_PLAY_BUTTON.width * (UPSCALE_IMG+0.5),
+              height: ICON_PLAY_BUTTON.height * (UPSCALE_IMG+0.5),
+              resizeMode: 'contain'
+            }} />
+        </ImageButton>
+        <RightText>{this._getPlaybackTimestamp()}</RightText>
+      </RowContainer>
+    </View>
+  )
+
+  renderVolume = (isDisabled) => (
+    <View style={{ opacity: isDisabled ? DISABLED_OPACITY : 1.0 }}>
+      <CenteredText>Volume</CenteredText>
+      <RowContainer>
+        <ImageButton
+          onPress={this._onMutePressed}
+          disabled={isDisabled}>
+          <Image
+            source={this.state.muted ? ICON_MUTED_BUTTON.module : ICON_UNMUTED_BUTTON.module}
+          />
+        </ImageButton>
+        <Slider style={{ 
+            marginLeft: 'auto', 
+            width: DEVICE_WIDTH / 2.0 + ICON_MUTED_BUTTON.width 
+          }}
+          trackImage={ICON_TRACK_1.module}
+          thumbImage={ICON_THUMB_2.module}
+          value={1}
+          onValueChange={this._onVolumeSliderValueChange}
+          disabled={isDisabled}
+        />
+      </RowContainer>
+    </View>
+  )
+
+  renderNoPermission = () => (
+    <>
+      <QuestionBox><Question>
+        Please enable audio recording permissions to use the recorder.
+      </Question></QuestionBox>
+      <BlueButton title="Enable Recording" onPress={this._askForPermissions} />
+    </>
+  )
+
   render() {
-    return !this.state.fontLoaded ? (
-      <View style={styles.emptyContainer} />
-    ) : !this.state.haveRecordingPermissions ? (
-      <View style={styles.container}>
-        <View />
-        <Text style={[styles.noPermissionsText]}>
-          You must enable audio recording permissions in order to use this app.
-        </Text>
-        <View />
-      </View>
-    ) : (
-      <View style={styles.container}>
-        <View
-          style={[
-            styles.halfScreenContainer,
-            {
-              opacity: this.state.isLoading ? DISABLED_OPACITY : 1.0,
-            },
-          ]}>
-          <View />
-          <View style={styles.recordingContainer}>
-            <View />
-            <TouchableHighlight
-              underlayColor={BACKGROUND_COLOR}
-              style={styles.wrapper}
-              onPress={this._onRecordPressed}
-              disabled={this.state.isLoading}>
-              <Image style={styles.image} source={ICON_RECORD_BUTTON.module} />
-            </TouchableHighlight>
-            <View style={styles.recordingDataContainer}>
-              <View />
-              <Text style={[styles.liveText]}>
-                {this.state.isRecording ? 'Recording' : ''}
-              </Text>
-              <View style={styles.recordingDataRowContainer}>
-                <Image
-                  style={[styles.image, { opacity: this.state.isRecording ? 1.0 : 0.0 }]}
-                  source={ICON_RECORDING.module}
-                />
-                <Text style={[styles.recordingTimestamp]}>
-                  {this._getRecordingTimestamp()}
-                </Text>
-              </View>
-              <View />
-            </View>
-            <View />
-          </View>
-          <View />
-        </View>
-        <View
-          style={[
-            styles.halfScreenContainer,
-            {
-              opacity:
-                !this.state.isPlaybackAllowed || this.state.isLoading ? DISABLED_OPACITY : 1.0,
-            },
-          ]}>
-          <View />
-          <View style={styles.playbackContainer}>
-            <Slider
-              style={styles.playbackSlider}
-              trackImage={ICON_TRACK_1.module}
-              thumbImage={ICON_THUMB_1.module}
-              value={this._getSeekSliderPosition()}
-              onValueChange={this._onSeekSliderValueChange}
-              onSlidingComplete={this._onSeekSliderSlidingComplete}
-              disabled={!this.state.isPlaybackAllowed || this.state.isLoading}
-            />
-            <Text style={[styles.playbackTimestamp]}>
-              {this._getPlaybackTimestamp()}
-            </Text>
-          </View>
-          <View style={[styles.buttonsContainerBase, styles.buttonsContainerTopRow]}>
-            <View style={styles.volumeContainer}>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
-                style={styles.wrapper}
-                onPress={this._onMutePressed}
-                disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <Image
-                  style={styles.image}
-                  source={this.state.muted ? ICON_MUTED_BUTTON.module : ICON_UNMUTED_BUTTON.module}
-                />
-              </TouchableHighlight>
-              <Slider
-                style={styles.volumeSlider}
-                trackImage={ICON_TRACK_1.module}
-                thumbImage={ICON_THUMB_2.module}
-                value={1}
-                onValueChange={this._onVolumeSliderValueChange}
-                disabled={!this.state.isPlaybackAllowed || this.state.isLoading}
-              />
-            </View>
-            <View style={styles.playStopContainer}>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
-                style={styles.wrapper}
-                onPress={this._onPlayPausePressed}
-                disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <Image
-                  style={styles.image}
-                  source={this.state.isPlaying ? ICON_PAUSE_BUTTON.module : ICON_PLAY_BUTTON.module}
-                />
-              </TouchableHighlight>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
-                style={styles.wrapper}
-                onPress={this._onStopPressed}
-                disabled={!this.state.isPlaybackAllowed || this.state.isLoading}>
-                <Image style={styles.image} source={ICON_STOP_BUTTON.module} />
-              </TouchableHighlight>
-            </View>
-            <View />
-          </View>
-          <View />
-        </View>
-      </View>
-    );
+    playbackActive = !this.state.isPlaybackAllowed || this.state.isLoading
+    console.log(playbackActive)
+    return (
+      <ColumnContainer>
+        {!this.props.navigation &&
+          <Header
+            title="Recorder" visible={true}
+            onPress={() => this.props.renderNext(RrComponents.counterchoice)} />
+        }
+        {!this.state.haveRecordingPermissions ?
+          this.renderNoPermission() :
+          (<>
+            {this.renderRecorder()}
+            {this.renderPlayback(playbackActive)}
+            {this.renderVolume(playbackActive)}
+          </>)
+        }
+      </ColumnContainer>
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  emptyContainer: {
-    alignSelf: 'stretch',
-    backgroundColor: BACKGROUND_COLOR,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    backgroundColor: BACKGROUND_COLOR,
-    height: "100%"
-  },
-  noPermissionsText: {
-    textAlign: 'center',
-  },
-  wrapper: {},
-  halfScreenContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    height: "40%"
-  },
-  recordingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    minHeight: ICON_RECORD_BUTTON.height,
-    maxHeight: ICON_RECORD_BUTTON.height,
-  },
-  recordingDataContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    minHeight: ICON_RECORD_BUTTON.height,
-    maxHeight: ICON_RECORD_BUTTON.height,
-    minWidth: ICON_RECORD_BUTTON.width * 3.0,
-    maxWidth: ICON_RECORD_BUTTON.width * 3.0,
-  },
-  recordingDataRowContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    minHeight: ICON_RECORDING.height,
-    maxHeight: ICON_RECORDING.height,
-  },
-  playbackContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    minHeight: ICON_THUMB_1.height * 2.0,
-    maxHeight: ICON_THUMB_1.height * 2.0,
-  },
-  playbackSlider: {
-    alignSelf: 'stretch',
-  },
-  liveText: {
-    color: LIVE_COLOR,
-  },
-  recordingTimestamp: {
-    paddingLeft: 20,
-  },
-  playbackTimestamp: {
-    textAlign: 'right',
-    alignSelf: 'stretch',
-    paddingRight: 20,
-  },
-  image: {
-    backgroundColor: BACKGROUND_COLOR,
-  },
-  textButton: {
-    backgroundColor: BACKGROUND_COLOR,
-    padding: 10,
-  },
-  buttonsContainerBase: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  buttonsContainerTopRow: {
-    maxHeight: ICON_MUTED_BUTTON.height,
-    alignSelf: 'stretch',
-    paddingRight: 20,
-  },
-  playStopContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minWidth: (ICON_PLAY_BUTTON.width + ICON_STOP_BUTTON.width) * 3.0 / 2.0,
-    maxWidth: (ICON_PLAY_BUTTON.width + ICON_STOP_BUTTON.width) * 3.0 / 2.0,
-  },
-  volumeContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    minWidth: DEVICE_WIDTH / 2.0,
-    maxWidth: DEVICE_WIDTH / 2.0,
-  },
-  volumeSlider: {
-    width: DEVICE_WIDTH / 2.0 - ICON_MUTED_BUTTON.width,
-  },
-  buttonsContainerBottomRow: {
-    maxHeight: ICON_THUMB_1.height,
-    alignSelf: 'stretch',
-    paddingRight: 20,
-    paddingLeft: 20,
-  },
-});
-
-// Expo.registerRootComponent(App);

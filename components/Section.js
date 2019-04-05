@@ -15,7 +15,6 @@ import {
     AnswerButton,
     InfoButton,
     InfoImage,
-    AnswerText,
     AnswerTextView,
     AnswerRow,
     LineBreak

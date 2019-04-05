@@ -28,6 +28,10 @@ initialState = {
 }
 
 export class TapCounter extends Component {
+  static navigationOptions = {
+    title: 'Tap Screen',
+  };
+
   constructor(props) {
     super(props);
     this.state = initialState;
@@ -54,8 +58,9 @@ export class TapCounter extends Component {
       case tapping:
         return (
           <Container>
-            <Header title="BPM Counter" visible={true}
-              onPress={()=>this.props.renderNext(RrComponents.counterchoice)}/>
+            {!this.props.navigation &&
+              <Header title="BPM Counter" visible={true}
+                onPress={() => this.props.renderNext(RrComponents.counterchoice)} />}
             <ScrollContainer >
               <TimerCircle
                 start={this.state.current === tapping}
@@ -91,7 +96,7 @@ export class TapCounter extends Component {
       case finished:
         return (
           <Container>
-            <Header title="BPM Counter"/>
+            <Header title="BPM Counter" />
             <ScrollContainer >
               <QuestionBox><Question>
                 Inhalations per minute: {this.state.count}
@@ -99,7 +104,7 @@ export class TapCounter extends Component {
               <ButtonsBox>
                 <AnswerButton
                   onPress={() => this.props.respRate(this.state.count)}
-                  title= {this.props.endButton || 'Continue'}
+                  title={this.props.endButton || 'Continue'}
                 />
                 <AnswerButton
                   onPress={() => this.setState(initialState)}

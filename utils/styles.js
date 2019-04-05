@@ -32,9 +32,18 @@ exports.Container = styled.View`
   background-color: #fff;
 `
 
+exports.ColumnContainer = styled.View`
+  flex: 1;
+  background-color: #fff;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px;
+`
+
 exports.ScrollContainer = styled.ScrollView`
     flex: 1;
-    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
 `
 
 exports.QuestionBox = styled.View`
@@ -122,6 +131,7 @@ const AnswerTextView = styled.View`
   border-radius: 10px;
 `
 exports.AnswerTextView = AnswerTextView
+exports.AnswerText = AnswerText
 
 exports.InfoText = styled.Text({
   padding: 20,
@@ -140,9 +150,8 @@ exports.AnswerButton = (props) => <AnswerButton {...props}>
 
 exports.InfoButton = styled.TouchableOpacity`
 `
-
+//  flex: 2 2;
 const BlueButton = styled.TouchableOpacity`
-  flex: 2 2;
   background-color: #05668d;
   margin: 10px 10px 0 10px;
   border-radius: 10px;
@@ -177,4 +186,35 @@ exports.AnswerRow = styled.View`
 `
 exports.LineBreak = styled.View`
   width: 100%
+`
+
+/** RECORDER STYLING */
+
+exports.RightText = styled.Text`
+  text-align: right;
+  align-self: flex-start;
+  margin-left: auto;
+  font-size: 20px;
+  color: #000;
+`
+
+exports.CenteredText = styled.Text`
+  text-align: center;
+  align-self: center;
+  font-size: 20px;
+  color: #000;
+`
+
+exports.RowContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+`
+
+exports.Slider = styled.Slider`
+  color: ${buttonsTextColor}
+`
+
+exports.ImageButton = styled.TouchableOpacity`
+  underlayColor: ${buttonsTextColor}
 `
