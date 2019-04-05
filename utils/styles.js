@@ -84,11 +84,11 @@ const HeaderView = styled.View`
   flex-direction: row;
   justify-content: center;
 `
-
+let marginTop = Platform.OS === 'ios' ? `35px` : `45px`;
 const BackButton = styled.TouchableOpacity`
   width: 20;
   margin: 30px;
-  marginTop: 45px;
+  marginTop: ${marginTop};
   mariginBottom: ${paddingbottom};
 `
 
