@@ -1,24 +1,25 @@
 import React from 'react';
-import { Icon } from 'expo';
+
 import Collapsible from 'react-native-collapsible';
 import RespiratoryRate from './RespRate/RespiratoryRate';
 import { Ionicons } from '@expo/vector-icons';
 
-import { 
-    Container, 
-    ScrollContainer,
-    Header,
-    InfoText,
-    QuestionBox,
-    ButtonsBox,
-    Question,
-    AnswerButton,
-    InfoButton,
-    InfoImage,
-    AnswerText,
-    AnswerTextView,
-    AnswerRow,
-    LineBreak
+import {
+  Container,
+  ScrollContainer,
+  Header,
+  HeaderView,
+  InfoText,
+  QuestionBox,
+  ButtonsBox,
+  Question,
+  AnswerButton,
+  InfoButton,
+  InfoImage,
+  AnswerText,
+  AnswerTextView,
+  AnswerRow,
+  LineBreak
 } from '../utils/styles';
 
 export class Section extends React.Component {
@@ -26,15 +27,28 @@ export class Section extends React.Component {
     super(props)
     this.state = {
       currentQuestionId: this.props.startQuestion,
-      activeCollapsibles: []
+      activeCollapsibles: [],
+      stack: [],
     }
   }
 
   currentQuestion = () => this.props.questions[this.state.currentQuestionId]
 
-  gotoQuestion = (goto) => this.setState({
-    currentQuestionId: typeof goto === 'function' ? goto(this.props.patient) : goto
-  })
+  gotoQuestion = (goto) => {
+
+    this.setState({
+      stack: [this.state.currentQuestionId, ...this.state.stack],
+      currentQuestionId: typeof goto === 'function' ? goto(this.props.patient) : goto
+    })
+  }
+
+  goBack = () => {
+    let prev = this.state.stack.pop()
+    this.setState({
+      stack: this.state.stack,
+      currentQuestionId: prev || this.props.startQuestion,
+    })
+  }
 
   _toggleSection(answer) {
     const activeCollapsibles = this.state.activeCollapsibles
@@ -54,7 +68,7 @@ export class Section extends React.Component {
     return (
       <>
         <InfoButton onPress={() => this._toggleSection(key)}>
-          <AnswerTextView><Ionicons name="md-information-circle" size={25} color="#FFB732"/></AnswerTextView>
+          <AnswerTextView><Ionicons name="md-information-circle" size={25} color="#FFB732" /></AnswerTextView>
         </InfoButton>
 
         <LineBreak />
@@ -63,7 +77,7 @@ export class Section extends React.Component {
           collapsed={!this.state.activeCollapsibles.includes(key)}
         >
           <InfoText>{answer.info}</InfoText>
-          {answer.img && <InfoImage source={answer.img}/>}
+          {answer.img && <InfoImage source={answer.img} />}
         </Collapsible>
       </>
     )
@@ -81,7 +95,7 @@ export class Section extends React.Component {
           <AnswerButton
             accessibilityLabel={answer.text}
             onPress={() => answer.goto === undefined ?
-              this.props.onCompletion(index, skip=answer.skip) :
+              this.props.onCompletion(index, skip = answer.skip) :
               this.gotoQuestion(answer.goto)}
           >
             <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
@@ -97,18 +111,18 @@ export class Section extends React.Component {
   renderQuestion = (question) => {
     /* Do not change the styling on first View. */
     return <Container>
-        <Header>{this.props.title}</Header>
-        <ScrollContainer>
+      <Header title={this.props.title} 
+        onPress={this.goBack} visible={this.state.stack.length>0}
+      />
+      <ScrollContainer>
+        <QuestionBox>
+          <Question>{question.text}</Question>
+        </QuestionBox>
+        <ButtonsBox>
+          {this.answerButtons(question)}
+        </ButtonsBox>
 
-            <QuestionBox>
-                <Question>{question.text}</Question>
-            </QuestionBox>
-
-            <ButtonsBox>
-                {this.answerButtons(question)}
-            </ButtonsBox>
-
-        </ScrollContainer>
+      </ScrollContainer>
     </Container>
   }
 
@@ -130,7 +144,7 @@ export class Section extends React.Component {
 
   render() {
     let question = this.currentQuestion()
-    
+
     if (question.specialScreen) {
       return this.renderSpecialScreen(question);
     } else {

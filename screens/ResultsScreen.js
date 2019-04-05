@@ -47,7 +47,7 @@ export class ResultsScreen extends React.Component {
 
         return (
             <Container>
-                <Header>Results</Header>
+                <Header title="Results"/>
                 <ScrollContainer>
 
                     <View>

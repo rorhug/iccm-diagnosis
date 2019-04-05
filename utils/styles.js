@@ -1,7 +1,10 @@
 import { Dimensions, Platform } from 'react-native';
 import styled, { css } from '@emotion/native';
 import React from 'react'
-import { Text } from 'react-native'
+import { Text,View } from 'react-native'
+import { exp } from 'react-native/Libraries/Animated/src/Easing';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const info_width = (Dimensions.get('window').width / 100) * 80;
 
@@ -66,15 +69,40 @@ exports.ImageButtonsContainer = styled.View`
 `
 
 let paddingbottom = Platform.OS === 'ios' ? `30px` : `15px`;
-exports.Header = styled.Text`
+const Header = styled.Text`
+  align-self: center;
   font-weight: bold;
   font-size: 40px;
   padding-top: 30px;
   padding-bottom: ${paddingbottom};
   text-align: center;
   color: #fff;
+`//05668d
+
+const HeaderView = styled.View`
   background-color: #05668d;
+  flex-direction: row;
+  justify-content: center;
 `
+let marginTop = Platform.OS === 'ios' ? `35px` : `45px`;
+const BackButton = styled.TouchableOpacity`
+  width: 20;
+  margin: 30px;
+  marginTop: ${marginTop};
+  mariginBottom: ${paddingbottom};
+`
+
+exports.Header = (props) => <HeaderView {...props}>
+  <BackButton
+    onPress={props.onPress}>
+    <Ionicons
+      name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
+      size={40} color={props.visible ? '#fff' : 'transparent'} />
+  </BackButton>
+
+  <Header>{props.title}</Header>
+  <BackButton/> 
+</HeaderView>
 
 exports.Question = styled.Text`
   font-size: 24px;

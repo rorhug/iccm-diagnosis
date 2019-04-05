@@ -29,6 +29,8 @@ export default class RespiratoryRate extends React.Component {
   render() {
     let CurrentComponent = COMPONENTS[this.state.currentComponent]
     
-    return <CurrentComponent renderNext={this.renderNext} respRate={this.props.respRate}/>
+    return <CurrentComponent
+      renderNext={this.renderNext} 
+      respRate={this.props.respRate}/>
   }
 }

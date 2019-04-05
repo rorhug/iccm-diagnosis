@@ -22,7 +22,7 @@ export class CounterChoice extends React.Component {
 
   render() {
     return <View style={{ flex: 1 }}>
-        <Header>Respiratory Rate</Header>
+        <Header title="Respiratory Rate"/>
         <View style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
 
             <QuestionBox>
