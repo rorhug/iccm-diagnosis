@@ -11,7 +11,7 @@ export class Tutorial extends React.Component {
 
   render() {
     return <View>
-        <Header>Tutorial Screen.</Header>
+        <Header title="Tutorial Screen"/>
         <AnswerTextView><AnswerText>This screen will have a gif and 2 buttons.</AnswerText></AnswerTextView>
     </View>
   }

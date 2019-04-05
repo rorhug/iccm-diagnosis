@@ -147,7 +147,7 @@ export default class DiagnosisScreen extends React.Component {
           sectionResults={this.state.sectionResults}
           continueSection={this.continueSection}
           skipWaitScreen={this.skipWaitScreen}
-          components={sections}
+          components={sectionComponents}
         />
       );
     } else if (currentSection) {

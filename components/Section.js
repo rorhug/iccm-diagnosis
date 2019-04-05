@@ -1,5 +1,4 @@
 import React from 'react';
-import { Platform } from 'react-native';
 
 import Collapsible from 'react-native-collapsible';
 import RespiratoryRate from './RespRate/RespiratoryRate';

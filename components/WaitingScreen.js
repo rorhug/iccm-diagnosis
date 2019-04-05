@@ -40,7 +40,7 @@ export class WaitingScreen extends React.Component {
     return (
       /* Do not change the styling on this View. */
       <View style={{ flex: 1 }}>
-        <Header>Questions to Continue</Header>
+        <Header title="Questions to Continue"/>
         <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
           <QuestionBox>
             <Question>Are any of these Tasks complete?</Question>

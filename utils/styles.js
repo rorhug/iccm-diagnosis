@@ -1,7 +1,7 @@
 import { Dimensions, Platform } from 'react-native';
 import styled, { css } from '@emotion/native';
 import React from 'react'
-import { Text } from 'react-native'
+import { Text,View } from 'react-native'
 import { exp } from 'react-native/Libraries/Animated/src/Easing';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -77,7 +77,6 @@ const Header = styled.Text`
   padding-bottom: ${paddingbottom};
   text-align: center;
   color: #fff;
-  background-color: red;
 `//05668d
 
 const HeaderView = styled.View`
@@ -87,22 +86,22 @@ const HeaderView = styled.View`
 `
 
 const BackButton = styled.TouchableOpacity`
-  background-color: green;
+  width: 20;
   margin: 30px;
-  marginTop: 35px;
+  marginTop: 45px;
   mariginBottom: ${paddingbottom};
 `
 
 exports.Header = (props) => <HeaderView {...props}>
   <BackButton
     onPress={props.onPress}>
-    <Ionicons style={{padding: props.visible ? 0 : 20}}
+    <Ionicons
       name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
       size={40} color={props.visible ? '#fff' : 'transparent'} />
   </BackButton>
 
   <Header>{props.title}</Header>
-  <BackButton style={{padding: 20}}/>
+  <BackButton/> 
 </HeaderView>
 
 exports.Question = styled.Text`
