@@ -50,58 +50,55 @@ export class TapCounter extends Component {
   }
 
   render() {
-    switch (this.state.current) {
-      case start:
-      case tapping:
-        content = (
-          <>
-            <TimerCircle
-              start={this.state.current === tapping}
-              onTimeElapsed={this.onCompletion}
-              seconds={60}
-              radius={80}
-              borderWidth={20}
-              color='#05668d'
-              bgColor="#fff"
-              shadowColor='#999'
-              textStyle={{ fontSize: 20 }}
-              style={{ margin: 10, alignSelf: 'center' }}
+    content = (
+      <>
+        <TimerCircle
+          start={this.state.current === tapping}
+          onTimeElapsed={this.onCompletion}
+          seconds={60}
+          radius={80}
+          borderWidth={20}
+          color='#05668d'
+          bgColor="#fff"
+          shadowColor='#999'
+          textStyle={{ fontSize: 20 }}
+          style={{ margin: 10, alignSelf: 'center' }}
+        />
+        <QuestionBox><Question>
+          Press Start then tap the button at every inhalation
+            </Question></QuestionBox>
+        <ButtonsBox>
+          <BlueButton
+            style={{ height: 100 }}
+            onPress={this.state.current === start ? this.startTapping : this.onPress}
+            title={this.state.current === start ? 'Start' : 'Tap at every inhalation'}
+          />
+          <LineBreak style={{ height: 40 }} />
+          <AnswerButton
+            onPress={() => this.setState(initialState)}
+            title="Reset"
+          />
+        </ButtonsBox>
+      </>
+    )
+    if (this.state.current === finished) {
+      content = (
+        <>
+          <QuestionBox><Question>
+            Inhalations per minute: {this.state.count}
+          </Question></QuestionBox>
+          <ButtonsBox>
+            <AnswerButton
+              onPress={() => this.props.respRate(this.state.count)}
+              title={this.props.endButton || 'Continue'}
             />
-            <QuestionBox><Question>
-              Press Start then tap the button at every inhalation
-            </Question></QuestionBox>
-            <ButtonsBox>
-              <BlueButton
-                style={{ height: 100 }}
-                onPress={this.state.current === start ? this.startTapping : this.onPress}
-                title={this.state.current === start ? 'Start' : 'Tap at every inhalation'}
-              />
-              <LineBreak style={{ height: 40 }} />
-              <AnswerButton
-                onPress={() => this.setState(initialState)}
-                title="Reset"
-              />
-            </ButtonsBox>
-          </>
-        )
-      case finished:
-        content(
-          <>
-            <QuestionBox><Question>
-              Inhalations per minute: {this.state.count}
-            </Question></QuestionBox>
-            <ButtonsBox>
-              <AnswerButton
-                onPress={() => this.props.respRate(this.state.count)}
-                title={this.props.endButton || 'Continue'}
-              />
-              <AnswerButton
-                onPress={() => this.setState(initialState)}
-                title="Redo"
-              />
-            </ButtonsBox>
-          </>
-        )
+            <AnswerButton
+              onPress={() => this.setState(initialState)}
+              title="Redo"
+            />
+          </ButtonsBox>
+        </>
+      )
     }
     return (
       <Container>
@@ -109,6 +106,7 @@ export class TapCounter extends Component {
           <Header title="BPM Counter" visible={true}
             onPress={() => this.props.renderNext(RrComponents.counterchoice)} />}
         <ScrollContainer ><InnerView>
+          {content}
         </InnerView>
         </ScrollContainer>
       </Container>
