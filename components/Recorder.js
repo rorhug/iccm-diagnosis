@@ -3,6 +3,7 @@ import {
   Dimensions,
   Image,
   View,
+  Platform,
 } from 'react-native';
 import {
   AnswerText,
@@ -79,12 +80,12 @@ export class Recorder extends React.Component {
       volume: 1.0,
       rate: 1.0,
     };
-   
+
     let recordingOptions = Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY
-    try{
+    try {
       recordingOptions.ios.outputFormat = Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_LINEARPCM
       recordingOptions.ios.extension = ".wav"
-    }catch{
+    } catch{
       console.log('options already set')
     }
     console.log(JSON.stringify(recordingOptions.ios))
@@ -381,11 +382,11 @@ export class Recorder extends React.Component {
           onPress={this._onStopPressed}
           disabled={isDisabled}>
           <Image source={ICON_STOP_BUTTON.module}
-          style={{
-            width: ICON_PLAY_BUTTON.width * UPSCALE_IMG,
-            height: ICON_PLAY_BUTTON.height * UPSCALE_IMG,
-            resizeMode: 'contain'
-          }}
+            style={{
+              width: ICON_PLAY_BUTTON.width * UPSCALE_IMG,
+              height: ICON_PLAY_BUTTON.height * UPSCALE_IMG,
+              resizeMode: 'contain'
+            }}
           />
         </ImageButton>
         <RightText>{this._getPlaybackTimestamp()}</RightText>
@@ -402,7 +403,7 @@ export class Recorder extends React.Component {
         <ImageButton
           onPress={this._onMutePressed}
           disabled={isDisabled}>
-          <Image source={this.state.muted ? ICON_MUTED_BUTTON.module : ICON_UNMUTED_BUTTON.module}/>
+          <Image source={this.state.muted ? ICON_MUTED_BUTTON.module : ICON_UNMUTED_BUTTON.module} />
         </ImageButton>
         <Slider style={{
           marginLeft: 'auto',
@@ -420,14 +421,14 @@ export class Recorder extends React.Component {
 
   renderButtons = () => (
     <>
-      <BlueButton title="Breaths Per Minute < 40" 
-        onPress={()=>this.props.respRate(35)}  
+      <BlueButton title="Breaths Per Minute < 40"
+        onPress={() => this.props.respRate(35)}
       />
       <BlueButton title="Breaths Per Minute >= 40 and < 50"
-        onPress={()=>this.props.respRate(45)}  
+        onPress={() => this.props.respRate(45)}
       />
       <BlueButton title="Breaths Per Minute >= 50"
-        onPress={()=>this.props.respRate(55)}  
+        onPress={() => this.props.respRate(55)}
       />
     </>
   )
@@ -440,14 +441,19 @@ export class Recorder extends React.Component {
     </>
   )
 
-  renderNoPermission = () => (
-    <>
-      <Question
-        text="Please enable audio recording permissions to use the recorder."
+  renderNoPermission = () => {
+    return Platform.OS === 'ios' ?
+      (<Question
+        text="To use the recorder: please manualy enable audio recording permission for this app in the settings."
       />
-      <BlueButton title="Enable Recording" onPress={this._askForPermissions} />
-    </>
-  )
+      )
+      : (<>
+        <Question
+          text="Please enable audio recording permission to use the recorder."
+        />
+        <BlueButton title="Enable Recording" onPress={this._askForPermissions} />
+        </>)
+  }
 
   render() {
     playbackDisabled = !this.state.isPlaybackAllowed || this.state.isLoading
