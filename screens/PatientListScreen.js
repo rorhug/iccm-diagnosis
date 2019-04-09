@@ -66,7 +66,7 @@ const ButtonText = styled(Text)`
 @observer
 export default class PatientListScreen extends React.Component {
   static navigationOptions = {
-    title: "DyanmoDiagnoser",
+    title: "Dynamo Diagnoser",
     headerBackTitle: "Patients"
   }
 

@@ -4,6 +4,7 @@ import React from 'react'
 import { Text,View } from 'react-native'
 import { exp } from 'react-native/Libraries/Animated/src/Easing';
 import { Ionicons } from '@expo/vector-icons';
+import { _confirmProps } from 'react-native/Libraries/Modal/Modal';
 
 
 const info_width = (Dimensions.get('window').width / 100) * 80;
@@ -48,15 +49,6 @@ exports.ScrollContainer = styled.ScrollView`
     flexGrow: 1;
     padding: 20px;
     background-color: #fff;
-`
-
-exports.QuestionBox = styled.View`
-    display: flex;
-    background-color: #eaf2ff;
-    padding: 5px;
-    border-radius: 10px;
-    border-width: 1px; 
-    border-color: #fff;
 `
 
 exports.ButtonsBox = styled.View`
@@ -117,12 +109,28 @@ exports.Header = (props) => <HeaderView {...props}>
   <BackButton/> 
 </HeaderView>
 
-exports.Question = styled.Text`
+
+const QuestionBox = styled.View`
+    display: flex;
+    background-color: #eaf2ff;
+    padding: 5px;
+    border-radius: 10px;
+    border-width: 1px; 
+    border-color: #fff;
+`
+
+const Question = styled.Text`
   font-size: 24px;
   font-style: italic;
-  text-align: center;
+  text-align: ${props => props.text.includes("- ")? 'justify': 'center'};
   color: #05668d;
 `
+
+exports.Question = (props) => <QuestionBox>
+  <Question text={props.text}>
+    {props.text}
+  </Question>
+</QuestionBox>
 
 const AnswerText = styled.Text`
   font-size: 20px;

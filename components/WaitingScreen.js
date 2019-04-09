@@ -3,7 +3,6 @@ import { ScrollView, View } from 'react-native';
 
 import {
   Header,
-  QuestionBox,
   ButtonsBox,
   Question,
   AnswerButton,
@@ -39,9 +38,7 @@ export class WaitingScreen extends React.Component {
       <View style={{ flex: 1 }}>
         <Header title="Questions to Continue"/>
         <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
-          <QuestionBox>
-            <Question>Are any of these Tasks complete?</Question>
-          </QuestionBox>
+            <Question text="Are any of these Tasks complete?"/>
           <ButtonsBox>
             {this.props.waiting.map(this.renderWaitingSections)}
             {this.renderNextSection()}

@@ -14,7 +14,6 @@ import {
   ImageButton,
   InnerView,
   Slider,
-  QuestionBox,
   Question,
   RightText,
   RowContainer,
@@ -421,13 +420,13 @@ export class Recorder extends React.Component {
 
   renderButtons = () => (
     <>
-      <BlueButton title="Breats Per Minute < 40" 
+      <BlueButton title="Breaths Per Minute < 40" 
         onPress={()=>this.props.respRate(35)}  
       />
-      <BlueButton title="Breats Per Minute >= 40 and < 50"
+      <BlueButton title="Breaths Per Minute >= 40 and < 50"
         onPress={()=>this.props.respRate(45)}  
       />
-      <BlueButton title="Breats Per Minute >= 50"
+      <BlueButton title="Breaths Per Minute >= 50"
         onPress={()=>this.props.respRate(55)}  
       />
     </>
@@ -435,17 +434,17 @@ export class Recorder extends React.Component {
 
   renderInstructions = () => (
     <>
-      <QuestionBox><Question>
-        Press start to record the childs breath for 1 minute
-    </Question></QuestionBox>
+      <Question
+        text="Press start to record the childs breath for 1 minute."
+      />
     </>
   )
 
   renderNoPermission = () => (
     <>
-      <QuestionBox><Question>
-        Please enable audio recording permissions to use the recorder.
-      </Question></QuestionBox>
+      <Question
+        text="Please enable audio recording permissions to use the recorder."
+      />
       <BlueButton title="Enable Recording" onPress={this._askForPermissions} />
     </>
   )

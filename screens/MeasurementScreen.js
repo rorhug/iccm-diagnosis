@@ -3,7 +3,6 @@ import {
   BlueButton, 
   ColumnContainer,
   Question,
-  QuestionBox,
 } from '../utils/styles'
 
 export default class MeasurementScreen extends React.Component {
@@ -22,9 +21,9 @@ export default class MeasurementScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <ColumnContainer>
-        <QuestionBox><Question>
-          Press start to record the childs breath for 1 minute
-        </Question></QuestionBox>
+        <Question
+          text="Press start to record the childs breath for 1 minute."
+        />
         <BlueButton 
           title="Breaths per Minute Using TapCounter" 
           onPress={()=>this.navTapCounter(navigate)}

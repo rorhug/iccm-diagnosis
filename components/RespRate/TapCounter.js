@@ -6,7 +6,6 @@ import {
   InnerView,
   ButtonsBox,
   Header,
-  QuestionBox,
   Question,
   AnswerButton,
   LineBreak
@@ -64,9 +63,9 @@ export class TapCounter extends Component {
           textStyle={{ fontSize: 20 }}
           style={{ margin: 10, alignSelf: 'center' }}
         />
-        <QuestionBox><Question>
-          Press Start then tap the button at every inhalation
-            </Question></QuestionBox>
+        <Question
+          text="Press Start then tap the button at every inhalation."
+        />
         <ButtonsBox>
           <BlueButton
             style={{ height: 100 }}
@@ -84,9 +83,9 @@ export class TapCounter extends Component {
     if (this.state.current === finished) {
       content = (
         <>
-          <QuestionBox><Question>
-            Inhalations per minute: {this.state.count}
-          </Question></QuestionBox>
+          <Question
+            text={`Inhalations per minute: ${this.state.count}`}
+          />
           <ButtonsBox>
             <AnswerButton
               onPress={() => this.props.respRate(this.state.count)}

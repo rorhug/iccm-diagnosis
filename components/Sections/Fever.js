@@ -14,7 +14,7 @@ export class Fever extends React.Component {
       ]
     },
     2: { // Correct age + fever. RDT
-      text: "Perform malaria pan PLDH RDT.\n(Wait screen.)",
+      text: "Perform malaria pan PLDH RDT.\n\You can continue while waiting on the results.",
       answers: [
         { text: "Positive", goto: "3" },
         { text: "Negative", goto: "100" },
@@ -24,7 +24,7 @@ export class Fever extends React.Component {
     },
     3: { // Has malaria.
       text:
-      "Signs of severe malaria?\n" +
+      "Signs of severe malaria?\n\n" +
       "- Unconscious / prostrate\n" +
       "- Convulsions\n" +
       "- Lethargy\n" +

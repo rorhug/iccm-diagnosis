@@ -10,7 +10,6 @@ import {
   Header,
   InfoText,
   InnerView,
-  QuestionBox,
   ButtonsBox,
   Question,
   AnswerButton,
@@ -115,9 +114,7 @@ export class Section extends React.Component {
       />
       <ScrollContainer>
         <InnerView>
-          <QuestionBox>
-            <Question>{question.text}</Question>
-          </QuestionBox>
+            <Question text={question.text}/>
           <ButtonsBox>
             {this.answerButtons(question)}
           </ButtonsBox>
