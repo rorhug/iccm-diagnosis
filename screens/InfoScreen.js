@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    Text,
     View,
     ScrollView,
     Image,
@@ -63,9 +64,9 @@ export default class InfoScreen extends React.Component {
 
           <SubHeading>Child Diagnosis</SubHeading>
 
-          <Paragraph>This is a simple testing application for providing quick and decisive medical diagnosis.
-           By following each section
-          of the survey, a number of referrals may be provided to you based off your symptoms.</Paragraph>
+          <Paragraph>This is a simple testing application for providing quick and decisive medical diagnosis.</Paragraph>
+          <Paragraph><Text style={{fontWeight: "bold"}}>Patients:</Text> Add patients, go through the questionaire, and review past patients</Paragraph>
+          <Paragraph><Text style={{fontWeight: "bold"}}>Measurement:</Text> Access assitet measuremts for breath counting</Paragraph>
 
         </ScrollView>
 
