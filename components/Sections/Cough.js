@@ -43,8 +43,7 @@ class Cough extends React.Component {
             }
         },
         8: {
-            text: "Pneumonia.\n\
-      Signs of severe pneumonia?\n\
+            text: "Pneumonia.\n\Signs of severe pneumonia?\n\n\
           - Chest indrawing\n\
           - Stridor\n\
           - Nasal flaring\n\
@@ -68,13 +67,11 @@ class Cough extends React.Component {
             sectionEnd: true
         },
         103: {
-            text: "Pneumonia.\n\
-        Treat with amoxicillin.",
+            text: "Pneumonia.\n\Treat with amoxicillin.",
             sectionEnd: true
         },
         104: { // Severe pneumonia
-            text: "Severe pneumonia.\n\
-        Give first dose of amoxicillin and refer to Health Centre.",
+            text: "Severe pneumonia.\n\Give first dose of amoxicillin and refer to Health Centre.",
             sectionEnd: true
         }
     }

@@ -3,12 +3,9 @@ import { ScrollView, View } from 'react-native';
 
 import {
   Header,
-  QuestionBox,
   ButtonsBox,
   Question,
   AnswerButton,
-  AnswerText,
-  AnswerTextView,
 } from '../utils/styles';
 
 export class WaitingScreen extends React.Component {
@@ -21,19 +18,18 @@ export class WaitingScreen extends React.Component {
     let text = this.props.components[section].questions[id].text
     return (
       <AnswerButton
+        title={text}
         key={index}
-        onPress={() => this.props.continueSection(section, id)}>
-        <AnswerTextView><AnswerText>{text}</AnswerText></AnswerTextView>
-      </AnswerButton>
-    )
+        onPress={() => this.props.continueSection(section, id)}
+      />
+      )
   }
 
   renderNextSection = () => {
-    return (<AnswerButton onPress={() => this.props.skipWaitScreen()}>
-      <AnswerTextView>
-        <AnswerText>No - continue</AnswerText>
-      </AnswerTextView>
-    </AnswerButton>);
+    return (<AnswerButton
+      title="No - continue"
+      onPress={() => this.props.skipWaitScreen()}/>
+    );
   }
 
   render() {
@@ -42,9 +38,7 @@ export class WaitingScreen extends React.Component {
       <View style={{ flex: 1 }}>
         <Header title="Questions to Continue"/>
         <ScrollView style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
-          <QuestionBox>
-            <Question>Are any of these Tasks complete?</Question>
-          </QuestionBox>
+            <Question text="Are any of these Tasks complete?"/>
           <ButtonsBox>
             {this.props.waiting.map(this.renderWaitingSections)}
             {this.renderNextSection()}

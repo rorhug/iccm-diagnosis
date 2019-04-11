@@ -1,19 +1,47 @@
 import React from 'react';
-import { 
-    View
+import {
+  View,
+  Image,
+  TouchableOpacity
 } from 'react-native';
-import { AnswerText, AnswerTextView, Header } from '../../utils/styles';
+import { 
+  AnswerText, 
+  AnswerTextView,
+  Container, 
+  Header } from '../../utils/styles';
+import { RrComponents } from '../../utils/constants';
 
-export class Tutorial extends React.Component {
+
+export default class Tutorial extends React.Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-    return <View>
-        <Header title="Tutorial Screen"/>
-        <AnswerTextView><AnswerText>This screen will have a gif and 2 buttons.</AnswerText></AnswerTextView>
-    </View>
+
+    return <Container>
+      <Header title="Tutorial Screen"/>
+      <View>
+        <Image
+          source={require('../../assets/images/breathing-thing.jpg')}
+          style={{ width: 150, height: 150 }}
+        />
+      </View>
+      <View>
+        <Image
+          source={require('../../assets/images/tap.jpg')}
+          style={{ width: 150, height: 150 }}
+        />
+      </View>
+      <View>
+        <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.recorder)}>
+          <AnswerText>All Setup Ready to Record</AnswerText>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tapcounter)}>
+          <AnswerText>Too Noisy/Baby Crying/..</AnswerText>
+        </TouchableOpacity>
+      </View>
+    </Container>
   }
 
 }

@@ -8,15 +8,13 @@ import {
   Container,
   ScrollContainer,
   Header,
-  HeaderView,
   InfoText,
-  QuestionBox,
+  InnerView,
   ButtonsBox,
   Question,
   AnswerButton,
   InfoButton,
   InfoImage,
-  AnswerText,
   AnswerTextView,
   AnswerRow,
   LineBreak
@@ -85,21 +83,21 @@ export class Section extends React.Component {
 
   answerButtons = (question) => {
     if (question.sectionEnd && !question.answers) {
-      return <AnswerButton onPress={() => this.props.onCompletion(this.state.currentQuestionId)}>
-        <AnswerTextView><AnswerText>Next Section</AnswerText></AnswerTextView>
-      </AnswerButton>
+      return <AnswerButton
+        onPress={() => this.props.onCompletion(this.state.currentQuestionId)}
+        title="Next Section"
+      />
     }
     else if (question.answers.length > 0) {
       return question.answers.map((answer, index) =>
         <AnswerRow key={index}>
           <AnswerButton
+            title={answer.text}
             accessibilityLabel={answer.text}
             onPress={() => answer.goto === undefined ?
               this.props.onCompletion(index, skip = answer.skip) :
               this.gotoQuestion(answer.goto)}
-          >
-            <AnswerTextView><AnswerText>{answer.text}</AnswerText></AnswerTextView>
-          </AnswerButton>
+          />
           {answer.info != undefined && this.infoCollapsable(answer, index)}
         </AnswerRow>)
     }
@@ -111,17 +109,16 @@ export class Section extends React.Component {
   renderQuestion = (question) => {
     /* Do not change the styling on first View. */
     return <Container>
-      <Header title={this.props.title} 
-        onPress={this.goBack} visible={this.state.stack.length>0}
+      <Header title={this.props.title}
+        onPress={this.goBack} visible={this.state.stack.length > 0}
       />
       <ScrollContainer>
-        <QuestionBox>
-          <Question>{question.text}</Question>
-        </QuestionBox>
-        <ButtonsBox>
-          {this.answerButtons(question)}
-        </ButtonsBox>
-
+        <InnerView>
+            <Question text={question.text}/>
+          <ButtonsBox>
+            {this.answerButtons(question)}
+          </ButtonsBox>
+        </InnerView>
       </ScrollContainer>
     </Container>
   }

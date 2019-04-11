@@ -4,6 +4,7 @@ import React from 'react'
 import { Text,View } from 'react-native'
 import { exp } from 'react-native/Libraries/Animated/src/Easing';
 import { Ionicons } from '@expo/vector-icons';
+import { _confirmProps } from 'react-native/Libraries/Modal/Modal';
 
 
 const info_width = (Dimensions.get('window').width / 100) * 80;
@@ -32,18 +33,22 @@ exports.Container = styled.View`
   background-color: #fff;
 `
 
-exports.ScrollContainer = styled.ScrollView`
-    flex: 1;
-    margin: 20px;
+exports.InnerView = styled.View`
+  flex: 1;
+  margin-bottom: 40px;
 `
 
-exports.QuestionBox = styled.View`
-    display: flex;
-    background-color: #eaf2ff;
-    padding: 5px;
-    border-radius: 10px;
-    border-width: 1px; 
-    border-color: #fff;
+exports.ColumnContainer = styled.View`
+  background-color: #fff;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+`
+
+exports.ScrollContainer = styled.ScrollView`
+    flexGrow: 1;
+    padding: 20px;
+    background-color: #fff;
 `
 
 exports.ButtonsBox = styled.View`
@@ -104,58 +109,80 @@ exports.Header = (props) => <HeaderView {...props}>
   <BackButton/> 
 </HeaderView>
 
-exports.Question = styled.Text`
+
+const QuestionBox = styled.View`
+    display: flex;
+    background-color: #eaf2ff;
+    padding: 5px;
+    border-radius: 10px;
+    border-width: 1px; 
+    border-color: #fff;
+`
+
+const Question = styled.Text`
   font-size: 24px;
   font-style: italic;
-  text-align: center;
+  text-align: ${props => props.text.includes("- ")? 'justify': 'center'};
   color: #05668d;
 `
 
-exports.AnswerText = styled.Text`
+exports.Question = (props) => <QuestionBox>
+  <Question text={props.text}>
+    {props.text}
+  </Question>
+</QuestionBox>
+
+const AnswerText = styled.Text`
   font-size: 20px;
   color: ${buttonsTextColor};
 `
-
-exports.AnswerTextView = styled.View`
+const AnswerTextView = styled.View`
   background-color: ${buttonsColor};
   padding: 10px;
   margin: 10px 10px 0 10px;
   border-radius: 10px;
 `
+exports.AnswerTextView = AnswerTextView
+exports.AnswerText = AnswerText
 
 exports.InfoText = styled.Text({
   padding: 20,
   width: info_width
 })
 
-exports.AnswerButton = styled.TouchableOpacity`
+const AnswerButton = styled.TouchableOpacity`
   flex: 2 2;
 `
+
+exports.AnswerButton = (props) => <AnswerButton {...props}>
+  <AnswerTextView>
+    <AnswerText>{props.title}</AnswerText>
+  </AnswerTextView>
+</AnswerButton>
 
 exports.InfoButton = styled.TouchableOpacity`
 `
-
+//  flex: 2 2;
 const BlueButton = styled.TouchableOpacity`
-  flex: 2 2;
   background-color: #05668d;
   margin: 10px 10px 0 10px;
   border-radius: 10px;
+  justify-content: center;
+  align-items: center;
 `
 
 const ButtonText = styled.Text`
   font-size: 20px;
   color: #fff;
   text-align: center;
+  text-align-vertical: center;
   padding: 10px;
-  
+  flex-direction: column;
 `
 
 exports.BlueButton = (props) => <BlueButton {...props}>
   <ButtonText>{props.title}</ButtonText>
 </BlueButton>
-
-
-
 
 exports.InfoImage = styled.Image`
   align-self: center;
@@ -171,4 +198,37 @@ exports.AnswerRow = styled.View`
 `
 exports.LineBreak = styled.View`
   width: 100%
+`
+
+/** RECORDER STYLING */
+
+exports.RightText = styled.Text`
+  text-align: right;
+  align-self: flex-start;
+  margin-left: auto;
+  font-size: 20px;
+  color: #000;
+`
+
+exports.CenteredText = styled.Text`
+  text-align: center;
+  align-self: center;
+  font-size: 20px;
+  color: #000;
+`
+
+exports.RowContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+`
+
+exports.Slider = styled.Slider`
+  color: ${buttonsTextColor};
+  thumbTintColor:  ${buttonsTextColor};
+  
+`
+
+exports.ImageButton = styled.TouchableOpacity`
+  underlayColor: ${buttonsTextColor}
 `

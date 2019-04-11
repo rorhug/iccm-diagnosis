@@ -8,7 +8,6 @@ import { RrComponents } from '../../utils/constants';
 import { 
     AnswerText,
     AnswerTextView,
-    QuestionBox,
     Question,
     Header,
     ImageButtonsContainer
@@ -25,11 +24,11 @@ export class CounterChoice extends React.Component {
         <Header title="Respiratory Rate"/>
         <View style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
 
-            <QuestionBox>
-                <Question>How would you like to count Respiratory Rate?</Question>
-            </QuestionBox>
+            <Question
+                text="How would you like to count Respiratory Rate?"
+            />
             <ImageButtonsContainer>
-                <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.tutorial)}>
+                <TouchableOpacity onPress={() => this.props.renderNext(RrComponents.recorder)}>
                     <Image
                     source={require('../../assets/images/breathing-thing.jpg')}
                     style={{width: 130, height: 130}}

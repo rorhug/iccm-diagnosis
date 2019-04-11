@@ -4,10 +4,7 @@ import {
     Container,
     ScrollContainer,
     Header,
-    AnswerText,
-    AnswerButton,
-    AnswerTextView,
-    ButtonsBox,
+    InnerView,
     BlueButton
 } from '../utils/styles';
 import styled, { css } from '@emotion/native'
@@ -49,8 +46,7 @@ export class ResultsScreen extends React.Component {
             <Container>
                 <Header title="Results"/>
                 <ScrollContainer>
-
-                    <View>
+                <InnerView>
                         {Object.keys(results).map((key) => {
                             let endingId = results[key]
                             let question = components[key].questions[endingId]
@@ -59,21 +55,19 @@ export class ResultsScreen extends React.Component {
                                 <SubHeading>{section_names[key]}</SubHeading>
                                 {question.sectionEnd && <ResultAnswerText>{question.text}</ResultAnswerText>}
                                 {!question.sectionEnd && key !== Sections.patient_details &&
-                                    <ButtonsBox>
-                                        <AnswerButton onPress={() => this.props.continueSection(key, startId)}>
-                                            <AnswerTextView><AnswerText>{question.sectionEnd ? 'Retake' : 'Complete'}</AnswerText></AnswerTextView>
-                                        </AnswerButton>
-                                    </ButtonsBox>
+                                    <BlueButton 
+                                        title={question.sectionEnd ? 'Retake' : 'Complete'}
+                                        onPress={() => this.props.continueSection(key, startId)}
+                                    />
                                 }
                             </View>
                         })}
-                    </View>
-
                     {/* This view is just to create space between components. */}
                     <View style={{ marginTop: 15 }}></View>
 
                     <BlueButton title="Restart Diagnosis" onPress={this.props.restartDiagnosis} />
                     <BlueButton title="View Patient" onPress={() => this.props.navigation.goBack()} />
+                    </InnerView>
                 </ScrollContainer>
             </Container>
         );

@@ -12,7 +12,7 @@ import { PatientDetails } from './PatientDetails'
 export class Diarrhoea extends React.Component {
   static questions = {
     0: {
-      text: "Child with:\n\
+      text: "Child with:\n\n\
 - Diarrhea (3 or more loose stools in 24 hrs)\n\
 - lasting 3 weeks or less\n\
 - WITHOUT blood or rice water aspect.\n\
@@ -24,7 +24,7 @@ Is all the above TRUE?",
       ]
     },
     2: { // Danger signs
-        text: "Signs of severe dehydration?\n\
+        text: "Signs of severe dehydration?\n\n\
         - Sunken eyes\n\
         - Skin pinch > 3 seconds\n\
         - Other danger signs",
@@ -67,8 +67,7 @@ Is all the above TRUE?",
         sectionEnd: true
     },
     101: {
-        text: "Uncomplicated diarrhea: give ORS and Zinc sulfate according to age, \n\
-    plus Albendazole (if not received within last 6 months).",
+        text: "Uncomplicated diarrhea: give ORS and Zinc sulfate according to age, plus Albendazole (if not received within last 6 months).",
         sectionEnd: true
     },
     102: {

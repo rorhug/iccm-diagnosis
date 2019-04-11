@@ -11,18 +11,18 @@ export class PatientDetails extends React.Component {
     { text: '< 2 months', _monthRange: [0, 2] },
     {
       text: '< 1 year',
-      info: 'cannot walk',
+      info: 'child cannot walk',
       _monthRange: [2, 12]
     },
     {
       text: '1-5 year',
-      info: '1) can walk\n2)cannot touch the opposite ear with fingers while passing over the head - IMG??',
+      info: '1) child can walk\n2) child cannot touch the opposite ear with fingers while passing over the head (see picture below)',
       img: require('../../assets/images/age-info-less5y.png'),
       _monthRange: [12, 60]
     },
     {
       text: '> 5 year',
-      info: 'can touch the ear as shown in image',
+      info: 'child can touch the ear as shown below',
       img: require('../../assets/images/age-info-over5y.png'),
       _monthRange: [60, undefined]
     },

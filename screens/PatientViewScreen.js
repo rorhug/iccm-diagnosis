@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  SectionList,
-  Text,
   View,
-  TouchableOpacity,
-  Button,
   Alert
 } from 'react-native'
 import { WebBrowser } from 'expo'
@@ -29,6 +25,7 @@ import { firestore } from 'firebase'
 
 import {
   Container,
+  InnerView,
   ScrollContainer,
   BlueButton
 } from '../utils/styles'
@@ -181,6 +178,7 @@ class PatientViewScreen extends React.Component {
 
     return <Container>
       <ScrollContainer>
+        <InnerView>
         <Formik
           onSubmit={this.submitForm}
           initialValues={initialValues}
@@ -188,6 +186,7 @@ class PatientViewScreen extends React.Component {
           render={this.renderForm}
         />
         {this.state.patient && this.savedPatientButtons()}
+        </InnerView>
       </ScrollContainer>
     </Container>
   }
