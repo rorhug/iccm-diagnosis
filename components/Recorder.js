@@ -355,8 +355,6 @@ export class Recorder extends React.Component {
     <View style={{ marginTop: 'auto', opacity: isDisabled ? DISABLED_OPACITY : 1.0 }}>
       <CenteredText>Playback</CenteredText>
       <Slider
-        trackImage={ICON_TRACK_1.module}
-        thumbImage={ICON_THUMB_1.module}
         value={this._getSeekSliderPosition()}
         onValueChange={this._onSeekSliderValueChange}
         onSlidingComplete={this._onSeekSliderSlidingComplete}
@@ -409,8 +407,6 @@ export class Recorder extends React.Component {
           marginLeft: 'auto',
           width: DEVICE_WIDTH / 2.0 + ICON_MUTED_BUTTON.width
         }}
-          trackImage={ICON_TRACK_1.module}
-          thumbImage={ICON_THUMB_2.module}
           value={1}
           onValueChange={this._onVolumeSliderValueChange}
           disabled={isDisabled}
